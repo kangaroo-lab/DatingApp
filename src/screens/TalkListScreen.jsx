@@ -1,9 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image } from 'react-native';
 
+import Header from '../components/header';
+
 export default function TalkList(){
     return(
     <View style={styles.container}>
+        <Header/>
         <View>
             <Image source={require('./IMG_6689.jpg')}style={{ width: 55, height: 57.78,borderRadius: 50 }}/>
             <Text>Name</Text>
