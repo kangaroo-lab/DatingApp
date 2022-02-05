@@ -15,7 +15,12 @@ export default function Top() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container:{
+    position:'relative',
+    marginHorizontal: 125,
+    marginTop: 375,
     backgroundColor: '#fff',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
 });

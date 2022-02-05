@@ -13,7 +13,10 @@ export default function Header(){
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
+        zIndex:1,
         flexDirection:'row',
+        marginHorizontal: 85,
         paddingTop:20,
         alignContent:'center',
         justifyContent:'center',

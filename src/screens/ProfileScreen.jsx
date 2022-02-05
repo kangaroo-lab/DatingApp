@@ -7,7 +7,7 @@ export default function profile(){
     return (
         <View>
             <Head/>
-            <View>
+            <View style={StyleSheet.container}>
                 <Image source={require('./IMG_6689.jpg')}style={{ width: 428, height: 509}}/>
                 <Text>Name</Text>
             </View>
@@ -36,3 +36,11 @@ export default function profile(){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        position:'relative',
+        bottom: 0,
+    },
+})

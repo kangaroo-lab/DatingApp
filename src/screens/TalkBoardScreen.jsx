@@ -5,19 +5,18 @@ import Header from '../components/header';
 
 export default function TalkBoard(){
     return(
-    <View style={styles.container}>
-        <Header/>
-        <View>
-            <Text>Back</Text>
-            <Text>Good</Text>
-            <Text>Call</Text>
-            <Text>Setting</Text>
+    <View>
+        <View style={styles.header}>
+            <Text style={styles.back}>Back</Text>
+            <Text style={styles.good}>Good</Text>
+            <Text style={styles.call}>Call</Text>
+            <Text style={styles.setting}>Setting</Text>
         </View>
-        <View>
-            <View>
+        <View style={styles.TalkBoard}>
+            <View style={styles.catchMessage}>
                 <Text>Catch Message</Text>
             </View>
-            <View>
+            <View style={styles.sendedMessage}>
                 <Text>Send Message</Text>
             </View>
         </View>
@@ -26,10 +25,15 @@ export default function TalkBoard(){
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-},
+    header:{
+        width:'auto',
+        height:90,
+        flexDirection:'row',
+        backgroundColor:'#80D2FF',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    back:{
+        fontSize:24,
+    }
 });
