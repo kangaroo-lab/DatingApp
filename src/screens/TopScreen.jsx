@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import Header from '../components/header';
 
@@ -8,7 +9,10 @@ export default function Top() {
     <View>
       <Header/>
       <View style={styles.container}>
-        <Button title="PressMe" onPress={()=>Alert.alert('Search will start')}/>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.8)', 'transparent']}
+          style={styles.buttonCircle}
+        />
       </View>
     </View>
   );
@@ -16,11 +20,16 @@ export default function Top() {
 
 const styles = StyleSheet.create({
   container:{
-    position:'relative',
-    marginHorizontal: 125,
-    marginTop: 375,
-    backgroundColor: '#fff',
-    alignContent: 'center',
-    justifyContent: 'center',
+    width:'100%',
+    height:'100%',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
   },
+  buttonCircle:{
+    backgroundColor:'#6FCBFF',
+    width:179,
+    height:179,
+    borderRadius:85,
+  }
 });
