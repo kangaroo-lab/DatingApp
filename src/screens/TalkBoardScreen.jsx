@@ -23,7 +23,7 @@ export default function TalkBoard(){
         </LinearGradient>
         <View style={styles.TalkBoard}>
             <View style={styles.catchMessage}>
-                <Text style={styles.messageText}>Catch Message</Text>
+                <Text style={styles.messageText}>Catch Messageaaaaaaaaaaaaaaaaa</Text>
             </View>
             <View style={styles.sendedMessage}>
                 <Text style={styles.messageText}>Send Message</Text>
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     },
     TalkBoard:{
         paddingTop:30,
-        position:'relative'
     },
     catchMessage:{
         borderWidth:0.5,
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
         marginLeft:10,
         borderRadius:20,
         backgroundColor:'#C4C4C4',
+        paddingVertical:10
     },
     sendedMessage:{
         backgroundColor:'#ffffff',
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
         margin:10,
         borderRadius:20,
         backgroundColor:'#ffffff',
-        position:'absolute',
-        top:80,
-        left:180
+        paddingVertical:10,
+        left:180,
+        paddingBottom:10
     },
     messageText:{
         fontSize:18,
