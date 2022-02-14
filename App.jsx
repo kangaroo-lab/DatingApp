@@ -10,6 +10,6 @@ import Profile from'./src/screens/ProfileScreen';
 
 export default function App() {
   return (
-      <Top/>
+      <Profile/>
   );
 };
