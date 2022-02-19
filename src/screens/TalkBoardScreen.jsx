@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, Image, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-
 import Header from '../components/header';
+
 
 export default function TalkBoard(){
     return(
     <View>
         <LinearGradient
-          colors={['#80D2FF', 'rgba(128,210,255,0.10)']}
+          colors={['#80D2FF', 'rgba(128,210,255,0.30)']}
           style={styles.header}
         >
             <View style={styles.headerLeft}>
@@ -21,25 +21,39 @@ export default function TalkBoard(){
                 <Image source={require('../無料の設定歯車アイコン.png')} style={styles.image}/>
             </View>
         </LinearGradient>
-        <View style={styles.TalkBoard}>
-            <View style={styles.catchMessage}>
-                <Text style={styles.messageText}>Catch Messageaaaaaaaaaaaaaaaaa</Text>
+        <ScrollView style={styles.TalkBoard}>
+            <View style={styles.catchMessageArea}>
+                <View style={styles.catchMessage}>
+                    <Text style={styles.messageText}>ニンニク食べて元気100倍</Text>
+                </View>
             </View>
-            <View style={styles.sendedMessage}>
-                <Text style={styles.messageText}>Send Message</Text>
+            <View style={styles.sendedMessageArea}>
+                <View style={styles.sendedMessage}>
+                    <Text style={styles.messageText}>息草の</Text>
+                </View>
+                <View style={styles.sendedMessage}>
+                    <Text style={styles.messageText}>男の肌の汚れとは</Text>
+                </View>
             </View>
-        </View>
+            <View style={styles.catchMessageArea}>
+                <View style={styles.catchMessage}>
+                    <Text style={styles.messageText}>醜く思い　メンズ図スキンケア！</Text>
+                </View>
+                <View style={styles.catchMessage}>
+                    <Text style={styles.messageText}>これでもかという怒りの前歯が{'\n'}まじビッパ可愛いよね</Text>
+                </View>
+            </View>
+        </ScrollView>
     </View>
     );
 }
 
 const styles = StyleSheet.create({
     header:{
-        width:'auto',
         height:90,
         flexDirection:'row',
         alignItems: 'center',
-        position:'relative'
+        position:'relative',
     },
     headerLeft:{
         flexDirection:'row',
@@ -64,30 +78,44 @@ const styles = StyleSheet.create({
         height:34,
     },
     TalkBoard:{
+        height:'100%',
+        width:'100%',
         paddingTop:30,
+        borderWidth:0.5,
+        flexDirection:'column',
+    },
+    sendedMessageArea:{
+        marginLeft:'auto',
+        flexDirection:'column',
+        width:'75%',
+        marginVertical:1,
+    },
+    catchMessageArea:{
+        width:'75%',
+        marginVertical:1,
     },
     catchMessage:{
-        borderWidth:0.5,
+        alignSelf:'flex-start',
+        borderWidth:0.2,
         borderColor:'rgba(0,0,0,0.50)',
-        width:'50%',
         padding:10,
-        marginLeft:10,
-        borderRadius:20,
+        margin:3,
+        borderRadius:10,
         backgroundColor:'#C4C4C4',
-        paddingVertical:10
+        paddingVertical:10,
+        paddingBottom:10,
     },
     sendedMessage:{
-        backgroundColor:'#ffffff',
-        borderWidth:0.5,
+        marginLeft:'auto',
+        alignSelf:'flex-start',
+        borderWidth:0.2,
         borderColor:'rgba(0,0,0,0.50)',
-        width:'50%',
         padding:10,
-        margin:10,
-        borderRadius:20,
+        margin:3,
+        borderRadius:10,
         backgroundColor:'#ffffff',
         paddingVertical:10,
-        left:180,
-        paddingBottom:10
+        paddingBottom:10,
     },
     messageText:{
         fontSize:18,
