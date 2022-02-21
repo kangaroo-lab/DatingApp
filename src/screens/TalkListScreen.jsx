@@ -1,26 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity } from 'react-native';
 
 import Header from '../components/header';
+import MessageList from '../components/TalkList';
 
 export default function TalkList(){
     return(
     <View>
         <Header/>
-        <View style={styles.messageboard}>
-            <View style={styles.container}>
-                <View>
-                    <Image source={require('./IMG_6689.jpg')}style={styles.image}/>
-                </View>
-                <View style={styles.messageInner}>
-                    <Text style={styles.name}>Name</Text>
-                    <Text style={styles.message}>Message is here</Text>
-                </View>
-                <View style={styles.dateBox}>
-                    <Text style={styles.date}>Date</Text>
-                </View>
-            </View>
-        </View>
+        <MessageList/>
     </View>
     );
 }
@@ -28,7 +16,7 @@ export default function TalkList(){
         messageboard:{
             marginTop: 100,
         },
-        container: {
+        messageListElem: {
             position:'relative',
             flexDirection: 'row',
             justifyContent: 'space-between',

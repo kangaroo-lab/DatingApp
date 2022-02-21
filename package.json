@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.8",
     "@react-spring/native": "^9.4.2",
     "expo": "~44.0.0",
     "expo-linear-gradient": "^11.0.2",
@@ -21,7 +22,9 @@
     "react-native-radial-gradient": "^1.0.9",
     "react-native-reanimated": "~2.3.1",
     "react-native-web": "0.17.1",
-    "react-spring": "^9.4.2"
+    "react-spring": "^9.4.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-safe-area-context": "3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

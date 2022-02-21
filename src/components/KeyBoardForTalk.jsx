@@ -1,7 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity } from 'react-native';
+import React,{useState} from 'react';
+import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 
 export default function KeyBoardForTalk(){
+    const [bodyText, setBodyText] = useState('');
     {/* トーク画面に表示されるキーボードの要素
     1: 写真
     2: 打ち込み画面
@@ -22,6 +23,7 @@ export default function KeyBoardForTalk(){
                             <TextInput
                                 style={styles.textInput}
                                 placeholder='メッセージを入力'
+                                onChangeText={(text)=>{setBodyText(text);}}
                             />
                         </View>
                     </View>
@@ -43,12 +45,11 @@ const styles = StyleSheet.create({
         height:'100%',
         width:'100%',
         flexDirection:'column',
-        borderWidth:1,
+        borderWidth:0.5,
         justifyContent:'flex-end',
     },
     footer:{
-        borderWidth:1,
-        height:80,
+        height:50,
         flexDirection:'row',
         justifyContent:'center'
     },
@@ -74,9 +75,9 @@ const styles = StyleSheet.create({
         height:30,
         width:250,
         marginHorizontal:20,
-        paddingHorizontal:5,
+        paddingHorizontal:10,
         borderRadius:20,
-        borderWidth:1,
+        backgroundColor:'rgba(0,0,0,0.05)',
         paddingVertical:5,
     },
     textInput:{

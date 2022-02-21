@@ -7,7 +7,6 @@ import Header from '../components/header';
 export default function Top2(){
   //アニメーションの練習
   const ring=useSharedValue(0);
-
   const style = useAnimatedStyle(()=>{
     return {
       opacity:0.8-ring.value,
@@ -38,7 +37,7 @@ export default function Top2(){
     }
     //Searchingアニメーションの終了＋検索のストップ
     else{
-      flag-=1;
+      flag=0;
       ring.value=0;
       return console.log('out ',ring.value);
     }

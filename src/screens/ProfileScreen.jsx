@@ -8,7 +8,7 @@ export default function profile(){
         <View>
             <Head/>
             <View>
-                <Image source={require('./IMG_6689.jpg')}style={styles.image}/>
+                <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
                 <View style={styles.BasicArea}>
                     <Text style={styles.name}>K</Text>
                     <Text style={styles.age}>(23)</Text>
