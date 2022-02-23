@@ -3,7 +3,7 @@ import { string, func, shape } from 'prop-types';
 import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView,FlatList } from 'react-native';
 
 export default function SendMessage(props){
-    // メッセージの獲得
+    // メッセージの獲得 → 一度に複数のデータが送られてきても対処できるようにする
     const {message} = props;
 
     // messageのテキストボックスを作る

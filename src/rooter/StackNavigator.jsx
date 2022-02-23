@@ -5,17 +5,16 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import Top2 from'./src/screens/TopScreen2';
-import TalkList from'./src/screens/TalkListScreen';
-import TalkBoard from'./src/screens/TalkBoardScreen';
-import Profile from'./src/screens/ProfileScreen';
+import TalkList from'../screens/TalkListScreen';
+import TalkBoard from'../screens/TalkBoardScreen';
 
-import TabNavigator from './src/rooter/TabNavigator'
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+export default function StackNavigator() {
   return (
-      <NavigationContainer>
-        <TabNavigator/>
-      </NavigationContainer>
+        <Stack.Navigator initialRouteName='TalkList'>
+            <Stack.Screen name="TalkList" component={TalkList}/>
+            <Stack.Screen name="TalkBoard" component={TalkBoard}/>
+        </Stack.Navigator>
   );
 };

@@ -7,6 +7,11 @@ import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage'
 
 export default function TalkBoardGround(){
+    //Talkの履歴を配列にして、SendかCatchか
+
+    //属性でmessageの形変えながらフラットリストを順番に返せるようにする
+
+    //TalkBoardの返し
     return(
     <View style={styles.container}>
             <ScrollView>

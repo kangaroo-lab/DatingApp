@@ -47,17 +47,19 @@ export default function Top2(){
   return(
     <View>
       <Header/>
-      <TouchableOpacity
-        style={styles.container}
-        onPress={()=>{
-          console.log('push');
-          searching();
-        }}
-      >
-        <View style={styles.circleButton}>
-        <Animated.View style={[styles.circleButton,style]}/>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.circleButton}
+          onPress={()=>{
+            console.log('push');
+            searching();
+          }}
+        >
+          <View style={styles.circleButton}>
+          <Animated.View style={[styles.circleButton,style]}/>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
     )
 }

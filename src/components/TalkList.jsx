@@ -4,6 +4,8 @@ import { string, func, shape } from 'prop-types';
 import {useNavigation} from '@react-navigation/native';
 
 export default function MessageList(){
+    //routeの設定
+    const navigation = useNavigation();
     // Listの相手を動的にしていく
     const users = [
         {id: 0, name: 'ko', message: '金がない', date: '2022/02/21'},
@@ -15,7 +17,9 @@ export default function MessageList(){
     // Listに表示される内容をデータから獲得 → FaltListでデータを表示できるようにする
     const TalkElement=({item})=>{
         return (
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={()=> navigation.navigate('TalkBoard')}
+            >
                 <View style={styles.messageListElement}>
                     <View>
                         <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
