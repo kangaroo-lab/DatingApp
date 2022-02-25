@@ -53,9 +53,6 @@ export default function MessageList(){
 
 
 const styles = StyleSheet.create({
-    messageList:{
-        marginTop: 100,
-    },
     messageListElement:{
         position:'relative',
         flexDirection: 'row',

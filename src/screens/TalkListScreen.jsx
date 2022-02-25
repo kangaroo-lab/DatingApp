@@ -7,7 +7,6 @@ import MessageList from '../components/TalkList';
 export default function TalkList(){
     return(
     <View>
-        <Header/>
         <MessageList/>
     </View>
     );

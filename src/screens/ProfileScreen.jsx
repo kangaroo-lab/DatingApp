@@ -6,7 +6,6 @@ import Head from '../components/header';
 export default function profile(){
     return (
         <View>
-            <Head/>
             <View>
                 <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
                 <View style={styles.BasicArea}>

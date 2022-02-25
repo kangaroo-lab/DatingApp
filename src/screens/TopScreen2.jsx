@@ -5,7 +5,7 @@ import Animated,{ useAnimatedStyle, useSharedValue,withSpring,interpolate,withRe
 import Header from '../components/header';
 
 export default function Top2(){
-  //アニメーションの練習
+  //アニメーションの定義
   const ring=useSharedValue(0);
   const style = useAnimatedStyle(()=>{
     return {
@@ -46,7 +46,6 @@ export default function Top2(){
   //全体の表記
   return(
     <View>
-      <Header/>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.circleButton}

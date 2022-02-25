@@ -14,7 +14,7 @@ export default function StackNavigator() {
   return (
         <Stack.Navigator initialRouteName='TalkList'>
             <Stack.Screen name="TalkList" component={TalkList}/>
-            <Stack.Screen name="TalkBoard" component={TalkBoard}/>
+            <Stack.Screen name="TalkBoard" component={TalkBoard} />
         </Stack.Navigator>
   );
 };
