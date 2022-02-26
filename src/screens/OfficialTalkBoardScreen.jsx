@@ -6,7 +6,7 @@ import Header from '../components/header';
 import KeyBoardForTalk from '../components/KeyBoardForTalk';
 import SendMessage from '../components/sendMessage';
 import CatchMessage from '../components/catchMessage';
-import TalkBoardGround from '../components/TalkBoardGround';
+import TalkBoardGround from '../components/OfficialTalkBoard';
 
 
 export default function TalkBoard(){

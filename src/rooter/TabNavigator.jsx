@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Top2 from'../screens/TopScreen2';
 import Profile from'../screens/ProfileScreen';
-import StackNavigator from'./StackNavigator';
+import TalkList from '../screens/TalkListScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -52,7 +52,7 @@ export default function TabNavigator() {
            />
           <Tab.Screen
            name="TalkList"
-           component={StackNavigator}
+           component={TalkList}
            />
         </Tab.Navigator>
   );

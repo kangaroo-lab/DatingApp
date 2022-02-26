@@ -10,7 +10,7 @@ export default function MessageList(){
     const users = [
         {id: 0, name: 'ko', message: '金がない', date: '2022/02/21'},
         {id: 1, name: 'バブ', message: 'アルセウスがやりたい', date: '2022/02/18'},
-        {id: 2, name: 'ビッパ', message:'なぜポケモンはあんなにも面白いのか',date: '2022/02/11'}
+        {id: 2, name: 'ビッパ', message:'なぜポケモンはあんなにも面白いのか俺にはよくわからない',date: '2022/02/11'}
 
     ]
 
@@ -25,11 +25,13 @@ export default function MessageList(){
                         <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
                     </View>
                     <View style={styles.messageInner}>
-                        <View style={styles.nameBox}>
-                            <Text style={styles.name}>{item.name}</Text>
-                        </View>
-                        <View style={styles.messageBox}>
-                            <Text style={styles.message}>{item.message}</Text>
+                        <View style={styles.messageTextBox}>
+                            <View style={styles.nameBox}>
+                                <Text style={styles.name}>{item.name}</Text>
+                            </View>
+                            <View style={styles.messageBox}>
+                                <Text style={styles.message}>{item.message}</Text>
+                            </View>
                         </View>
                     </View>
                     <View style={styles.dateBox}>
@@ -53,11 +55,14 @@ export default function MessageList(){
 
 
 const styles = StyleSheet.create({
+    messageList:{
+        marginTop:90
+    },
     messageListElement:{
         position:'relative',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
+        justifyContent: 'center',
+        paddingVertical: 6,
         paddingHorizontal: 19,
         borderWidth: 1,
         borderColor: 'rgba(0,0,0,0.15)',
@@ -68,22 +73,27 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     messageInner:{
+        flexDirection:'column',
+        justifyContent:'center',
+        alignContent:'center',
         paddingLeft:10,
         flex:1,
+    },
+    messageTextBox:{
     },
     nameBox:{
 
     },
     name:{
-        fontSize: 23,
+        fontSize: 18,
     },
     messageBox:{
         width:250,
-        height:40,
+        height:30,
     },
     message:{
-        fontSize:18,
-        color:'rgba(0,0,0,0.15)',
+        fontSize:15,
+        color:'rgba(0,0,0,0.50)',
     },
     dateBox:{
         textAlign: 'right',

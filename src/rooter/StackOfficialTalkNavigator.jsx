@@ -1,11 +1,12 @@
 import React, { Profiler } from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
-import { AntDesign,Entypo,Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import TalkBoard from'../screens/TalkBoardScreen';
-import TabNavigation from './TabNavigator';
+import TalkBoard from'../screens/OfficialTalkBoardScreen';
+import BottomTabNavigation from './TabTalkNavigator';
 import TalkBoardHeader from'../components/talkBoardHeader';
+
+import BottomTabNavigator from'../components/talkBoardHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +19,7 @@ export default function StackNavigator() {
         >
             <Stack.Screen
              name="TalkList"
-             component={TabNavigation}
+             component={BottomTabNavigation}
              options={{
                headerShown:false
              }}
@@ -27,7 +28,6 @@ export default function StackNavigator() {
              name="TalkBoard"
              component={TalkBoard}
              options={{
-               headerTitle:' ',
                headerShown:true,
                headerRight:()=>(
                  <TalkBoardHeader/>

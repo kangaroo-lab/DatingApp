@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert,Image,ScrollView } from 'react-native';
 
 import Head from '../components/header';
 
 export default function profile(){
     return (
-        <View>
-            <View>
+        <View style={styles.container}>
+            <ScrollView>
                 <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
                 <View style={styles.BasicArea}>
                     <Text style={styles.name}>K</Text>
@@ -34,7 +34,7 @@ export default function profile(){
                         <Text style={styles.element}>要素</Text>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position:'relative',
-        bottom: 0,
+        bottom: 30,
     },
     image:{
         width: 'auto',

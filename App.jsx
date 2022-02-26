@@ -10,12 +10,12 @@ import TalkList from'./src/screens/TalkListScreen';
 import TalkBoard from'./src/screens/TalkBoardScreen';
 import Profile from'./src/screens/ProfileScreen';
 
-import TabNavigator from './src/rooter/TabNavigator'
+import StackNavigator from './src/rooter/StackNavigator'
 
 export default function App() {
   return (
       <NavigationContainer>
-        <TabNavigator/>
+        <StackNavigator/>
       </NavigationContainer>
   );
 };
