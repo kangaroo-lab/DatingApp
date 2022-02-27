@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity } from 'react-native';
 
 import Header from '../components/header';
-import MessageList from '../components/TalkList';
+import OfficialMessageList from '../components/OfficialTalkList';
 
-export default function TalkList(){
+export default function OfficialTalkList(){
     return(
     <View>
-        <MessageList style={styles.MessageList}/>
+        <OfficialMessageList style={styles.MessageList}/>
     </View>
     );
 }

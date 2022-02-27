@@ -1,3 +1,4 @@
+import React from'react';
 import { string, func, shape } from 'prop-types';
 import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView,FlatList } from 'react-native';
 
@@ -5,7 +6,7 @@ import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage'
 
-export default function TalkBoardGround(){
+export default function OfficialTalkBoardGround(){
     //Talkの履歴を配列にして、SendかCatchか
 
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする

@@ -4,7 +4,8 @@ import { AntDesign,Entypo,Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import TalkBoard from'../screens/TalkBoardScreen';
-import TabNavigation from './TabNavigator';
+import TalkList from '../screens/TalkListScreen';
+import BottomTabNavigator from './BottomTabNavigator';
 import TalkBoardHeader from'../components/talkBoardHeader';
 
 const Stack = createNativeStackNavigator();
@@ -18,7 +19,7 @@ export default function StackNavigator() {
         >
             <Stack.Screen
              name="TalkList"
-             component={TabNavigation}
+             component={TalkList}
              options={{
                headerShown:false
              }}

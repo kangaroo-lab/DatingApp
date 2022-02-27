@@ -2,15 +2,15 @@ import React, { Profiler } from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import TalkBoard from'../screens/OfficialTalkBoardScreen';
-import BottomTabNavigation from './TabTalkNavigator';
+import OfficialTalkBoard from'../screens/OfficialTalkBoardScreen';
+import OfficialTalkList from '../screens/OfficialTalkListScreen';
 import TalkBoardHeader from'../components/talkBoardHeader';
 
 import BottomTabNavigator from'../components/talkBoardHeader';
 
 const Stack = createNativeStackNavigator();
 
-export default function StackNavigator() {
+export default function StackOfficialNavigator() {
   return (
         <Stack.Navigator
          screenOptions={{
@@ -18,16 +18,17 @@ export default function StackNavigator() {
          }}
         >
             <Stack.Screen
-             name="TalkList"
-             component={BottomTabNavigation}
+             name="OfficialTalkList"
+             component={OfficialTalkList}
              options={{
                headerShown:false
              }}
             />
             <Stack.Screen
-             name="TalkBoard"
-             component={TalkBoard}
+             name='OfficialTalkBoard'
+             component={OfficialTalkBoard}
              options={{
+               headerTitle:' ',
                headerShown:true,
                headerRight:()=>(
                  <TalkBoardHeader/>

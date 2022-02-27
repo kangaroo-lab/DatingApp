@@ -2,14 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import Header from '../components/header';
-import KeyBoardForTalk from '../components/KeyBoardForTalk';
-import SendMessage from '../components/sendMessage';
-import CatchMessage from '../components/catchMessage';
-import TalkBoardGround from '../components/OfficialTalkBoard';
+import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
 
-
-export default function TalkBoard(){
+export default function OfficialTalkBoard(){
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
@@ -17,7 +12,7 @@ export default function TalkBoard(){
         behavior='padding'
         style={styles.TalkContainer}
         >
-            <TalkBoardGround/>
+            <OfficialTalkBoardGround/>
         </KeyboardAvoidingView>
         <View style={styles.footerFill}/>
     </View>
