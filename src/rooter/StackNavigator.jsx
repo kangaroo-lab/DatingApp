@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TalkBoard from'../screens/TalkBoardScreen';
 import TalkList from '../screens/TalkListScreen';
 import BottomTabNavigator from './BottomTabNavigator';
+import TabNavigatior from './TabNavigator';
+
 import TalkBoardHeader from'../components/talkBoardHeader';
 
 const Stack = createNativeStackNavigator();

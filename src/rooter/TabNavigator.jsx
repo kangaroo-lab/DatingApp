@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Profiler } from 'react';
 import { StyleSheet, Text, View, Button, Alert,Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,9 @@ import { Ionicons } from '@expo/vector-icons';
 import Top2 from'../screens/TopScreen2';
 import Profile from'../screens/ProfileScreen';
 import TalkList from '../screens/TalkListScreen';
+import StackNavigator from'./StackNavigator';
 import BottomTabNavigator from '../rooter/BottomTabNavigator';
+
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,7 +19,7 @@ export default function TabNavigator() {
   return (
         <Tab.Navigator
          initialRouteName="Top"
-         screenOptions={
+         screenOptions={({route})=>(
            {
            tabBarIndicatorStyle:{
              width:0,
@@ -36,12 +38,13 @@ export default function TabNavigator() {
            tabBarItemStyle:{
              borderBottomWidth:0,
           },
-           tabBarShowIcon:true,
+           tabBarShowIcon:false,
            tabBarShowLabel:false,
            tabBarIcon:({color}) => <Ionicons name="ellipse" size={13}color={color} />,
            tabBarActiveTintColor:'rgba(138,138,138,0.80)',
            tabBarInactiveTintColor:'rgba(138,138,138,0.19)',
-         }}
+          }
+         )}
         >
           <Tab.Screen
            name="Profile"

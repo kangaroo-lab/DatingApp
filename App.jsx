@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { Profiler } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer,useRoute} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
