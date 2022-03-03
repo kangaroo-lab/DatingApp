@@ -7,20 +7,35 @@ import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage'
 
 export default function TalkBoardGround(){
-    //Talkの履歴を配列にして、SendかCatchか
+    //Talkの履歴の配列
+    const MessageHistory = [
+        {id:0, type:'send',message:'一番目'},
+        {id:1, type:'catch',message:'に番目'},
+        {id:2, type:'send',message:'3番目'},
+        {id:3, type:'send',message:'4番目'},
+        {id:4, type:'catch',message:'5番目'},
+        {id:5, type:'catch',message:'6番目'},
+        {id:6, type:'send',message:'7番目'},
+    ]
 
+    //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
+    const GetTalkElem=({item})=>{
+        if(item.type=='send'){
+            return <SendMessage message={item.message}/>
+        }else{
+            return <CatchMessage message={item.message}/>
+        }
+    }
 
     //TalkBoardの返し
     return(
     <View style={styles.container}>
-            <ScrollView>
-                <View  style={styles.TalkBoard}>
-                    <CatchMessage message='これならどう？'/>
-                    <SendMessage message='これは機能してるか？'/>
-                </View>
-            </ScrollView>
-            <KeyBoardForTalk/>
+        <FlatList
+            data={MessageHistory}
+            renderItem={GetTalkElem}
+        />
+        <KeyBoardForTalk/>
     </View>
     )
 }
@@ -41,6 +56,7 @@ const styles = StyleSheet.create({
         height:'100%',
         width:'100%',
         flexDirection:'column',
+        justifyContent:'flex-end'
     },
     footer:{
         flex:1

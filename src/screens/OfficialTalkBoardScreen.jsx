@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet,View,KeyboardAvoidingView,StatusBar } from 'react-native';
 
 import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
+
+//navigationのheaderを無視するための数字！
+const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function OfficialTalkBoard(){
     return(
@@ -11,6 +13,7 @@ export default function OfficialTalkBoard(){
         <KeyboardAvoidingView
         behavior='padding'
         style={styles.TalkContainer}
+        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
         >
             <OfficialTalkBoardGround/>
         </KeyboardAvoidingView>

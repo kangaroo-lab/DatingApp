@@ -10,13 +10,14 @@ import BottomTabNavigator from './src/rooter/BottomTabNavigator'
 import StackNavigator from './src/rooter/StackNavigator'
 import StackOfficialNavigator from './src/rooter/StackOfficialTalkNavigator'
 import TabNavigator from './src/rooter/TabNavigator'
+import TalkBoard from './src/screens/TalkBoardScreen'
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-      <NavigationContainer>
-        <TabNavigator/>
-      </NavigationContainer>
+    <NavigationContainer>
+      <TabNavigator/>
+    </NavigationContainer>
   );
 };

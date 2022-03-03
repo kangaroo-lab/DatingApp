@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end',
     },
     footer:{
-        height:50,
         flexDirection:'row',
         justifyContent:'center'
     },
     footerContainer:{
+        height:50,
         flexDirection:'row',
         justifyContent:'center',
         paddingVertical:10,
