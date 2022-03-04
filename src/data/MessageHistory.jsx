@@ -14,18 +14,4 @@ const MessageHistory =[
         {id:6, type:'send',message:'7番目'},
     ]
 
-export default function MessageHistoryAdd(props){
-    // textデータの獲得
-    const {getMessage} = props
-
-    // textの保存
-    const AddMessage={id:MessageHistory.length,type:'send',message:{getMessage}}
-    MessageHistory.push(AddMessage)
-
-
-    return console.log('　取得したお　',MessageHistory)
-}
-
-MessageHistoryAdd.propTypes={
-    getMessage:string,
-}
+export default MessageHistory

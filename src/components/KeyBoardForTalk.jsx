@@ -10,6 +10,13 @@ export default function KeyBoardForTalk(){
     2: 打ち込み画面
     3: Sendのボタン
     */}
+    // data追加のfunction
+
+    function MessageAdd(bodyText){
+        const AddMessage={id:MessageHistory.length,type:'send',message:bodyText}
+        MessageHistory.push(AddMessage)
+        return console.log(MessageHistory)
+    }
     return(
             <View style={styles.footer}>
                 <View style={styles.footerContainer}>
@@ -32,7 +39,7 @@ export default function KeyBoardForTalk(){
                     </View>
                     <View style={styles.contentsView}>
                         <TouchableOpacity
-                            onPress={()=>MessageHistory(bodyText)}
+                            onPress={()=>MessageAdd(bodyText)}
                         >
                             <View style={styles.button}>
                                 <Image source={require('../submit.png')}style={styles.submit}/>
