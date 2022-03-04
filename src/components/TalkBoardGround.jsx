@@ -1,25 +1,13 @@
 import React from'react';
 import { string, func, shape } from 'prop-types';
-import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView,FlatList } from 'react-native';
+import { StyleSheet,View,FlatList } from 'react-native';
 
 import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
-import CatchMessage from './catchMessage'
+import CatchMessage from './catchMessage';
+import MessageHistory from '../data/MessageHistory';
 
-export default function TalkBoardGround(props){
-    //Talkの履歴の配列
-    const MessageHistory = [
-        {id:0, type:'send',message:'一番目'},
-        {id:1, type:'catch',message:'に番目'},
-        {id:2, type:'send',message:'3番目'},
-        {id:3, type:'send',message:'4番目'},
-        {id:4, type:'catch',message:'5番目'},
-        {id:5, type:'catch',message:'6番目'},
-        {id:6, type:'send',message:'7番目'},
-    ]
-
-    //KeyBoardForTalkからmessageを取得
-
+export default function TalkBoardGround(){
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
@@ -35,7 +23,8 @@ export default function TalkBoardGround(props){
     return(
     <View style={styles.container}>
         <FlatList
-            data={MessageHistory}
+            data={MessageHistory.list}
+            extraData={MessageHistory.listUpdate}
             renderItem={GetTalkElem}
         />
         <KeyBoardForTalk/>

@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 
 import MessageHistory from '../data/MessageHistory'
+import TalkBoardGround from './TalkBoardGround'
 
 export default function KeyBoardForTalk(){
     const [bodyText, setBodyText] = useState('');
@@ -14,7 +15,8 @@ export default function KeyBoardForTalk(){
 
     function MessageAdd(bodyText){
         const AddMessage={id:MessageHistory.length,type:'send',message:bodyText}
-        MessageHistory.push(AddMessage)
+        MessageHistory.list.push(AddMessage)
+        MessageHistory.listUpdate+=1
         return console.log(MessageHistory)
     }
     return(
