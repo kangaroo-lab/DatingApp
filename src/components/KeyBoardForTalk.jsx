@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 
+import MessageHistory from '../data/MessageHistory'
+
 export default function KeyBoardForTalk(){
     const [bodyText, setBodyText] = useState('');
     {/* トーク画面に表示されるキーボードの要素
@@ -22,13 +24,16 @@ export default function KeyBoardForTalk(){
                         <View style={styles.textInputView}>
                             <TextInput
                                 style={styles.textInput}
+                                value={bodyText}
                                 placeholder='メッセージを入力'
                                 onChangeText={(text)=>{setBodyText(text);}}
                             />
                         </View>
                     </View>
                     <View style={styles.contentsView}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={()=>MessageHistory(bodyText)}
+                        >
                             <View style={styles.button}>
                                 <Image source={require('../submit.png')}style={styles.submit}/>
                             </View>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { string, func, shape } from 'prop-types';
-import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 
 export default function CatchMessage(props){
     const {message} = props;
+
     //CatchMessageの吹き出しの制作
     const MessageText = ({message})=>{
         return(
@@ -12,6 +13,7 @@ export default function CatchMessage(props){
         </View>
         )
     };
+
     //CatchMessageの表示の返し
     return(
         <View style={styles.catchMessageArea}>

@@ -6,7 +6,7 @@ import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage'
 
-export default function TalkBoardGround(){
+export default function TalkBoardGround(props){
     //Talkの履歴の配列
     const MessageHistory = [
         {id:0, type:'send',message:'一番目'},
@@ -18,6 +18,8 @@ export default function TalkBoardGround(){
         {id:6, type:'send',message:'7番目'},
     ]
 
+    //KeyBoardForTalkからmessageを取得
+
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
@@ -27,6 +29,7 @@ export default function TalkBoardGround(){
             return <CatchMessage message={item.message}/>
         }
     }
+
 
     //TalkBoardの返し
     return(
@@ -38,6 +41,10 @@ export default function TalkBoardGround(){
         <KeyBoardForTalk/>
     </View>
     )
+}
+
+TalkBoardGround.propTypes={
+    getMessage:string,
 }
 
 const styles = StyleSheet.create({
