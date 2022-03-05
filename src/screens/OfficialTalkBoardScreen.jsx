@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet,View,KeyboardAvoidingView,StatusBar } from 'react-native';
+import { Message } from 'react-native-gifted-chat';
+import KeyBoardForTalk from '../components/KeyBoardForTalk';
 
 import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
+import MessageHistory from '../data/OfficialMessageHistory';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function OfficialTalkBoard(){
+    const [data, setData] = useState(MessageHistory)
+
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
@@ -15,7 +20,12 @@ export default function OfficialTalkBoard(){
         style={styles.TalkContainer}
         keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
         >
-            <OfficialTalkBoardGround/>
+            <OfficialTalkBoardGround
+                MessageHistory={data}
+            />
+            <KeyBoardForTalk
+                MessageHistory={data}
+            />
         </KeyboardAvoidingView>
         <View style={styles.footerFill}/>
     </View>

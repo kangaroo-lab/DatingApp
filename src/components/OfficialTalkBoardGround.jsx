@@ -4,19 +4,9 @@ import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, To
 
 import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
-import CatchMessage from './catchMessage'
+import CatchMessage from './catchMessage';
 
-export default function OfficialTalkBoardGround(){
-    //Talkの履歴の配列
-    const MessageHistory = [
-        {id:0, type:'send',message:'OFFICIAL'},
-        {id:1, type:'catch',message:'正式マッチ'},
-        {id:2, type:'send',message:'いけてる？'},
-        {id:3, type:'send',message:'やるやん！'},
-        {id:4, type:'catch',message:'5番目'},
-        {id:5, type:'catch',message:'6番目'},
-        {id:6, type:'send',message:'7番目'},
-    ]
+export default function OfficialTalkBoardGround({MessageHistory}){
 
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
@@ -32,10 +22,10 @@ export default function OfficialTalkBoardGround(){
     return(
     <View style={styles.container}>
         <FlatList
-            data={MessageHistory}
+            data={MessageHistory.list}
+            extraData={MessageHistory.ListUpdate}
             renderItem={GetTalkElem}
         />
-        <KeyBoardForTalk/>
     </View>
     )
 }

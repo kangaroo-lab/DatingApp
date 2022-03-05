@@ -5,9 +5,8 @@ import { StyleSheet,View,FlatList } from 'react-native';
 import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
-import MessageHistory from '../data/MessageHistory';
 
-export default function TalkBoardGround(){
+export default function TalkBoardGround({MessageHistory}){
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
@@ -27,7 +26,6 @@ export default function TalkBoardGround(){
             extraData={MessageHistory.listUpdate}
             renderItem={GetTalkElem}
         />
-        <KeyBoardForTalk/>
     </View>
     )
 }

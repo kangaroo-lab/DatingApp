@@ -1,21 +1,34 @@
-import React from 'react';
-import { StyleSheet, View, KeyboardAvoidingView,StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, KeyboardAvoidingView,StatusBar, Button, TouchableOpacity } from 'react-native';
 
 import TalkBoardGround from '../components/TalkBoardGround';
+import KeyBoardForTalk from '../components/KeyBoardForTalk';
+import MessageHistory from '../data/MessageHistory';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function TalkBoard(){
+    //データの追加に伴って再レンダリングを行う
+    const [data, setData] = useState(MessageHistory)
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
+        <TouchableOpacity
+            onPress={()=>{console.log('Touch ',data,'\n ====================================\n THE DATA IS THIS')}}
+            style={{position:'absolute',width:20,height:20,backgroundColor:'tomato'}}
+        />
         <KeyboardAvoidingView
         behavior='padding'
         style={styles.TalkContainer}
         keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
         >
-            <TalkBoardGround/>
+            <TalkBoardGround
+                MessageHistory={data}
+            />
+            <KeyBoardForTalk
+                MessageHistory={data}
+            />
         </KeyboardAvoidingView>
         <View style={styles.footerFill}/>
     </View>

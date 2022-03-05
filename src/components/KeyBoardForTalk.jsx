@@ -1,10 +1,8 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 
-import MessageHistory from '../data/MessageHistory'
-import TalkBoardGround from './TalkBoardGround'
 
-export default function KeyBoardForTalk(){
+export default function KeyBoardForTalk({MessageHistory}){
     const [bodyText, setBodyText] = useState('');
     {/* トーク画面に表示されるキーボードの要素
     1: 写真
@@ -17,6 +15,8 @@ export default function KeyBoardForTalk(){
         const AddMessage={id:MessageHistory.length,type:'send',message:bodyText}
         MessageHistory.list.push(AddMessage)
         MessageHistory.listUpdate+=1
+        const NewCatchMessage={id:MessageHistory.length,type:'catch',message:'こんちわー'}
+        MessageHistory.list.push(NewCatchMessage)
         return console.log(MessageHistory)
     }
     return(
