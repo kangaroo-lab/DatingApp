@@ -1,6 +1,10 @@
+//OfficialTalkの履歴の配列
 
-    //Talkの履歴の配列
-    const MessageHistory = {
+const MessageHistory =
+    {
+        id:1,
+        userA:'',
+        userB:'',
         list:[
         {id:0, type:'send',message:'OFFICIAL'},
         {id:1, type:'catch',message:'正式マッチ'},

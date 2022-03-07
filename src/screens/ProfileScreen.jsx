@@ -4,20 +4,26 @@ import { StyleSheet, Text, View, Button, Alert,Image,ScrollView } from 'react-na
 import Head from '../components/header';
 
 export default function profile(){
+    const Profile = {
+        photo:require('../IMG_6689.jpg'),
+        name:'K',
+        age:'23',
+        brief:'わしの名前はケンゴだぞ!\n学術名は「ケンゴケンゴケンゴ」！！\nけ、け、ケンゴ！！！！！',
+        hobbies:'スポーツ',
+        values:'やりもくでござる！'
+    }
     return (
         <View style={styles.container}>
             <ScrollView>
-                <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
+                <Image source={Profile.photo}style={styles.image}/>
                 <View style={styles.BasicArea}>
-                    <Text style={styles.name}>K</Text>
-                    <Text style={styles.age}>(23)</Text>
+                    <Text style={styles.name}>{Profile.name}</Text>
+                    <Text style={styles.age}>({Profile.age})</Text>
                 </View>
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>プロフィール</Text>
                     <Text style={styles.profileDetail}>
-                        わしの名前はケンゴだぞ！{'\n'}
-                        学術名は「ケンゴケンゴケンゴ」！！{'\n'}
-                        け、け、ケンゴ！！！！！
+                        {Profile.brief}
                     </Text>
                 </View>
                 <View style={styles.introduction}>
@@ -25,13 +31,13 @@ export default function profile(){
                         趣味
                     </Text>
                     <View style={styles.ElementBox}>
-                        <Text style={styles.element}>要素</Text>
+                        <Text style={styles.element}>{Profile.hobbies}</Text>
                     </View>
                 </View>
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>価値観</Text>
                     <View style={styles.ElementBox}>
-                        <Text style={styles.element}>要素</Text>
+                        <Text style={styles.element}>{Profile.values}</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -81,12 +87,15 @@ const styles = StyleSheet.create({
         fontSize:18
     },
     ElementBox:{
-        flexDirection:'row'
+        flexDirection:'row',
     },
     element:{
+        flexDirection:'column',
+        justifyContent:'center',
         borderWidth:1,
         borderRadius:20,
-        width:72,
+        width:'auto',
+        paddingHorizontal:10,
         height:36,
         borderColor:'rgba(0,0,0,0.25)',
         fontSize:18,

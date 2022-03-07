@@ -1,0 +1,32 @@
+//選択できる趣味嗜好のデータ
+
+const hobbies = [
+    {
+        id:0,
+        title:'',
+        relate:[
+            {
+                id:0-1,
+                title:'',
+            },
+            {
+                id:0-2,
+                title:''
+            }
+        ]
+    },
+    {
+        id:1,
+        title:'',
+        relate:[
+            {
+                id:1-1,
+                title:''
+            },
+            {
+                id:1-2,
+                title:''
+            }
+        ]
+    }
+]

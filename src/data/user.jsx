@@ -1,0 +1,78 @@
+//userのデータ
+
+const user ={
+    id:1,
+    profile:{
+        name:'けん',
+        level:80,
+        photo:'',
+        brief:'こんちゃ！',
+        hobbies:'',
+        valuse:'',
+    },
+    matchList:[
+        {
+            level:'official',
+            match:'',
+            talk:'',
+        },
+        {
+            level:'pre',
+            match:'',
+            talk:'',
+        }
+    ]
+}
+
+const users = [
+    {
+        id:1,
+        status:0,
+        profile:{
+            name:'けん',
+            level:80,
+            birthDay:'',
+            photo:'',
+            brief:'こんちゃ！',
+            hobbies:'',
+            valuse:'',
+        },
+        matchList:[
+            {
+                level:'official',
+                matchUser:'',
+                talk:'',
+            },
+            {
+                level:'pre',
+                matchUser:'',
+                talk:'',
+            }
+        ]
+    },
+    {
+        id:2,
+        status:1,
+        profile:{
+            name:'ビッパ',
+            level:30,
+            birthDay:'',
+            photo:'',
+            brief:'ビッパ！',
+            hobbies:'',
+            valuse:'',
+        },
+        matchList:[
+            {
+                level:'official',
+                matchUser:'',
+                talk:'',
+            },
+            {
+                level:'pre',
+                matchUser:'',
+                talk:'',
+            }
+        ]
+    }
+]

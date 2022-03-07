@@ -1,0 +1,30 @@
+//選択されるその人の価値観のデータ
+
+const values = [
+    {
+        title:'',
+        type:[
+            {
+                id:0,
+                type:''
+            },
+            {
+                id:1,
+                type:''
+            }
+        ]
+    },
+    {
+        title:'',
+        type:[
+            {
+                id:0,
+                type:''
+            },
+            {
+                id:1,
+                type:''
+            }
+        ]
+    }
+]
