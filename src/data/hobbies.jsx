@@ -1,9 +1,10 @@
-//選択できる趣味嗜好のデータ
+//選択できる
 
 const hobbies = [
     {
         id:0,
         title:'',
+        flg:1,
         relate:[
             {
                 id:0-1,
@@ -18,6 +19,7 @@ const hobbies = [
     {
         id:1,
         title:'',
+        flg:0,
         relate:[
             {
                 id:1-1,

@@ -3,8 +3,6 @@
 const MessageHistory =
     {
         id:1,
-        userA:'',
-        userB:'',
         list:[
         {id:0, type:'send',message:'OFFICIAL'},
         {id:1, type:'catch',message:'正式マッチ'},

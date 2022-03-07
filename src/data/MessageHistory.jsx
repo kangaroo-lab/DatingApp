@@ -1,4 +1,4 @@
-// PreマッチのMessageデータをまとめる
+// Messageデータをまとめる
 
 const MessageHistory ={
     list:[

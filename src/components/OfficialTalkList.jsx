@@ -63,8 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 6,
         paddingHorizontal: 19,
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.15)',
     },
     image:{
         width: 55,

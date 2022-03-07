@@ -1,17 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert,Image,ScrollView } from 'react-native';
 
-import Head from '../components/header';
+import User from '../data/user';
 
 export default function profile(){
-    const Profile = {
-        photo:require('../IMG_6689.jpg'),
-        name:'K',
-        age:'23',
-        brief:'わしの名前はケンゴだぞ!\n学術名は「ケンゴケンゴケンゴ」！！\nけ、け、ケンゴ！！！！！',
-        hobbies:'スポーツ',
-        values:'やりもくでござる！'
-    }
+    const Profile = User.profile
     return (
         <View style={styles.container}>
             <ScrollView>

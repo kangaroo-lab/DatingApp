@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity, FlatList
 import { string, func, shape } from 'prop-types';
 import {useNavigation} from '@react-navigation/native';
 
+import User from'../data/user';
+
 export default function MessageList(){
     //routeの設定
     const navigation = useNavigation();
@@ -64,8 +66,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 6,
         paddingHorizontal: 19,
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.15)',
     },
     image:{
         width: 55,
