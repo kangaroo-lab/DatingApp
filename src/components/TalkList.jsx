@@ -9,12 +9,20 @@ export default function MessageList(){
     //routeの設定
     const navigation = useNavigation();
     // Listの相手を動的にしていく
-    const users = [
-        {id: 0, name: 'ko', message: '金がない', date: '2022/02/21'},
-        {id: 1, name: 'バブ', message: 'アルセウスがやりたい', date: '2022/02/18'},
-        {id: 2, name: 'ビッパ', message:'なぜポケモンはあんなにも面白いのか俺にはよくわからない',date: '2022/02/11'}
-
-    ]
+    let UserData = [];
+    const TestUsers = User.matchList
+    for(let i=0; i<TestUsers.length; i++){
+        if(TestUsers[i].level=='pre'){
+            UserData.push( {id:UserData.length-1,
+                            name:TestUsers[i].match.profile.name,
+                            message:TestUsers[i].talk.list[TestUsers[i].talk.list.length-1].message ,
+                            date:'2021/3/9',
+                            photo:TestUsers[i].match.profile.photo,
+                        })
+        }
+        console.log(TestUsers[i],'\n==================================\n',i,'\n')
+    }
+    const users = UserData
 
     // Listに表示される内容をデータから獲得 → FaltListでデータを表示できるようにする
     const TalkElement=({item})=>{
@@ -24,7 +32,7 @@ export default function MessageList(){
             >
                 <View style={styles.messageListElement}>
                     <View>
-                        <Image source={require('../IMG_6689.jpg')}style={styles.image}/>
+                        <Image source={item.photo}style={styles.image}/>
                     </View>
                     <View style={styles.messageInner}>
                         <View style={styles.messageTextBox}>

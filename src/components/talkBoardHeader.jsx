@@ -15,11 +15,6 @@ export default function TalkBoardHeader(){
                     <Entypo name="phone" size={24} color="black"/>
                 </TouchableOpacity>
             </View>
-            <View style={styles.iconBox}>
-                <TouchableOpacity>
-                    <Ionicons name="settings" size={24} color="black"/>
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }

@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position:'relative',
+        flexDirection:'column',
+        justifyContent:'center',
         bottom: 30,
     },
     image:{
@@ -51,11 +53,12 @@ const styles = StyleSheet.create({
     BasicArea:{
         flexDirection:'row',
         justifyContent:'flex-end',
-        height:65,
-        width: 'auto',
+        height:50,
+        marginLeft:'auto',
     },
     name:{
-        fontSize:64,
+        fontSize:36,
+        alignSelf:'flex-end',
         paddingBottom:5,
         fontWeight:'bold',
     },

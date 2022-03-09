@@ -12,8 +12,54 @@ Userのデータ
         紐付いたtalkroom
         levelはoff or pre
 */
+let UserA,UserB,UserC;
 
-const UserA = {
+UserB = {
+    id:2,
+    status:1,
+    gender:'W',
+    profile:{
+        name:'ビッパーねえ',
+        level:40,
+        age:'15',
+        photo:require('../89702809_p0_square1200.jpg'),
+        brief:'ビッパで何が悪い！',
+        hobbies:'',
+        valuse:'',
+    },
+    matchList:[
+        {
+            level:'official',
+            match:UserA,
+            talk:OfficialMessageHistory,
+        },
+    ]
+}
+
+UserC = {
+    id:3,
+    status:1,
+    gender:'W',
+    profile:{
+        name:'あねご',
+        level:90,
+        birthDay:'',
+        photo:require('../78411982_480x556.jpg'),
+        brief:'あたいがあねごだよ！！',
+        hobbies:'',
+        valuse:'',
+    },
+    matchList:[
+        {
+            level:'pre',
+            match:UserA,
+            talk:MessageHistory,
+        },
+    ]
+}
+
+
+UserA = {
     id:1,
     status:1,
     gender:'M',
@@ -40,48 +86,6 @@ const UserA = {
     ]
 }
 
-const UserB = {
-    id:2,
-    status:1,
-    gender:'W',
-    profile:{
-        name:'ビッパーねぇ',
-        level:40,
-        birthDay:'',
-        photo:require('../89702809_p0_square1200.jpg'),
-        brief:'ビッパで何が悪い！',
-        hobbies:'',
-        valuse:'',
-    },
-    matchList:[
-        {
-            level:'official',
-            match:UserA,
-            talk:OfficialMessageHistory,
-        },
-    ]
-}
-
-const UserC = {
-    id:3,
-    status:1,
-    gender:'W',
-    profile:{
-        name:'あねご',
-        level:90,
-        birthDay:'',
-        photo:require('../78411982_480x556.jpg'),
-        brief:'あたいがあねごだよ！！',
-        hobbies:'',
-        valuse:'',
-    },
-    matchList:[
-        {
-            level:'pre',
-            match:UserA,
-            talk:MessageHistory,
-        },
-    ]
-}
-
+UserB.matchList[0].match=UserA
+UserC.matchList[0].match=UserA
 export default UserA;
