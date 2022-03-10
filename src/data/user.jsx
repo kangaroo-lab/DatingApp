@@ -18,6 +18,7 @@ UserB = {
     id:2,
     status:1,
     gender:'W',
+    place:'Tokyo',
     profile:{
         name:'ビッパーねえ',
         level:40,
@@ -40,6 +41,7 @@ UserC = {
     id:3,
     status:1,
     gender:'W',
+    place:'Tokyo',
     profile:{
         name:'あねご',
         level:90,
@@ -63,6 +65,7 @@ UserA = {
     id:1,
     status:1,
     gender:'M',
+    place:'Tokyo',
     profile:{
         name:'けん',
         level:80,

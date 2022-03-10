@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView,StatusBar, Button, TouchableOpacity } from 'react-native';
+import {array} from 'prop-types'
 
 import TalkBoardGround from '../components/TalkBoardGround';
 import KeyBoardForTalk from '../components/KeyBoardForTalk';
@@ -8,9 +9,11 @@ import MessageHistory from '../data/MessageHistory';
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
-export default function TalkBoard(){
+export default function TalkBoard(props){
     //データの追加に伴って再レンダリングを行う
+    const MessageHistory = props.route.params;
     const [data, setData] = useState(MessageHistory)
+
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
@@ -33,6 +36,10 @@ export default function TalkBoard(){
         <View style={styles.footerFill}/>
     </View>
     );
+}
+
+TalkBoard.propTypes = {
+    MessageHistory:array,
 }
 
 const styles = StyleSheet.create({

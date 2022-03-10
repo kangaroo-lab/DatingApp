@@ -16,11 +16,12 @@ export default function OfficialMessageList(){
             UserData.push( {id:UserData.length-1,
                             name:TestUsers[i].match.profile.name,
                             message:TestUsers[i].talk.list[TestUsers[i].talk.list.length-1].message,
+                            list:TestUsers[i].talk,
                             date:'2021/3/9',
                             photo:TestUsers[i].match.profile.photo,
                         })
         }
-        console.log(TestUsers[i],'\n==================================\n',i,'\n')
+        console.log(UserData[i],'\n==================================\n',i,'\n')
     }
     const users = UserData
 
@@ -29,7 +30,7 @@ export default function OfficialMessageList(){
         return (
             // OfficialStackNavigator内のTalkBoardへ画面遷移
             <TouchableOpacity
-                onPress={()=> navigation.navigate('OfficialTalkBoard')}
+                onPress={()=> navigation.navigate('OfficialTalkBoard',item.list)}
             >
                 <View style={styles.messageListElement}>
                     <View>

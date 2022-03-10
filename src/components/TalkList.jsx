@@ -16,6 +16,7 @@ export default function MessageList(){
             UserData.push( {id:UserData.length-1,
                             name:TestUsers[i].match.profile.name,
                             message:TestUsers[i].talk.list[TestUsers[i].talk.list.length-1].message ,
+                            list:TestUsers[i].talk,
                             date:'2021/3/9',
                             photo:TestUsers[i].match.profile.photo,
                         })
@@ -28,7 +29,7 @@ export default function MessageList(){
     const TalkElement=({item})=>{
         return (
             <TouchableOpacity
-                onPress={()=> navigation.navigate('TalkBoard')}
+                onPress={()=> navigation.navigate('TalkBoard',item.list)}
             >
                 <View style={styles.messageListElement}>
                     <View>
