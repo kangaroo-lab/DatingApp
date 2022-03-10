@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet,View,KeyboardAvoidingView,StatusBar } from 'react-native';
 import { Message } from 'react-native-gifted-chat';
-import {array} from 'prop-types'
+import {array,string} from 'prop-types'
 import KeyBoardForTalk from '../components/KeyBoardForTalk';
 
 import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
@@ -10,9 +10,10 @@ import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function OfficialTalkBoard(props){
-    const MessageHistory = props.route.params;
+    const {MessageHistory,UserName} = props.route.params;
     const [data, setData] = useState(MessageHistory)
-
+    const [name, setName] = useState(UserName)
+    console.log('==============NAME=============\n',{name})
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
@@ -23,6 +24,7 @@ export default function OfficialTalkBoard(props){
         >
             <OfficialTalkBoardGround
                 MessageHistory={data}
+                UserName={name}
             />
             <KeyBoardForTalk
                 MessageHistory={data}
@@ -35,6 +37,7 @@ export default function OfficialTalkBoard(props){
 
 OfficialTalkBoard.propTypes ={
     MessageHistory:array,
+    UserName:string
 }
 
 const styles = StyleSheet.create({

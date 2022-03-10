@@ -4,15 +4,15 @@ import {array} from 'prop-types'
 
 import TalkBoardGround from '../components/TalkBoardGround';
 import KeyBoardForTalk from '../components/KeyBoardForTalk';
-import MessageHistory from '../data/MessageHistory';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function TalkBoard(props){
     //データの追加に伴って再レンダリングを行う
-    const MessageHistory = props.route.params;
+    const {MessageHistory,UserName} = props.route.params;
     const [data, setData] = useState(MessageHistory)
+    const [name, setName] = useState(UserName)
 
     return(
     <View style={styles.container}>
@@ -28,6 +28,7 @@ export default function TalkBoard(props){
         >
             <TalkBoardGround
                 MessageHistory={data}
+                UserName={name}
             />
             <KeyBoardForTalk
                 MessageHistory={data}

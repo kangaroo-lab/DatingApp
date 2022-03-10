@@ -6,12 +6,13 @@ import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
 
-export default function OfficialTalkBoardGround({MessageHistory}){
-    console.log(MessageHistory)
+export default function OfficialTalkBoardGround({MessageHistory,UserName}){
+    console.log("==========================================\n",MessageHistory)
+    console.log("\nNAME : ",UserName)
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
-        if(item.type=='send'){
+        if(item.sendBy==UserName){
             return <SendMessage message={item.message}/>
         }else{
             return <CatchMessage message={item.message}/>

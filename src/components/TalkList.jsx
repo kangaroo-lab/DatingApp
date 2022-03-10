@@ -14,6 +14,7 @@ export default function MessageList(){
     for(let i=0; i<TestUsers.length; i++){
         if(TestUsers[i].level=='pre'){
             UserData.push( {id:UserData.length-1,
+                            userName:User.profile.name,
                             name:TestUsers[i].match.profile.name,
                             message:TestUsers[i].talk.list[TestUsers[i].talk.list.length-1].message ,
                             list:TestUsers[i].talk,
@@ -29,7 +30,10 @@ export default function MessageList(){
     const TalkElement=({item})=>{
         return (
             <TouchableOpacity
-                onPress={()=> navigation.navigate('TalkBoard',item.list)}
+                onPress={()=> navigation.navigate('TalkBoard',{
+                    MessageHistory:item.list,
+                    UserName:item.userName
+                })}
             >
                 <View style={styles.messageListElement}>
                     <View>

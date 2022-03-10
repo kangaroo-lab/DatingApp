@@ -10,16 +10,20 @@ export default function OfficialMessageList(){
     const navigation = useNavigation();
     // Listの相手を動的にしていく
     let UserData = [];
-    const TestUsers = User.matchList
+    const TestUsers = User.matchList;
+    const user = User.profile.name;
+    console.log('NAME:',user)
     for(let i=0; i<TestUsers.length; i++){
         if(TestUsers[i].level=='official'){
             UserData.push( {id:UserData.length-1,
+                            userName:User.profile.name,
                             name:TestUsers[i].match.profile.name,
                             message:TestUsers[i].talk.list[TestUsers[i].talk.list.length-1].message,
                             list:TestUsers[i].talk,
                             date:'2021/3/9',
                             photo:TestUsers[i].match.profile.photo,
                         })
+            console.log('NAME : ',UserData[i].userName)
         }
         console.log(UserData[i],'\n==================================\n',i,'\n')
     }
@@ -30,7 +34,12 @@ export default function OfficialMessageList(){
         return (
             // OfficialStackNavigator内のTalkBoardへ画面遷移
             <TouchableOpacity
-                onPress={()=> navigation.navigate('OfficialTalkBoard',item.list)}
+                onPress={()=>
+                    navigation.navigate(
+                        'OfficialTalkBoard',{
+                            MessageHistory:item.list,
+                            UserName:item.userName
+                        })}
             >
                 <View style={styles.messageListElement}>
                     <View>
