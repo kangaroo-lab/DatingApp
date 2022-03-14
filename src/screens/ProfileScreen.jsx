@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 import User from '../data/user';
 
@@ -8,7 +9,12 @@ export default function profile(){
     return (
         <View style={styles.container}>
             <ScrollView>
-                <Image source={Profile.photo}style={styles.image}/>
+                <View>
+                    <Image source={Profile.photo}style={styles.image}/>
+                    <TouchableOpacity style={styles.button}>
+                        <AntDesign name="edit" size={35} color="white" />
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.BasicArea}>
                     <Text style={styles.name}>{Profile.name}</Text>
                     <Text style={styles.age}>({Profile.age})</Text>
@@ -39,6 +45,19 @@ export default function profile(){
 }
 
 const styles = StyleSheet.create({
+    button:{
+        position:'absolute',
+        right:0,
+        bottom:'5%',
+        marginHorizontal:30,
+        backgroundColor:'tomato',
+        width:60,
+        height:60,
+        borderRadius:30,
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center'
+    },
     container: {
         flex: 1,
         position:'relative',

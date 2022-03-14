@@ -32,6 +32,7 @@ export default function TalkBoard(props){
             />
             <KeyBoardForTalk
                 MessageHistory={data}
+                name={name}
             />
         </KeyboardAvoidingView>
         <View style={styles.footerFill}/>
