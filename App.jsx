@@ -12,6 +12,9 @@ import StackOfficialNavigator from './src/rooter/StackOfficialTalkNavigator'
 import TabNavigator from './src/rooter/TabNavigator'
 import TalkBoard from './src/screens/TalkBoardScreen'
 
+import ProfileEdit from './src/screens/ProfileEditScreen';
+import BasicInfo from './src/components/profile/BasicInfo'
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {

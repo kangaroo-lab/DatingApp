@@ -1,8 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 import User from '../data/user';
+
+import Hobbys from '../components/profile/Hobbys';
+import Values from '../components/profile/Values';
+import BasicInfo from '../components/profile/BasicInfo';
 
 export default function profile(){
     const Profile = User.profile
@@ -11,9 +17,11 @@ export default function profile(){
             <ScrollView>
                 <View>
                     <Image source={Profile.photo}style={styles.image}/>
-                    <TouchableOpacity style={styles.button}>
-                        <AntDesign name="edit" size={35} color="white" />
-                    </TouchableOpacity>
+                    <View style={styles.CameraButtonContainer}>
+                        <TouchableOpacity style={styles.button}>
+                            <Feather name="camera" size={25} color="white" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.BasicArea}>
                     <Text style={styles.name}>{Profile.name}</Text>
@@ -21,22 +29,35 @@ export default function profile(){
                 </View>
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>プロフィール</Text>
-                    <Text style={styles.profileDetail}>
-                        {Profile.brief}
-                    </Text>
+                    <View style={styles.Detail}>
+                        <Text style={styles.profileDetail}>
+                            {Profile.brief}
+                        </Text>
+                    </View>
+                    <View style={styles.PencilButtonCntainer}>
+                        <TouchableOpacity style={styles.button}>
+                            <Entypo name="pencil" size={25} color="white" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>
                         趣味
                     </Text>
-                    <View style={styles.ElementBox}>
-                        <Text style={styles.element}>{Profile.hobbies}</Text>
+                    <View style={styles.Detail}>
+                        <Hobbys hobbies={Profile.hobbies}/>
                     </View>
                 </View>
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>価値観</Text>
-                    <View style={styles.ElementBox}>
-                        <Text style={styles.element}>{Profile.values}</Text>
+                    <View style={styles.Detail}>
+                        <Values values={Profile.values}/>
+                    </View>
+                </View>
+                <View style={styles.introduction}>
+                    <Text style={styles.Title}>基本情報</Text>
+                    <View style={styles.Detail}>
+                        <BasicInfo/>
                     </View>
                 </View>
             </ScrollView>
@@ -46,17 +67,18 @@ export default function profile(){
 
 const styles = StyleSheet.create({
     button:{
-        position:'absolute',
-        right:0,
-        bottom:'5%',
         marginHorizontal:30,
-        backgroundColor:'tomato',
-        width:60,
-        height:60,
+        backgroundColor:'rgba(0,0,0,0.30)',
+        width:40,
+        height:40,
         borderRadius:30,
         flexDirection:'column',
         justifyContent:'center',
         alignItems:'center'
+    },
+    Detail:{
+        paddingHorizontal:3,
+        paddingVertical:10
     },
     container: {
         flex: 1,
@@ -88,18 +110,22 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     },
     introduction:{
-        borderWidth:1,
-        borderColor:'rgba(0,0,0,0.25)',
+        borderBottomWidth:1,
+        borderBottomColor:'rgba(0,0,0,0.25)',
         paddingVertical:10,
-        paddingHorizontal:20,
+        paddingHorizontal:10,
         flexWrap:'nowrap',
     },
+    ValueContainer:{
+        flexDirection:'row',
+        justifyContent:'flex-start'
+    },
     Title:{
-        fontSize:24,
+        fontSize:18,
         fontWeight:'bold'
     },
     profileDetail:{
-        fontSize:18
+        fontSize:15
     },
     ElementBox:{
         flexDirection:'row',
@@ -116,5 +142,19 @@ const styles = StyleSheet.create({
         fontSize:18,
         textAlign:'center',
         marginVertical:5,
-    }
+    },
+    CameraButtonContainer:{
+        position:'absolute',
+        right:0,
+        bottom:'5%',
+    },
+    PencilButtonCntainer:{
+        position:'absolute',
+        right:0,
+        bottom:'5%',
+    },
+    PlusButtonContainer:{
+
+    },
+
 })
