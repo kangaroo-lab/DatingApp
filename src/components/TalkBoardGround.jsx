@@ -25,6 +25,7 @@ export default function TalkBoardGround({MessageHistory,UserName}){
             data={MessageHistory.list}
             extraData={MessageHistory.listUpdate}
             renderItem={GetTalkElem}
+            contentContainerStyle={{paddingBottom:20}}
         />
     </View>
     )
@@ -38,24 +39,6 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        justifyContent:'flex-end'
+        justifyContent:'flex-start'
     },
-    TalkContainer:{
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center'
-    },
-    TalkBoard:{
-        flex:1,
-        height:'100%',
-        width:'100%',
-        flexDirection:'column',
-        justifyContent:'flex-end'
-    },
-    footer:{
-        flex:1
-    },
-    footerFill:{
-        height:18
-    }
 })

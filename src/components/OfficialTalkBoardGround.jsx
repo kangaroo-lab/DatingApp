@@ -7,8 +7,6 @@ import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
 
 export default function OfficialTalkBoardGround({MessageHistory,UserName}){
-    console.log("==========================================\n",MessageHistory)
-    console.log("\nNAME : ",UserName)
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
@@ -35,23 +33,6 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        justifyContent:'flex-end'
+        justifyContent:'flex-end',
     },
-    TalkContainer:{
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center'
-    },
-    TalkBoard:{
-        flex:1,
-        height:'100%',
-        width:'100%',
-        flexDirection:'column',
-    },
-    footer:{
-        flex:1
-    },
-    footerFill:{
-        height:18
-    }
 })

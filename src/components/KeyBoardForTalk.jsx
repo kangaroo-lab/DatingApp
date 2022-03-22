@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,Keyboa
 
 export default function KeyBoardForTalk({MessageHistory,name}){
     const [bodyText, setBodyText] = useState('');
+    const [inputHeight, setInputHeight] = useState(0);
     {/* トーク画面に表示されるキーボードの要素
     1: 写真
     2: 打ち込み画面
@@ -15,7 +16,6 @@ export default function KeyBoardForTalk({MessageHistory,name}){
         const AddMessage={id:MessageHistory.length,type:'send',message:bodyText,sendBy:name}
         MessageHistory.list.push(AddMessage)
         MessageHistory.listUpdate+=1
-        return console.log(MessageHistory)
     }
     return(
             <View style={styles.footer}>
@@ -30,10 +30,14 @@ export default function KeyBoardForTalk({MessageHistory,name}){
                     <View style={styles.contentsView}>
                         <View style={styles.textInputView}>
                             <TextInput
-                                style={styles.textInput}
+                                multiline={true}
+                                style={styles.textInput,{height:inputHeight}}
                                 value={bodyText}
                                 placeholder='メッセージを入力'
                                 onChangeText={(text)=>{setBodyText(text);}}
+                                onContentSizeChange={(event) => {
+                                  setInputHeight(event.nativeEvent.contentSize.height);
+                                }}
                             />
                         </View>
                     </View>
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
     },
     contentsView:{
         flexDirection:'column',
-        justifyContent:'flex-start'
+        justifyContent:'flex-end'
     },
     image:{
         width: 30,
@@ -84,7 +88,6 @@ const styles = StyleSheet.create({
         height:28,
     },
     textInputView:{
-        height:30,
         width:250,
         marginHorizontal:20,
         paddingHorizontal:10,

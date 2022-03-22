@@ -41,9 +41,7 @@ export default function profile(){
                     </View>
                 </View>
                 <View style={styles.introduction}>
-                    <Text style={styles.Title}>
-                        趣味
-                    </Text>
+                    <Text style={styles.Title}>趣味</Text>
                     <View style={styles.Detail}>
                         <Hobbys hobbies={Profile.hobbies}/>
                     </View>

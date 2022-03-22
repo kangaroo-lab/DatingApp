@@ -5,6 +5,10 @@ import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 
 export default function ProfileGround(){
+    const ProfileRender=({item})=>{
+        
+    }
+
     return(
         <View>
             <FlatList/>

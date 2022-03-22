@@ -11,6 +11,7 @@ export default function MessageList(){
     // Listの相手を動的にしていく
     let UserData = [];
     const TestUsers = User.matchList
+
     for(let i=0; i<TestUsers.length; i++){
         if(TestUsers[i].level=='pre'){
             UserData.push( {id:UserData.length-1,
@@ -22,7 +23,6 @@ export default function MessageList(){
                             photo:TestUsers[i].match.profile.photo,
                         })
         }
-        console.log(TestUsers[i],'\n==================================\n',i,'\n')
     }
     const users = UserData
 

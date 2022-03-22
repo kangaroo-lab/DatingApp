@@ -13,7 +13,6 @@ export default function OfficialTalkBoard(props){
     const {MessageHistory,UserName} = props.route.params;
     const [data, setData] = useState(MessageHistory)
     const [name, setName] = useState(UserName)
-    console.log('==============NAME=============\n',{name})
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}

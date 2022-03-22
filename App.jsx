@@ -12,8 +12,8 @@ import StackOfficialNavigator from './src/rooter/StackOfficialTalkNavigator'
 import TabNavigator from './src/rooter/TabNavigator'
 import TalkBoard from './src/screens/TalkBoardScreen'
 
-import ProfileEdit from './src/screens/ProfileEditScreen';
-import BasicInfo from './src/components/profile/BasicInfo'
+import ProfileBriefEdit from './src/screens/ProfileBriefEditScreen';
+import ProfileNameEdit from './src/screens/ProfileNameEditScreen';
 
 const Stack = createNativeStackNavigator();
 

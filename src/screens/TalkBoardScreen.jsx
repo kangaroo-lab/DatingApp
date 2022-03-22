@@ -17,10 +17,6 @@ export default function TalkBoard(props){
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
-        <TouchableOpacity
-            onPress={()=>{console.log('Touch ',data,'\n ====================================\n THE DATA IS THIS')}}
-            style={{position:'absolute',width:20,height:20,backgroundColor:'tomato'}}
-        />
         <KeyboardAvoidingView
         behavior='padding'
         style={styles.TalkContainer}
