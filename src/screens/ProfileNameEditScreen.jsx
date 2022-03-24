@@ -9,7 +9,7 @@ export default function NameEdit(){
             </View>
             <View>
                 <View>
-                    <TextInput/>
+                    <TextInput style={{borderBottomWidth:1,}}/>
                 </View>
                 <View>
                     <TouchableOpacity>

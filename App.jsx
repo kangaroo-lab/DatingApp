@@ -15,8 +15,6 @@ import TalkBoard from './src/screens/TalkBoardScreen'
 import ProfileBriefEdit from './src/screens/ProfileBriefEditScreen';
 import ProfileNameEdit from './src/screens/ProfileNameEditScreen';
 
-const Stack = createNativeStackNavigator();
-
 export default function App() {
   return (
     <NavigationContainer>

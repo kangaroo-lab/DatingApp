@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacit
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
 
 import User from '../data/user';
 
@@ -11,6 +12,8 @@ import Values from '../components/profile/Values';
 import BasicInfo from '../components/profile/BasicInfo';
 
 export default function profile(){
+    //rooter to EditScreen
+    const navigation = useNavigation();
     const Profile = User.profile
     return (
         <View style={styles.container}>
@@ -35,7 +38,10 @@ export default function profile(){
                         </Text>
                     </View>
                     <View style={styles.PencilButtonCntainer}>
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity
+                         style={styles.button}
+                         onPress={()=>{navigation.navigate('BriefEdit',{userBrief:Profile.brief})}}
+                        >
                             <Entypo name="pencil" size={25} color="white" />
                         </TouchableOpacity>
                     </View>

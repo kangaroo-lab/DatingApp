@@ -11,6 +11,7 @@ import Profile from'../screens/ProfileScreen';
 import TalkList from '../screens/TalkListScreen';
 import StackNavigator from'./StackNavigator';
 import BottomTabNavigator from '../rooter/BottomTabNavigator';
+import StackProfileNavigator from'./StackProfileNavigator';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -48,7 +49,7 @@ export default function TabNavigator() {
         >
           <Tab.Screen
            name="Profile"
-           component={Profile}
+           component={StackProfileNavigator}
           />
           <Tab.Screen
            name="Top"
