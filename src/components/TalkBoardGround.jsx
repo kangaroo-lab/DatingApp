@@ -26,6 +26,7 @@ export default function TalkBoardGround({MessageHistory,UserName}){
             extraData={MessageHistory.listUpdate}
             renderItem={GetTalkElem}
             contentContainerStyle={{paddingBottom:20}}
+            inverted
         />
     </View>
     )

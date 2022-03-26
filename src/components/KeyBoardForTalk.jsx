@@ -14,8 +14,9 @@ export default function KeyBoardForTalk({MessageHistory,name}){
 
     function MessageAdd(bodyText){
         const AddMessage={id:MessageHistory.length,type:'send',message:bodyText,sendBy:name}
-        MessageHistory.list.push(AddMessage)
+        MessageHistory.list.unshift(AddMessage)
         MessageHistory.listUpdate+=1
+        setBodyText('')
     }
     return(
             <View style={styles.footer}>

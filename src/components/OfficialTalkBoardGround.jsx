@@ -24,6 +24,7 @@ export default function OfficialTalkBoardGround({MessageHistory,UserName}){
             data={MessageHistory.list}
             extraData={MessageHistory.ListUpdate}
             renderItem={GetTalkElem}
+            inverted
         />
     </View>
     )
