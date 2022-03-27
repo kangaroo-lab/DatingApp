@@ -1,40 +1,43 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity, FlatList } from 'react-native';
 import { string, func, shape } from 'prop-types';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 
 import User from'../data/user';
 
 export default function MessageList(){
     //routeの設定
     const navigation = useNavigation();
-    // Listの相手を動的にしていく
-    let UserData = [];
-    const TestUsers = User.matchList
-    for(let i=0; i<TestUsers.length; i++){
-        if(TestUsers[i].level=='pre'){
-            let n = 0;
-            let j = 0;
-            while(TestUsers[i].talk.list[j].sendBy==TestUsers[i].match.profile.name){
-                n++;
-                console.log(n,TestUsers[i].talk.list[j].message)
-                j++;
+
+    //画面の再レンダリングのbool
+    const isFocused = useIsFocused();
+    // Listのデータを獲得する関数
+    function makeTalkList(TestUsers){
+        let UserData = [];
+        for(let i=0; i<TestUsers.length; i++){
+            if(TestUsers[i].level=='pre'){
+                let n = 0;
+                let j = 0;
+                while(TestUsers[i].talk.list[j].sendBy==TestUsers[i].match.profile.name){
+                    n++;
+                    console.log(n,TestUsers[i].talk.list[j].message)
+                    j++;
+                }
+                UserData.push(
+                    {id:UserData.length-1,
+                    userName:User.profile.name,
+                    name:TestUsers[i].match.profile.name,
+                    message:TestUsers[i].talk.list[0].message ,
+                    list:TestUsers[i].talk,
+                    date:'2021/3/9',
+                    photo:TestUsers[i].match.profile.photo,
+                    count:n,
+                    listUpdate:TestUsers[i].talk.listUpdate
+                })
             }
-            UserData.push(
-                {id:UserData.length-1,
-                userName:User.profile.name,
-                name:TestUsers[i].match.profile.name,
-                message:TestUsers[i].talk.list[0].message ,
-                list:TestUsers[i].talk,
-                date:'2021/3/9',
-                photo:TestUsers[i].match.profile.photo,
-                count:n,
-                listUpdate:TestUsers[i].talk.listUpdate
-            })
-            console.log(UserData.listUpdate)
         }
+        return UserData
     }
-    const users = UserData
 
     // Listに表示される内容をデータから獲得 → FaltListでデータを表示できるようにする
     const TalkElement=({item})=>{
@@ -101,17 +104,26 @@ export default function MessageList(){
             )
         }
     }
+    //再レンダリングのデータを取得する
 
     // Listの返し
-    return(
-        <View style={styles.messageList}>
-            <FlatList
-            data={users}
-            extraData={users.listUpdate}
-            renderItem={TalkElement}
-            />
-        </View>
-    )
+    if(isFocused){
+        const TestUsers = User.matchList
+        const users = makeTalkList(TestUsers)
+        return(
+            <View style={styles.messageList}>
+                <FlatList
+                data={users}
+                extraData={users.listUpdate}
+                renderItem={TalkElement}
+                />
+            </View>
+        )
+    }else{
+        return(
+            <View/>
+        )
+    }
 }
 
 

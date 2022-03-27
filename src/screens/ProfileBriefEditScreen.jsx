@@ -5,7 +5,6 @@ import { string, func, shape } from 'prop-types';
 import User from '../data/user';
 
 export default function BriefEdit(props){
-    console.log(props)
     const navigation = props.navigation;
     const userBrief = props.route.params
     const [brief, setBrief] = useState(userBrief.userBrief);
