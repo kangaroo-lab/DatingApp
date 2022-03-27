@@ -11,7 +11,6 @@ export default function MessageList(){
     // Listの相手を動的にしていく
     let UserData = [];
     const TestUsers = User.matchList
-
     for(let i=0; i<TestUsers.length; i++){
         if(TestUsers[i].level=='pre'){
             let n = 0;
@@ -29,8 +28,10 @@ export default function MessageList(){
                 list:TestUsers[i].talk,
                 date:'2021/3/9',
                 photo:TestUsers[i].match.profile.photo,
-                count:n
+                count:n,
+                listUpdate:TestUsers[i].talk.listUpdate
             })
+            console.log(UserData.listUpdate)
         }
     }
     const users = UserData
@@ -106,7 +107,7 @@ export default function MessageList(){
         <View style={styles.messageList}>
             <FlatList
             data={users}
-
+            extraData={users.listUpdate}
             renderItem={TalkElement}
             />
         </View>

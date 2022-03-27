@@ -32,7 +32,7 @@ export default function BriefEdit(props){
                     <TouchableOpacity
                         onPress={()=>{
                             ReflectEditFile(brief)
-                            navigation.goBack()
+                            navigation.navigate('Profile',{'brief':brief})
                         }}
                     >
                         <View style={styles.submitButton}>

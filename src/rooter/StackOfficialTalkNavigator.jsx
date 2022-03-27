@@ -32,7 +32,7 @@ export default function StackOfficialNavigator() {
                headerShown:true,
                headerRight:()=>(
                  <TalkBoardHeader/>
-              )
+              ),
              }}
             />
         </Stack.Navigator>

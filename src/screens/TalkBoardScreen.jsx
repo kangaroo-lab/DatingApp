@@ -11,8 +11,8 @@ const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 export default function TalkBoard(props){
     //データの追加に伴って再レンダリングを行う
     const {MessageHistory,UserName} = props.route.params;
-    const [data, setData] = useState(MessageHistory)
-    const [name, setName] = useState(UserName)
+    const data = MessageHistory
+    const name = UserName
 
     return(
     <View style={styles.container}>

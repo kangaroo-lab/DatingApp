@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, Image,Button,TextInput, TouchableOpacity,Keyboa
 export default function KeyBoardForTalk({MessageHistory,name}){
     const [bodyText, setBodyText] = useState('');
     const [inputHeight, setInputHeight] = useState(0);
+
+    const [data, setData] = useState(MessageHistory)
     {/* トーク画面に表示されるキーボードの要素
     1: 写真
     2: 打ち込み画面
@@ -14,8 +16,9 @@ export default function KeyBoardForTalk({MessageHistory,name}){
 
     function MessageAdd(bodyText){
         const AddMessage={id:MessageHistory.length,type:'send',message:bodyText,sendBy:name}
-        MessageHistory.list.unshift(AddMessage)
-        MessageHistory.listUpdate+=1
+        data.list.unshift(AddMessage)
+        data.listUpdate+=1
+        setData(data)
         setBodyText('')
     }
     return(
