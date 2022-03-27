@@ -9,8 +9,6 @@ export default function BriefEdit(props){
     const navigation = props.navigation;
     const userBrief = props.route.params
     const [brief, setBrief] = useState(userBrief.userBrief);
-    console.log('\n=================\n',userBrief,'\n',brief)
-    console.log(User.profile.brief)
     function ReflectEditFile(newBrief){
         User.profile.brief=newBrief
     }

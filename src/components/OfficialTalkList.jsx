@@ -14,6 +14,13 @@ export default function OfficialMessageList(){
 
     for(let i=0; i<TestUsers.length; i++){
         if(TestUsers[i].level=='official'){
+            let n = 0;
+            let j = 0;
+            while(TestUsers[i].talk.list[j].sendBy==TestUsers[i].match.profile.name){
+                n++;
+                console.log(n,TestUsers[i].talk.list[j].message)
+                j++;
+            }
             UserData.push( {id:UserData.length-1,
                             userName:User.profile.name,
                             name:TestUsers[i].match.profile.name,
@@ -21,6 +28,7 @@ export default function OfficialMessageList(){
                             list:TestUsers[i].talk,
                             date:'2021/3/9',
                             photo:TestUsers[i].match.profile.photo,
+                            count:n
                         })
         }
     }
@@ -28,36 +36,74 @@ export default function OfficialMessageList(){
 
     // Listに表示される内容をデータから獲得 → FaltListでデータを表示できるようにする
     const TalkElement=({item})=>{
-        return (
-            // OfficialStackNavigator内のTalkBoardへ画面遷移
-            <TouchableOpacity
+        //未返信メッセージの個数を反映→未読メッセージにした方がストレスない？
+        if(item.count==0){
+            return (
+                // OfficialStackNavigator内のTalkBoardへ画面遷移
+                <TouchableOpacity
+                    onPress={()=>
+                        navigation.navigate(
+                            'OfficialTalkBoard',{
+                                MessageHistory:item.list,
+                                UserName:item.userName
+                            })}
+                >
+                    <View style={styles.messageListElement}>
+                        <View>
+                            <Image source={item.photo}style={styles.image}/>
+                        </View>
+                        <View style={styles.messageInner}>
+                            <View style={styles.messageTextBox}>
+                                <View style={styles.nameBox}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                </View>
+                                <View style={styles.messageBox}>
+                                    <Text style={styles.message}>{item.message}</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.dateBox}>
+                            <Text style={styles.date}>{item.date}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity
                 onPress={()=>
                     navigation.navigate(
                         'OfficialTalkBoard',{
                             MessageHistory:item.list,
                             UserName:item.userName
                         })}
-            >
-                <View style={styles.messageListElement}>
-                    <View>
-                        <Image source={item.photo}style={styles.image}/>
-                    </View>
-                    <View style={styles.messageInner}>
-                        <View style={styles.messageTextBox}>
-                            <View style={styles.nameBox}>
-                                <Text style={styles.name}>{item.name}</Text>
+                >
+                    <View style={styles.messageListElement}>
+                        <View>
+                            <Image source={item.photo}style={styles.image}/>
+                        </View>
+                        <View style={styles.messageInner}>
+                            <View style={styles.messageTextBox}>
+                                <View style={styles.nameBox}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                </View>
+                                <View style={styles.messageBox}>
+                                    <Text style={styles.message}>{item.message}</Text>
+                                </View>
                             </View>
-                            <View style={styles.messageBox}>
-                                <Text style={styles.message}>{item.message}</Text>
+                        </View>
+                        <View style={styles.dateBox}>
+                            <Text style={styles.date}>{item.date}</Text>
+                            <View style={styles.messageCountArea}>
+                                <View style={styles.messageCountBox}>
+                                    <Text　style={styles.messageCount}>{item.count}</Text>
+                                </View>
                             </View>
                         </View>
                     </View>
-                    <View style={styles.dateBox}>
-                        <Text style={styles.date}>{item.date}</Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
-        )
+                </TouchableOpacity>
+            )
+        }
     }
 
     // Listの返し
@@ -116,5 +162,24 @@ const styles = StyleSheet.create({
     },
     date:{
         fontSize:16,
+    },
+    messageCountArea:{
+        flexDirection:'row',
+        justifyContent:'center',
+        marginTop:5,
+    },
+    messageCountBox:{
+        flexDirection:'row',
+        justifyContent:'center',
+        textAlign:'center',
+        backgroundColor:'tomato',
+        width:23,
+        height:23,
+        borderRadius:20,
+        textAlign:'auto'
+    },
+    messageCount:{
+        fontSize:15,
+        color:'#ffffff'
     }
 })
