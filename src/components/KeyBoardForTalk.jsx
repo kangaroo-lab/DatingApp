@@ -21,6 +21,7 @@ export default function KeyBoardForTalk({MessageHistory,name}){
         data.listUpdate+=1
         setData(data)
         setBodyText('')
+        return console.log(data)
     }
     return(
             <View style={styles.footer}>

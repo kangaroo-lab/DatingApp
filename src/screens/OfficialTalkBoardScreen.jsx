@@ -25,10 +25,6 @@ export default function OfficialTalkBoard(props){
                 MessageHistory={data}
                 UserName={name}
             />
-            <KeyBoardForTalk
-                MessageHistory={data}
-                name={name}
-            />
         </KeyboardAvoidingView>
         <View style={styles.footerFill}/>
     </View>
