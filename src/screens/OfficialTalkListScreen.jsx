@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity } from 'react-native';
 
-import Header from '../components/header';
 import OfficialMessageList from '../components/OfficialTalkList';
 
 export default function OfficialTalkList(){

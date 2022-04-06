@@ -2,7 +2,6 @@ import React,{useEffect} from 'react';
 import {View,StyleSheet,TouchableOpacity,Text} from 'react-native';
 import Animated,{ useAnimatedStyle, useSharedValue,withSpring,interpolate,withRepeat,withTiming } from 'react-native-reanimated';
 
-import Header from '../components/header';
 
 export default function Top2(){
   //アニメーションの定義

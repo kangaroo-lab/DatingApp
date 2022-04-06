@@ -3,7 +3,6 @@ import { StyleSheet, View, KeyboardAvoidingView,StatusBar, Button, TouchableOpac
 import {array} from 'prop-types'
 
 import TalkBoardGround from '../components/TalkBoardGround';
-import KeyBoardForTalk from '../components/KeyBoardForTalk';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;

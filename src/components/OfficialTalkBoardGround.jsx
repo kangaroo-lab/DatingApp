@@ -3,7 +3,6 @@ import { string, func, shape } from 'prop-types';
 import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView,FlatList } from 'react-native';
 import {useNavigation,useIsFocused} from '@react-navigation/native'
 
-import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
 

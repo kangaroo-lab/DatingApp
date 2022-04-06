@@ -2,7 +2,6 @@ import React,{useState,useEffect} from'react';
 import { string, func, shape } from 'prop-types';
 import { StyleSheet,View,FlatList,TouchableOpacity,Text,Image,TextInput } from 'react-native';
 
-import KeyBoardForTalk from './KeyBoardForTalk';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
 
