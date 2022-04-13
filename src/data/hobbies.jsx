@@ -19,7 +19,7 @@ const hobbies = [
         {
         id :  3 ,
          title : " 乗馬 ",
-         type : " スポーツ "
+         type : " スポーツ ",
         },
         {
         id :  4 ,
@@ -39,11 +39,11 @@ const hobbies = [
         {
         id :  7 ,
          title : " スキー ",
-         type : " スポーツ "
+         type : " アウトドアスポーツ "
         },
         {
         id :  8 ,
-         title : " 草野球 ",
+         title : " 野球 ",
          type : " スポーツ "
         },
         {
