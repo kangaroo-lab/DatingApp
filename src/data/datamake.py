@@ -1,61 +1,30 @@
 
 from sqlalchemy import true
 
-setList = '''北海道
-青森県
-岩手県
-宮城県
-秋田県
-山形県
-福島県
-茨城県
-栃木県
-群馬県
-埼玉県
-千葉県
-東京都
-神奈川県
-新潟県
-富山県
-石川県
-福井県
-山梨県
-長野県
-岐阜県
-静岡県
-愛知県
-三重県
-滋賀県
-京都府
-大阪府
-兵庫県
-奈良県
-和歌山県
-鳥取県
-島根県
-岡山県
-広島県
-山口県
-徳島県
-香川県
-愛媛県
-高知県
-福岡県
-佐賀県
-長崎県
-熊本県
-大分県
-宮崎県
-鹿児島県
-沖縄県'''
+setList = '''営業職
+経理職
+企画・管理職
+事務・アシスタント職
+販売・サービス職
+専門職
+金融系専門職
+公務員・教員・農林水産関連職
+技術職
+医療系専門職
+クリエイター・クリエイティブ職
+'''
 
 n=0
 
 name = ''
-while(n<=len(setList)):
-    if('県' in name or '道' in name or '府' in name or '都' in name):
-        print('"',name,'"',',')
+jobList = []
+while(n<len(setList)):
+    if('職' in name):
+        jobList.append(name)
+        print(name)
         name = ''
     else:
         name+=setList[n]
     n+=1
+
+print(jobList)
