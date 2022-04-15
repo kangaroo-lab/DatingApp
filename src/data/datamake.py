@@ -1,30 +1,21 @@
 
-from sqlalchemy import true
 
-setList = '''営業職
-経理職
-企画・管理職
-事務・アシスタント職
-販売・サービス職
-専門職
-金融系専門職
-公務員・教員・農林水産関連職
-技術職
-医療系専門職
-クリエイター・クリエイティブ職
-'''
+from xml.etree.ElementTree import tostring
 
-n=0
 
-name = ''
-jobList = []
-while(n<len(setList)):
-    if('職' in name):
-        jobList.append(name)
-        print(name)
-        name = ''
+h = 140
+hList = []
+print('Start')
+while(h<=190):
+    print(h)
+    if(h==140):
+        hList.append('140cm以下')
+    elif(h==190):
+        hList.append('190cm以上')
+        break
     else:
-        name+=setList[n]
-    n+=1
+        hList.append(h)
+    h=h+1
 
-print(jobList)
+print(hList)
+

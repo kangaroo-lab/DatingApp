@@ -61,7 +61,9 @@ export default function profile(){
                 <View style={styles.introduction}>
                     <Text style={styles.Title}>基本情報</Text>
                     <View style={styles.Detail}>
-                        <BasicInfo/>
+                        <BasicInfo
+                            user={Profile}
+                        />
                     </View>
                 </View>
             </ScrollView>

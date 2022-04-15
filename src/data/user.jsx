@@ -27,6 +27,28 @@ UserB = {
         brief:'ビッパで何が悪い！',
         hobbies:'',
         valuse:'',
+        blood:'',
+        livePlace:'',
+        workPlace:'',
+        birthPlace:'',
+        family:'',
+        language:'',
+        height:'',
+        bodyShape:'',
+        schoolHistory:'',
+        jobType:'',
+        job:'',
+        income:'',
+        holiday:'',
+        drink:'',
+        smoke:'',
+        roomMate:'',
+        marriage:'',
+        kids:'',
+        kidsWant:'',
+        childCare:'',
+        howToMeet:'',
+        dateMoney:'',
     },
     matchList:[
         {
@@ -50,6 +72,28 @@ UserC = {
         brief:'あたいがあねごだよ！！',
         hobbies:'',
         valuse:'',
+        blood:'',
+        livePlace:'',
+        workPlace:'',
+        birthPlace:'',
+        family:'',
+        language:'',
+        height:'',
+        bodyShape:'',
+        schoolHistory:'',
+        jobType:'',
+        job:'',
+        income:'',
+        holiday:'',
+        drink:'',
+        smoke:'',
+        roomMate:'',
+        marriage:'',
+        kids:'',
+        kidsWant:'',
+        childCare:'',
+        howToMeet:'',
+        dateMoney:'',
     },
     matchList:[
         {
@@ -74,6 +118,104 @@ UserA = {
         brief:'こんちゃ！',
         hobbies:'',
         valuse:'',
+        profileList:[
+            {
+                title:'name',
+                container:'けん'
+            },
+            {
+                title:'age',
+                container:23
+            },
+            {
+                title:'blood',
+                container:'未設定'
+            },
+            {
+                title:'livePlace',
+                container:'東京都'
+            },
+            {
+                title:'workPlace',
+                container:'東京都'
+            },
+            {
+                title:'birthPlace',
+                container:'東京都'
+            },
+            {
+                title:'family',
+                container:'未設定'
+            },
+            {
+                title:'language',
+                container:'未設定'
+            },
+            {
+                title:'height',
+                container:'未設定'
+            },
+            {
+                title:'bodyShape',
+                container:'未設定'
+            },
+            {
+                title:'schoolHistory',
+                container:'未設定'
+            },
+            {
+                title:'jobType',
+                container:'未設定'
+            },
+            {
+                title:'job',
+                container:'未設定'
+            },
+            {
+                title:'income',
+                container:'未設定'
+            },
+            {
+                title:'holiday',
+                container:'未設定'
+            },
+            {
+                title:'drink',
+                container:'未設定'
+            },
+            {
+                title:'smoke',
+                container:'未設定'
+            },
+            {
+                title:'roomMate',
+                container:'未設定'
+            },
+            {
+                title:'marriage',
+                container:'未設定'
+            },
+            {
+                title:'kids',
+                container:'未設定'
+            },
+            {
+                title:'kidsWant',
+                container:'未設定'
+            },
+            {
+                title:'childCare',
+                container:'未設定'
+            },
+            {
+                title:'howToMeet',
+                container:'未設定'
+            },
+            {
+                title:'dateMoney',
+                container:'未設定'
+            },
+        ],
     },
     matchList:[
         {
