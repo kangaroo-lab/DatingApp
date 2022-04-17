@@ -125,27 +125,27 @@ UserA = {
             },
             {
                 title:'age',
-                container:23
+                container:'23'
             },
             {
                 title:'blood',
-                container:'未設定'
+                container:2
             },
             {
                 title:'livePlace',
-                container:'東京都'
+                container:5
             },
             {
                 title:'workPlace',
-                container:'東京都'
+                container:5
             },
             {
                 title:'birthPlace',
-                container:'東京都'
+                container:5
             },
             {
                 title:'family',
-                container:'未設定'
+                container:3
             },
             {
                 title:'language',
@@ -153,19 +153,19 @@ UserA = {
             },
             {
                 title:'height',
-                container:'未設定'
+                container:0
             },
             {
                 title:'bodyShape',
-                container:'未設定'
+                container:0
             },
             {
                 title:'schoolHistory',
-                container:'未設定'
+                container:0
             },
             {
                 title:'jobType',
-                container:'未設定'
+                container:0
             },
             {
                 title:'job',
@@ -173,47 +173,47 @@ UserA = {
             },
             {
                 title:'income',
-                container:'未設定'
+                container:0
             },
             {
                 title:'holiday',
-                container:'未設定'
+                container:0
             },
             {
                 title:'drink',
-                container:'未設定'
+                container:0
             },
             {
                 title:'smoke',
-                container:'未設定'
+                container:0
             },
             {
                 title:'roomMate',
-                container:'未設定'
+                container:0
             },
             {
                 title:'marriage',
-                container:'未設定'
+                container:0
             },
             {
                 title:'kids',
-                container:'未設定'
+                container:0
             },
             {
                 title:'kidsWant',
-                container:'未設定'
+                container:0
             },
             {
                 title:'childCare',
-                container:'未設定'
+                container:0
             },
             {
                 title:'howToMeet',
-                container:'未設定'
+                container:0
             },
             {
                 title:'dateMoney',
-                container:'未設定'
+                container:0
             },
         ],
     },

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity,Animated} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -11,6 +11,10 @@ import Hobbys from '../components/profile/Hobbys';
 import Values from '../components/profile/Values';
 import BasicInfo from '../components/profile/BasicInfo';
 
+const HEADER_MAX_HEIGHT = 200;
+const HEADER_MIN_HEIGHT = 60;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
 export default function profile(){
     //rooter to EditScreen
     const navigation = useNavigation();
@@ -18,14 +22,6 @@ export default function profile(){
     return (
         <View style={styles.container}>
             <ScrollView>
-                <View>
-                    <Image source={Profile.photo}style={styles.image}/>
-                    <View style={styles.CameraButtonContainer}>
-                        <TouchableOpacity style={styles.button}>
-                            <Feather name="camera" size={25} color="white" />
-                        </TouchableOpacity>
-                    </View>
-                </View>
                 <View style={styles.BasicArea}>
                     <Text style={styles.name}>{Profile.name}</Text>
                     <Text style={styles.age}>({Profile.age})</Text>
@@ -67,6 +63,15 @@ export default function profile(){
                     </View>
                 </View>
             </ScrollView>
+            <Animated.View　style={styles.animatedHeader}>
+                <View style={styles.image}>
+                    <View style={styles.CameraButtonContainer}>
+                        <TouchableOpacity style={styles.button}>
+                            <Feather name="camera" size={25} color="white" />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Animated.View>
         </View>
     )
 }
@@ -88,16 +93,23 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        position:'relative',
-        flexDirection:'column',
-        justifyContent:'center',
-        bottom: 30,
+    },
+    animatedHeader:{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#03A9F4',
+        overflow: 'hidden',
     },
     image:{
-        width: 'auto',
-        height: 509
+        marginTop: 28,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     BasicArea:{
+        marginTop: HEADER_MAX_HEIGHT,
         flexDirection:'row',
         justifyContent:'flex-end',
         height:50,

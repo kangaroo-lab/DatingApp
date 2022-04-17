@@ -1,35 +1,51 @@
 import React,{useState} from 'react';
-import { Picker,StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-
+import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import userInfo from '../../data/userInfo';
 
 export default function BasicInfo({user}){
+
+    const [data, setData] = useState(user.profileList)
 
     for(let i=0;i<10;i++){
         console.log('>>>',userInfo.info[i].title)
     }
 
     const InfoRender=({item})=>{
-        let call = item.call
-        let content = ''
-        for(let i=0;i<user.profileList.length;i++){
-            if(call==user.profileList[i].title){
-                content = user.profileList[i].container
-            }
-        }
-        return(
+        if(item.list){
+            return(
+                <View style={styles.infoDataContainer}>
+                    <Text>{item.title}</Text>
+                    <View style={styles.infoDataDetail}>
+                        <TouchableOpacity>
+                            <RNPickerSelect
+                                style={styles.infoDataDetailText}
+                                onValueChange={(value) =>
+                                    data[item.id].container=value
+                                }
+                                items={item.list.map((data,idx) => {return ({label:data, value:idx})})}
+                                placeholder={{label:'未設定',value:0}}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            )
+        }else{
+            return(
             <View style={styles.infoDataContainer}>
                 <Text>{item.title}</Text>
                 <View style={styles.infoDataDetail}>
-                    <TouchableOpacity>
-                        <Text>{content}</Text>
+                    <TouchableOpacity
+                        onPress={()=>{
+                            console.log(data)
+                        }}
+                    >
+                        <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        )
+            )
+        }
     }
 
 
@@ -55,5 +71,8 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         borderBottomWidth:1,
         paddingVertical:10
+    },
+    infoDataDetailText:{
+        color:'rgba(0,0,0,0.50)'
     }
 })

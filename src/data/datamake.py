@@ -14,7 +14,7 @@ while(h<=190):
         hList.append('190cm以上')
         break
     else:
-        hList.append(h)
+        hList.append(str(h)+'cm')
     h=h+1
 
 print(hList)
