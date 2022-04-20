@@ -11,6 +11,7 @@ import Hobbys from '../components/profile/Hobbys';
 import Values from '../components/profile/Values';
 import BasicInfo from '../components/profile/BasicInfo';
 
+// Header の高さ獲得-> 画面をふれくしぶるにしていく
 const HEADER_MAX_HEIGHT = 200;
 const HEADER_MIN_HEIGHT = 60;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -21,48 +22,54 @@ export default function profile(){
     const Profile = User.profile
     return (
         <View style={styles.container}>
-            <ScrollView>
-                <View style={styles.BasicArea}>
-                    <Text style={styles.name}>{Profile.name}</Text>
-                    <Text style={styles.age}>({Profile.age})</Text>
-                </View>
-                <View style={styles.introduction}>
-                    <Text style={styles.Title}>プロフィール</Text>
-                    <View style={styles.Detail}>
-                        <Text style={styles.profileDetail}>
-                            {Profile.brief}
-                        </Text>
+            <ScrollView style={styles.container}>
+                <View style={styles.scrollViewContents}>
+                    <View style={styles.BasicArea}>
+                        <Text style={styles.name}>{Profile.name}</Text>
+                        <Text style={styles.age}>({Profile.age})</Text>
                     </View>
-                    <View style={styles.PencilButtonCntainer}>
-                        <TouchableOpacity
-                         style={styles.button}
-                         onPress={()=>{navigation.navigate('BriefEdit',{userBrief:Profile.brief})}}
-                        >
-                            <Entypo name="pencil" size={25} color="white" />
-                        </TouchableOpacity>
+                    <View style={styles.introduction}>
+                        <Text style={styles.Title}>プロフィール</Text>
+                        <View style={styles.Detail}>
+                            <Text style={styles.profileDetail}>
+                                {Profile.brief}
+                            </Text>
+                        </View>
+                        <View style={styles.PencilButtonCntainer}>
+                            <TouchableOpacity
+                            style={styles.button}
+                            onPress={()=>{navigation.navigate('BriefEdit',{userBrief:Profile.brief})}}
+                            >
+                                <Entypo name="pencil" size={25} color="white" />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.introduction}>
-                    <Text style={styles.Title}>趣味</Text>
-                    <View style={styles.Detail}>
-                        <Hobbys hobbies={Profile.hobbies}/>
+                    <View style={styles.introduction}>
+                        <Text style={styles.Title}>趣味</Text>
+                        <View style={styles.Detail}>
+                            <Hobbys hobbies={Profile.hobbies}/>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.introduction}>
-                    <Text style={styles.Title}>価値観</Text>
-                    <View style={styles.Detail}>
-                        <Values values={Profile.values}/>
+                    <View style={styles.introduction}>
+                        <Text style={styles.Title}>価値観</Text>
+                        <View style={styles.Detail}>
+                            <Values values={Profile.values}/>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.introduction}>
-                    <Text style={styles.Title}>基本情報</Text>
-                    <View style={styles.Detail}>
-                        <BasicInfo
-                            user={Profile}
-                        />
+                    <View style={styles.introduction}>
+                        <Text style={styles.Title}>基本情報</Text>
+                        <View style={styles.Detail}>
+                            <BasicInfo
+                                user={Profile}
+                            />
+                        </View>
                     </View>
                 </View>
             </ScrollView>
+            {/*
+                ヘッダーにプロフィール画像を表示させて、高さに応じてヘッダーにアニメーションをつける
+                    →　画面がリッチな感じになる目的
+            */}
             <Animated.View　style={styles.animatedHeader}>
                 <View style={styles.image}>
                     <View style={styles.CameraButtonContainer}>
@@ -77,39 +84,13 @@ export default function profile(){
 }
 
 const styles = StyleSheet.create({
-    button:{
-        marginHorizontal:30,
-        backgroundColor:'rgba(0,0,0,0.30)',
-        width:40,
-        height:40,
-        borderRadius:30,
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    Detail:{
-        paddingHorizontal:3,
-        paddingVertical:10
-    },
     container: {
         flex: 1,
     },
-    animatedHeader:{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#03A9F4',
-        overflow: 'hidden',
-    },
-    image:{
-        marginTop: 28,
-        height: 32,
-        alignItems: 'center',
-        justifyContent: 'center',
+    scrollViewContents:{
+        marginTop: HEADER_MAX_HEIGHT,
     },
     BasicArea:{
-        marginTop: HEADER_MAX_HEIGHT,
         flexDirection:'row',
         justifyContent:'flex-end',
         height:50,
@@ -134,16 +115,49 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         flexWrap:'nowrap',
     },
-    ValueContainer:{
-        flexDirection:'row',
-        justifyContent:'flex-start'
-    },
     Title:{
         fontSize:18,
         fontWeight:'bold'
     },
     profileDetail:{
         fontSize:15
+    },
+    PencilButtonCntainer:{
+        position:'absolute',
+        right:0,
+        bottom:'5%',
+    },
+    button:{
+        marginHorizontal:30,
+        backgroundColor:'rgba(0,0,0,0.30)',
+        width:40,
+        height:40,
+        borderRadius:30,
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    Detail:{
+        paddingHorizontal:3,
+        paddingVertical:10
+    },
+    animatedHeader:{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#03A9F4',
+        overflow: 'hidden',
+    },
+    image:{
+        marginTop: 28,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    ValueContainer:{
+        flexDirection:'row',
+        justifyContent:'flex-start'
     },
     ElementBox:{
         flexDirection:'row',
@@ -166,13 +180,4 @@ const styles = StyleSheet.create({
         right:0,
         bottom:'5%',
     },
-    PencilButtonCntainer:{
-        position:'absolute',
-        right:0,
-        bottom:'5%',
-    },
-    PlusButtonContainer:{
-
-    },
-
 })
