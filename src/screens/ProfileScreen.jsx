@@ -12,14 +12,17 @@ import Values from '../components/profile/Values';
 import BasicInfo from '../components/profile/BasicInfo';
 
 // Header の高さ獲得-> 画面をふれくしぶるにしていく
-const HEADER_MAX_HEIGHT = 200;
-const HEADER_MIN_HEIGHT = 60;
+const HEADER_MAX_HEIGHT = 550;
+const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default function profile(){
     //rooter to EditScreen
     const navigation = useNavigation();
     const Profile = User.profile
+
+    //animated
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.container}>
@@ -150,8 +153,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     image:{
-        marginTop: 28,
-        height: 32,
+        height: HEADER_MAX_HEIGHT,
         alignItems: 'center',
         justifyContent: 'center',
     },

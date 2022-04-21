@@ -15,6 +15,8 @@ import TalkBoard from './src/screens/TalkBoardScreen'
 import ProfileBriefEdit from './src/screens/ProfileBriefEditScreen';
 import ProfileNameEdit from './src/screens/ProfileNameEditScreen';
 
+import ScrollableHeader from './src/screens/ProfileScreen2'
+
 export default function App() {
   return (
     <NavigationContainer>
