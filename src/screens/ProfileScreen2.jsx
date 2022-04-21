@@ -108,7 +108,11 @@ class ScrollableHeader extends Component {
         outputRange: [0, -50],
         extrapolate: 'clamp',
       });
-
+    const buttonOpacity = this.state.scrollY.interpolate({
+        inputRange:[0,HEADER_SCROLL_DISTANCE/2],
+        outputRange:[10,0],
+        extrapolate: 'clamp',
+    });
     return (
       <View style={styles.fill}>
         <ScrollView
@@ -121,15 +125,18 @@ class ScrollableHeader extends Component {
           {this._renderScrollViewContent()}
         </ScrollView>
         <Animated.View style={[styles.header, {height: headerHeight}]}>
-        <Animated.Image
-            style={[
-            styles.backgroundImage,
-            {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
-            ]}
-            source={require('../IMG_6689.jpg')}
-        />
-            <View style={styles.bar}>
-            </View>
+            <Animated.Image
+                style={[
+                styles.backgroundImage,
+                {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
+                ]}
+                source={require('../IMG_6689.jpg')}
+            />
+            <Animated.View style={[styles.CameraButtonContainer, {opacity:buttonOpacity}]}>
+                <TouchableOpacity style={styles.button}>
+                    <Feather name="camera" size={25} color="white" />
+                </TouchableOpacity>
+            </Animated.View>
         </Animated.View>
       </View>
     );
