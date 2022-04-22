@@ -35,7 +35,7 @@ export default function BriefEdit(props){
                         }}
                     >
                         <View style={styles.submitButton}>
-                            <Text style={styles.submitButtonText}>送信</Text>
+                            <Text style={styles.submitButtonText}>決定</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

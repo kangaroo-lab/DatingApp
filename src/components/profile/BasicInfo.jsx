@@ -2,9 +2,10 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import userInfo from '../../data/userInfo';
+import {useNavigation} from '@react-navigation/native';
 
 export default function BasicInfo({user}){
-
+    const navigation = useNavigation();
     const [data, setData] = useState(user.profileList)
 
     for(let i=0;i<10;i++){
@@ -30,20 +31,35 @@ export default function BasicInfo({user}){
                     </View>
                 </View>
             )
+        }else if(item.call=='name'){
+            return(
+                <View style={styles.infoDataContainer}>
+                    <Text>{item.title}</Text>
+                    <View style={styles.infoDataDetail}>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                navigation.navigate('NameEdit',{user:data[item.id].container})
+                            }}
+                        >
+                            <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            )
         }else{
             return(
-            <View style={styles.infoDataContainer}>
-                <Text>{item.title}</Text>
-                <View style={styles.infoDataDetail}>
-                    <TouchableOpacity
-                        onPress={()=>{
-                            console.log(data)
-                        }}
-                    >
-                        <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
-                    </TouchableOpacity>
+                <View style={styles.infoDataContainer}>
+                    <Text>{item.title}</Text>
+                    <View style={styles.infoDataDetail}>
+                        <TouchableOpacity
+                            onPress={()=>{
+                                console.log(data)
+                            }}
+                        >
+                            <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
             )
         }
     }

@@ -19,7 +19,7 @@ import Hobbys from '../components/profile/Hobbys';
 import Values from '../components/profile/Values';
 import BasicInfo from '../components/profile/BasicInfo';
 
-const HEADER_MAX_HEIGHT = 550;
+const HEADER_MAX_HEIGHT= 550;
 const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const Profile = User.profile
@@ -42,6 +42,11 @@ class ScrollableHeader extends Component {
         const { navigation } = this.props;
         navigation.navigate('BriefEdit',{userBrief:Profile.brief});
     }
+
+    toNameEditScreen = () => {
+      const { navigation } = this.props;
+      navigation.navigate('NameEdit',{userBrief:Profile.name});
+  }
 
   _renderScrollViewContent() {
     return (

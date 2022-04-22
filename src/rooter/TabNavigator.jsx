@@ -7,9 +7,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Ionicons } from '@expo/vector-icons';
 
 import Top2 from'../screens/TopScreen2';
-import Profile from'../screens/ProfileScreen';
-import TalkList from '../screens/TalkListScreen';
-import StackNavigator from'./StackNavigator';
 import BottomTabNavigator from '../rooter/BottomTabNavigator';
 import StackProfileNavigator from'./StackProfileNavigator';
 
