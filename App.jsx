@@ -1,26 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import {NavigationContainer,useRoute} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import firebase from 'firebase'
 
-
-import BottomTabNavigator from './src/rooter/BottomTabNavigator'
-import StackNavigator from './src/rooter/StackNavigator'
-import StackOfficialNavigator from './src/rooter/StackOfficialTalkNavigator'
 import TabNavigator from './src/rooter/TabNavigator'
-import TalkBoard from './src/screens/TalkBoardScreen'
+import StackFirstNavigation from './src/rooter/StackFirstNavigation'
 
-import ProfileBriefEdit from './src/screens/ProfileBriefEditScreen';
-import ProfileNameEdit from './src/screens/ProfileNameEditScreen';
+import LogIn from './src/screens/LogInScreen'
 
-import ScrollableHeader from './src/screens/ProfileScreen2'
+const firebaseConfig = {
+  apiKey: 'AIzaSyDF-pqWojfre18GGMyzj2gpoti52KkIw_4',
+  authDomain: 'datingapp-44dca.firebaseapp.com',
+  projectId: 'datingapp-44dca',
+  storageBucket: 'datingapp-44dca.appspot.com',
+  messagingSenderId: '722316186750',
+  appId: '1:722316186750:web:c33e8a9c5c7b3206d4742f',
+};
+
+if(firebase.apps.length===0){
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <TabNavigator/>
+      <StackFirstNavigation/>
     </NavigationContainer>
   );
 };

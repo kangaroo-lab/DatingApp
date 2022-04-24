@@ -1,12 +1,8 @@
-import React, { Profiler } from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
-import { AntDesign,Entypo,Ionicons } from '@expo/vector-icons';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import TalkBoard from'../screens/TalkBoardScreen';
 import TalkList from '../screens/TalkListScreen';
-import BottomTabNavigator from './BottomTabNavigator';
-import TabNavigatior from './TabNavigator';
 
 import TalkBoardHeader from'../components/talkBoardHeader';
 

@@ -69,10 +69,11 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       justifyContent:'center',
       alignItems:'center',
+      backgroundColor:'#191970'
     },
     circleButton:{
       position:'absolute',
-      borderColor:'#6FCBFF',
+      borderColor:'#4169E1',
       borderWidth:5,
       width:179,
       height:179,

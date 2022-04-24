@@ -1,14 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component,useState} from 'react';
 import {
   Animated,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   View,
   TouchableOpacity
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';

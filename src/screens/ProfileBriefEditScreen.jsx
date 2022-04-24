@@ -21,7 +21,7 @@ export default function BriefEdit(props){
                 <View>
                     <TextInput
                      multiline={true}
-                     style={{height:'90%',backgroundColor:'#ffffff',fontSize:15,paddingVertical:5,paddingHorizontal:5}}
+                     style={{height:'90%',backgroundColor:'#ffffff',fontSize:16,paddingVertical:5,paddingHorizontal:5}}
                      onChangeText={(text)=>setBrief(text)}
                      value={brief}
                      inputAccessoryViewID={inputAccessoryViewID}

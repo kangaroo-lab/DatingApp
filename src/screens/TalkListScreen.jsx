@@ -5,7 +5,11 @@ import MessageList from '../components/TalkList';
 
 export default function TalkList(){
     return(
-    <View>
+    <View
+        style={{
+            flex:1
+        }}
+    >
         <MessageList style={styles.MessageList}/>
     </View>
     );
