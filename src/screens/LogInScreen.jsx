@@ -5,8 +5,10 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase'
 
 export default function(props){
     const navigation = useNavigation();
@@ -23,11 +25,19 @@ class LogIn extends Component{
     }
 
     toHomeScreen = () =>{
-        const {navigation}  = this.props;
-        navigation.reset({
-            index:0,
-            routes: [{name:'Home'}]
-        });
+        firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password)
+        .then((userCredential)=>{
+            const {user} = userCredential;
+            console.log(user.uid);
+            const {navigation}  = this.props;
+            navigation.reset({
+                index:0,
+                routes: [{name:'Home'}]
+            });
+        })
+        .catch((error)=>{
+            Alert.alert(error.code)
+        })
     }
     toSignInScreen = () => {
         const {navigation} = this.props;
