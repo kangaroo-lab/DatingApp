@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import LogIn from '../screens/LogInScreen';
 import SignIn from '../screens/SingInScreen';
-import TabNavigation from './TabNavigator';
+import DrawerNavigation from './DrawerNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +22,7 @@ export default function StackFirstNavigator(){
             />
             <Stack.Screen
                 name='Home'
-                component={TabNavigation}
+                component={DrawerNavigation}
                 options={{
                     headerShown:false
                 }}

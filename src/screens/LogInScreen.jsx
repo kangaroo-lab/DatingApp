@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component,useEffect} from 'react';
 import {
     StyleSheet,
     Text,
@@ -12,6 +12,19 @@ import firebase from 'firebase'
 
 export default function(props){
     const navigation = useNavigation();
+
+    useEffect(()=>{
+        const unsubscribe = firebase.auth().onAuthStateChanged((user)=>{
+            if(user){
+                navigation.reset({
+                    index:0,
+                    routes: [{name:'Home'}]
+                });
+            }
+        });
+        return unsubscribe;
+    },[]);
+
     return <LogIn {...props} navigation={navigation}/>
 }
 

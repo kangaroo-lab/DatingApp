@@ -1,9 +1,23 @@
-import React,{useEffect} from 'react';
-import {View,StyleSheet,TouchableOpacity,Text} from 'react-native';
-import Animated,{ useAnimatedStyle, useSharedValue,withSpring,interpolate,withRepeat,withTiming } from 'react-native-reanimated';
-
+import React from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import
+  Animated,{
+  useAnimatedStyle,
+  useSharedValue,
+  interpolate,
+  withRepeat,
+  withTiming
+} from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Top2(){
+  //navigation
+  const navigation = useNavigation();
   //アニメーションの定義
   const ring=useSharedValue(0);
   const style = useAnimatedStyle(()=>{
@@ -44,19 +58,30 @@ export default function Top2(){
 
   //全体の表記
   return(
-    <View>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.menuBar}>
         <TouchableOpacity
-          style={styles.circleButton}
           onPress={()=>{
-            console.log('push');
-            searching();
+            navigation.openDrawer()
           }}
         >
-          <View style={styles.circleButton}>
-          <Animated.View style={[styles.circleButton,style]}/>
-          </View>
+          <Ionicons name="md-menu" size={28} color="black" />
         </TouchableOpacity>
+      </View>
+      <View style={styles.mainContain}>
+        <View style={styles.mainContainRow}>
+          <TouchableOpacity
+            style={styles.circleButton}
+            onPress={()=>{
+              console.log('push');
+              searching();
+            }}
+          >
+            <View style={styles.circleButton}>
+              <Animated.View style={[styles.circleButton,style]}/>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
     )
@@ -64,15 +89,23 @@ export default function Top2(){
 
 const styles = StyleSheet.create({
     container:{
-      width:'100%',
-      height:'100%',
+      flex:1,
       flexDirection:'column',
       justifyContent:'center',
-      alignItems:'center',
-      backgroundColor:'#191970'
+      alignItems: 'center',
+    },
+    mainContain:{
+    },
+    mainContainRow:{
+    },
+    menuBar:{
+      position:'absolute',
+      top:0,
+      left:0,
+      marginHorizontal:50,
+      marginVertical:50,
     },
     circleButton:{
-      position:'absolute',
       borderColor:'#4169E1',
       borderWidth:5,
       width:179,

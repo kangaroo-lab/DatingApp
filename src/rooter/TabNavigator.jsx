@@ -32,15 +32,8 @@ export default function TabNavigator() {
             right: 0,
             backgroundColor: 'transparent',
            },
-           tabBarPosition:'top',
-           tabBarItemStyle:{
-             borderBottomWidth:0,
-          },
            tabBarShowIcon:false,
            tabBarShowLabel:false,
-           tabBarIcon:({color}) => <Ionicons name="ellipse" size={13}color={color} />,
-           tabBarActiveTintColor:'rgba(138,138,138,0.80)',
-           tabBarInactiveTintColor:'rgba(138,138,138,0.19)',
           }
          )}
         >
