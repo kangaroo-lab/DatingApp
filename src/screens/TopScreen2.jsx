@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Text
 } from 'react-native';
 import
   Animated,{
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
       position:'absolute',
       top:0,
       left:0,
-      marginHorizontal:50,
+      marginHorizontal:30,
       marginVertical:50,
     },
     circleButton:{

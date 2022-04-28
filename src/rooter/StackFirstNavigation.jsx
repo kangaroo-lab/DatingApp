@@ -11,6 +11,7 @@ export default function StackFirstNavigator(){
     return(
         <Stack.Navigator
             initialRouteName='LogIn'
+            id='LogIn'
         >
             <Stack.Screen
                 name='LogIn'
