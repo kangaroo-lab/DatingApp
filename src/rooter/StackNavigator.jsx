@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import TalkBoard from'../screens/TalkBoardScreen';
-import TalkList from '../screens/TalkListScreen';
+import TalkBoard from'../screens/TalkScreens/Pre/TalkBoardScreen';
+import TalkList from '../screens/TalkScreens/Pre/TalkListScreen';
 
 import TalkBoardHeader from'../components/talkBoardHeader';
 

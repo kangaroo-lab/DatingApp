@@ -3,7 +3,7 @@ import { StyleSheet,View,KeyboardAvoidingView,StatusBar } from 'react-native';
 import { Message } from 'react-native-gifted-chat';
 import {array,string} from 'prop-types'
 
-import OfficialTalkBoardGround from '../components/OfficialTalkBoardGround';
+import OfficialTalkBoardGround from '../../../components/OfficialTalkBoardGround';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;

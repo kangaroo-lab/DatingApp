@@ -11,11 +11,11 @@ import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
-import User from '../data/user';
+import User from '../../data/user';
 
-import Hobbys from '../components/profile/Hobbys';
-import Values from '../components/profile/Values';
-import BasicInfo from '../components/profile/BasicInfo';
+import Hobbys from '../../components/profile/Hobbys';
+import Values from '../../components/profile/Values';
+import BasicInfo from '../../components/profile/BasicInfo';
 
 const HEADER_MAX_HEIGHT= 550;
 const HEADER_MIN_HEIGHT = 100;
@@ -133,7 +133,7 @@ class ScrollableHeader extends Component {
                 styles.backgroundImage,
                 {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
                 ]}
-                source={require('../IMG_6689.jpg')}
+                source={Profile.photo}
             />
             <Animated.View style={[styles.CameraButtonContainer, {opacity:buttonOpacity}]}>
                 <TouchableOpacity style={styles.button}>

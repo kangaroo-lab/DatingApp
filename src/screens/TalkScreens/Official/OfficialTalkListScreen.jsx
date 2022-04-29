@@ -1,16 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity } from 'react-native';
 
-import MessageList from '../components/TalkList';
+import OfficialMessageList from '../../../components/OfficialTalkList';
 
-export default function TalkList(){
+export default function OfficialTalkList(){
     return(
-    <View
-        style={{
-            flex:1
-        }}
-    >
-        <MessageList style={styles.MessageList}/>
+    <View>
+        <OfficialMessageList style={styles.MessageList}/>
     </View>
     );
 }

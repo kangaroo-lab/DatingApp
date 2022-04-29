@@ -6,6 +6,8 @@ import StackFirstNavigation from './src/rooter/StackFirstNavigation';
 
 import {firebaseConfig} from './env';
 
+require('firebase/firestore')
+
 if(firebase.apps.length===0){
   firebase.initializeApp(firebaseConfig);
 }

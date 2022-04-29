@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView,StatusBar, Button, TouchableOpacity } from 'react-native';
 import {array} from 'prop-types'
 
-import TalkBoardGround from '../components/TalkBoardGround';
+import TalkBoardGround from '../../../components/TalkBoardGround';
 
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;

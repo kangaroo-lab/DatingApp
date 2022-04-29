@@ -1,12 +1,10 @@
-import React, { Profiler } from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import OfficialTalkBoard from'../screens/OfficialTalkBoardScreen';
-import OfficialTalkList from '../screens/OfficialTalkListScreen';
-import TalkBoardHeader from'../components/talkBoardHeader';
+import OfficialTalkBoard from'../screens/TalkScreens/Official/OfficialTalkBoardScreen';
+import OfficialTalkList from '../screens/TalkScreens/Official/OfficialTalkListScreen';
 
-import BottomTabNavigator from'../components/talkBoardHeader';
+import TalkBoardHeader from'../components/talkBoardHeader';
 
 const Stack = createNativeStackNavigator();
 

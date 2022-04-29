@@ -1,10 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { Profiler } from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image } from 'react-native';
-import { useNavigation,getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Ionicons } from '@expo/vector-icons';
 
 import Top2 from'../screens/TopScreen2';
 import BottomTabNavigator from '../rooter/BottomTabNavigator';
