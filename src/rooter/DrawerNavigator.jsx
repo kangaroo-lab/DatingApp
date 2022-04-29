@@ -45,7 +45,7 @@ export default function DrawerNavigation(){
             drawerContent={(props)=><DrawerContents {...props}/>}
         >
             <Drawer.Screen
-                name='Top'
+                name='Tab'
                 component={TabNavigator}
                 options={{
                     headerShown:false

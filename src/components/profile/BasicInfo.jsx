@@ -8,10 +8,6 @@ export default function BasicInfo({user}){
     const navigation = useNavigation();
     const [data, setData] = useState(user.profileList)
 
-    for(let i=0;i<10;i++){
-        console.log('>>>',userInfo.info[i].title)
-    }
-
     const InfoRender=({item})=>{
         if(item.list){
             return(

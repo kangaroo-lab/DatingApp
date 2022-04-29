@@ -18,7 +18,7 @@ export default function(props){
             if(user){
                 navigation.reset({
                     index:0,
-                    routes: [{name:'Top'}]
+                    routes: [{name:'Drawer'}]
                 });
             }
         });

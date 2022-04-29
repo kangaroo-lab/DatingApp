@@ -19,7 +19,7 @@ export default function Top2(){
   //navigation
   const navigation = useNavigation();
   //アニメーションの定義
-  const ring=useSharedValue(0);
+  const ring = useSharedValue(0);
   const style = useAnimatedStyle(()=>{
     return {
       opacity:0.8-ring.value,

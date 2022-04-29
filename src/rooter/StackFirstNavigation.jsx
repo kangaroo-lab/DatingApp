@@ -22,7 +22,7 @@ export default function StackFirstNavigator(){
                 component={SignIn}
             />
             <Stack.Screen
-                name='Top'
+                name='Drawer'
                 component={DrawerNavigation}
                 options={{
                     headerShown:false

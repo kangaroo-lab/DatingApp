@@ -15,9 +15,9 @@ export default function OfficialTalkBoard(props){
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
         <KeyboardAvoidingView
-        behavior='padding'
-        style={styles.TalkContainer}
-        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+            behavior='padding'
+            style={styles.TalkContainer}
+            keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
         >
             <OfficialTalkBoardGround
                 MessageHistory={data}

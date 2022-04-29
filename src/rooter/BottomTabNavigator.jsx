@@ -13,7 +13,6 @@ export default function BottomTabNavigator(){
     function getHeaderShown(route){
         const routeName = getFocusedRouteNameFromRoute(route)??'TalkList';
         if(routeName=='TalkBoard'||routeName=='OfficialTalkBoard'){
-            console.log(routeName)
             return {position:'absolute',bottom:-100};
         }else{
             return null;

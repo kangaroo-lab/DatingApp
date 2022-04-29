@@ -34,7 +34,7 @@ export default function TabNavigator() {
          )}
         >
           <Tab.Screen
-           name="Profile"
+           name="Stack"
            component={StackProfileNavigator}
           />
           <Tab.Screen

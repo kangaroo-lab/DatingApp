@@ -119,11 +119,12 @@ class ScrollableHeader extends Component {
     return (
       <View style={styles.fill}>
         <ScrollView
+          nestedScrollEnabled={true}
           style={styles.fill}
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-        [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
-        )}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
+          )}
         >
           {this._renderScrollViewContent()}
         </ScrollView>
