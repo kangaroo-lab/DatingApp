@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
 
 import User from '../../data/user';
 

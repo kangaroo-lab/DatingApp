@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import userInfo from '../../data/userInfo';
 import {useNavigation} from '@react-navigation/native';

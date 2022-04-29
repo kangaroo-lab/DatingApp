@@ -2,8 +2,7 @@ import React from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  Text
+  TouchableOpacity
 } from 'react-native';
 import
   Animated,{

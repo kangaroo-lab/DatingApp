@@ -1,6 +1,6 @@
-import React, { Profiler } from 'react';
-import { StyleSheet, Text, View, Button, Alert, TouchableOpacity } from 'react-native';
-import { AntDesign,Entypo,Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet,View,TouchableOpacity } from 'react-native';
+import { AntDesign,Entypo } from '@expo/vector-icons';
 
 export default function TalkBoardHeader(){
     return(

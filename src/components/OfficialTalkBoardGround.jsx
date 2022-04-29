@@ -1,8 +1,5 @@
 import React,{useState,useEffect} from'react';
-import { string, func, shape } from 'prop-types';
-import { StyleSheet, Text, View, Button, Alert, Image, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView,FlatList } from 'react-native';
-import {useNavigation,useIsFocused} from '@react-navigation/native'
-
+import { StyleSheet, View, Image, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import SendMessage from './sendMessage';
 import CatchMessage from './catchMessage';
 
@@ -13,7 +10,6 @@ export default function OfficialTalkBoardGround({MessageHistory,UserName}){
     const [data, setData] = useState([])
 
     useEffect(()=>{
-        console.log('reflesh')
         setData(MessageHistory)
     },[])
 
@@ -34,7 +30,6 @@ export default function OfficialTalkBoardGround({MessageHistory,UserName}){
         data.listUpdate+=1
         setData(data)
         setBodyText('')
-        return console.log(data)
     }
 
     //TalkBoardの返し

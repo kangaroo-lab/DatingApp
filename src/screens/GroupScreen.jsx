@@ -1,11 +1,7 @@
-import React,{Component} from 'react';
+import React from 'react';
 import {
-    StyleSheet,
     Text,
-    View,
-    TouchableOpacity,
-    TextInput,
-    Alert
+    View
 } from 'react-native';
 
 export default function GroupList(){

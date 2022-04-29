@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity, FlatList } from 'react-native';
-import { string, func, shape } from 'prop-types';
+import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-native';
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 
 import User from'../data/user';
@@ -20,7 +19,6 @@ export default function MessageList(){
                 let j = 0;
                 while(TestUsers[i].talk.list[j].sendBy==TestUsers[i].match.profile.name){
                     n++;
-                    console.log(n,TestUsers[i].talk.list[j].message)
                     j++;
                 }
                 UserData.push(

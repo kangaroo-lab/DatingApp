@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet,View,KeyboardAvoidingView,StatusBar } from 'react-native';
-import { Message } from 'react-native-gifted-chat';
 import {array,string} from 'prop-types'
 
 import OfficialTalkBoardGround from '../../../components/OfficialTalkBoardGround';

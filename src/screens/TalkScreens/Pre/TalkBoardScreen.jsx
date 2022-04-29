@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, KeyboardAvoidingView,StatusBar, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView,StatusBar } from 'react-native';
 import {array} from 'prop-types'
 
 import TalkBoardGround from '../../../components/TalkBoardGround';

@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Button, Alert,Image,ScrollView, TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
-import { string, func, shape } from 'prop-types';
+import { StyleSheet, Text, View, TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
+import { string } from 'prop-types';
 
 import User from '../../data/user';
 

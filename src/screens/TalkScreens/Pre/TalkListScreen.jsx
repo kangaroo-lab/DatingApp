@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Alert, Image,TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import MessageList from '../../../components/TalkList';
 

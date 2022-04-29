@@ -1,5 +1,5 @@
 import React from 'react';
-import { string, func, shape } from 'prop-types';
+import { string } from 'prop-types';
 import { StyleSheet, Text, View} from 'react-native';
 
 export default function CatchMessage(props){
