@@ -1,5 +1,6 @@
 {
   "expo": {
+    "userInterfaceStyle": "automatic",
     "name": "DatingApp",
     "slug": "DatingApp",
     "version": "1.0.0",
