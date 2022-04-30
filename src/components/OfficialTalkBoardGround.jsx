@@ -48,7 +48,7 @@ export default function OfficialTalkBoardGround({MessageHistory,UserName}){
                 <View style={styles.contentsView}>
                     <TouchableOpacity>
                         <View>
-                            <Image source={require('../camera.png')} style={styles.image}/>
+                            <Image source={require('../img/camera.png')} style={styles.image}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -71,7 +71,7 @@ export default function OfficialTalkBoardGround({MessageHistory,UserName}){
                         onPress={()=>MessageAdd(bodyText)}
                     >
                         <View style={styles.button}>
-                            <Image source={require('../submit.png')}style={styles.submit}/>
+                            <Image source={require('../img/submit.png')}style={styles.submit}/>
                         </View>
                     </TouchableOpacity>
                 </View>
