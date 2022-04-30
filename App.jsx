@@ -14,6 +14,8 @@ if(firebase.apps.length===0){
 
 import StackFirstNavigation from './src/rooter/StackFirstNavigation';
 
+import Ad from './src/screens/SignInScreens/PutAdressScreen'
+
 export default function App() {
   return (
     <NavigationContainer>

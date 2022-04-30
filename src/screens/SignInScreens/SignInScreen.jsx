@@ -31,7 +31,7 @@ class SignIn extends Component{
             const {navigation} = this.props;
             navigation.reset({
                 index:0,
-                routes: [{name:'Home'}]
+                routes: [{name:'Gender'}]
             });
         })
         .catch((error)=>{

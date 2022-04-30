@@ -9,27 +9,27 @@ import { RadioButton } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 
 export default function(props){
-    const navigation = useNavigation();
-    return <GenderScreen {...props} navigation={navigation}/>
+    const navigation = useNavigation()
+    return <PartnerGenderScreen {...props} navigation={navigation}/>
 }
 
-class GenderScreen extends Component{
+class PartnerGenderScreen extends Component{
     constructor(props){
         super(props);
         this.state = {
             gender:''
         }
     }
-    toPartnerGender = () =>{
+    toAdress = () =>{
         const {navigation} = this.props;
-        navigation.navigate('PartnerGender')
+        navigation.navigate('Adress')
     }
     render(){
         return(
             <View style={styles.fill}>
                 <View style={styles.container}>
                     <View style={styles.titleView}>
-                        <Text style={styles.title}>性別</Text>
+                        <Text style={styles.title}>お相手の性別</Text>
                     </View>
                     <View style={styles.genderComponentView}>
                         <RadioButton.Item
@@ -60,9 +60,23 @@ class GenderScreen extends Component{
                                 textAlign:'left'
                             }]}
                         />
+                        <RadioButton.Item
+                            value='マルチ'
+                            label='こだわりはない'
+                            position='leading'
+                            status={this.state.gender==='マルチ'?'checked':'unchecked' }
+                            onPress={()=>{
+                                this.setState({gender:'マルチ'})
+                            }}
+                            labelStyle={[{
+                                fontSize:25,
+                                fontWeight:'bold',
+                                textAlign:'left'
+                            }]}
+                        />
                     </View>
                     <TouchableOpacity
-                        onPress={this.toPartnerGender}
+                        onPress={this.toAdress}
                     >
                         <View style={styles.goNextButton}>
                             <Text style={styles.buttonLabel}>次へ</Text>
@@ -91,7 +105,6 @@ const styles = StyleSheet.create({
     },
     genderComponentView:{
         marginBottom:20,
-        width:150
     },
     genderChoose:{
         fontSize:25,
