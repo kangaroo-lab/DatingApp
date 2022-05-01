@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 export default function(props){
     const navigation = useNavigation();
@@ -20,10 +21,24 @@ class GenderScreen extends Component{
             gender:''
         }
     }
+
     toPartnerGender = () =>{
-        const {navigation} = this.props;
-        navigation.navigate('PartnerGender')
+        const {currentUser} = firebase.auth();
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.add({
+            gender:this.state.gender
+        })
+        .then((docRef)=>{
+            console.log('Created', docRef.id)
+            const {navigation} = this.props;
+            navigation.navigate('PartnerGender')
+        })
+        .catch((error)=>{
+            console.log('Error',error)
+        });
     }
+
     render(){
         return(
             <View style={styles.fill}>
