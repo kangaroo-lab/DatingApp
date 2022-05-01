@@ -14,7 +14,7 @@ if(firebase.apps.length===0){
 
 import StackFirstNavigation from './src/rooter/StackFirstNavigation';
 
-import Ad from './src/screens/SignInScreens/PutBirthDayScreen'
+import Ad from './src/screens/SignInScreens/RegisterScreen'
 
 export default function App() {
   return (

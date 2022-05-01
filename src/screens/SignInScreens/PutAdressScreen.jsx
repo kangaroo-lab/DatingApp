@@ -7,11 +7,13 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 import userInfo from '../../data/userInfo';
 
-export default function (){
-    return <AdressScreen/>
+export default function (props){
+    const navigation = useNavigation();
+    return <AdressScreen {...props} navigation={navigation}/>
 }
 
 class AdressScreen extends Component{
@@ -23,7 +25,10 @@ class AdressScreen extends Component{
         }
     }
 
-
+    toBirthDay=()=>{
+        const {navigation} = this.props;
+        navigation.navigate('BirthDay')
+    }
 
     _AddressBox=({item})=>{
         return(
@@ -61,8 +66,11 @@ class AdressScreen extends Component{
                         />
                     </View>
                     <View style={styles.buttonView}>
-                        <TouchableOpacity>
-                            <View style={styles.goNextButton}>
+                        <TouchableOpacity
+                            onPress={this.toBirthDay}
+                            disabled={!this.state.address}
+                        >
+                            <View style={this.state.address?styles.goNextButton:styles.goNextButtonDisabled}>
                                 <Text style={styles.buttonLabel}>次へ</Text>
                             </View>
                         </TouchableOpacity>
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
         fontSize:27
     },
     addressComponentView:{
-        height:'83%',
+        height:'80%',
         marginBottom:10
 
     },
@@ -100,8 +108,13 @@ const styles = StyleSheet.create({
     goNextButton:{
         backgroundColor:'#6FCBFF',
         borderRadius:4,
-        alignSelf:'flex-start',
+        alignSelf:'center',
         marginBottom:24,
+    },
+    goNextButtonDisabled:{
+        backgroundColor:'lightgray',
+        borderRadius:4,
+        alignSelf:'center',
     },
     buttonLabel:{
         fontSize:16,

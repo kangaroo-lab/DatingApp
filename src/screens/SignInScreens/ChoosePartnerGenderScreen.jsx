@@ -77,8 +77,9 @@ class PartnerGenderScreen extends Component{
                     </View>
                     <TouchableOpacity
                         onPress={this.toAdress}
+                        disabled={!this.state.gender}
                     >
-                        <View style={styles.goNextButton}>
+                        <View style={this.state.gender?styles.goNextButton:styles.goNextButtonDisabled}>
                             <Text style={styles.buttonLabel}>次へ</Text>
                         </View>
                     </TouchableOpacity>
@@ -116,8 +117,13 @@ const styles = StyleSheet.create({
     goNextButton:{
         backgroundColor:'#6FCBFF',
         borderRadius:4,
-        alignSelf:'flex-start',
+        alignSelf:'center',
         marginBottom:24
+    },
+    goNextButtonDisabled:{
+        backgroundColor:'lightgray',
+        borderRadius:4,
+        alignSelf:'center',
     },
     buttonLabel:{
         fontSize:16,

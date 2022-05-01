@@ -6,7 +6,10 @@ import SignIn from '../screens/SignInScreens/SignInScreen';
 import DrawerNavigation from './DrawerNavigator';
 import Gender from '../screens/SignInScreens/ChooseGenderScreen';
 import PartnerGender from '../screens/SignInScreens/ChoosePartnerGenderScreen';
-import Adress from '../screens/SignInScreens/PutAdressScreen'
+import Adress from '../screens/SignInScreens/PutAdressScreen';
+import BirthDay from '../screens/SignInScreens/PutBirthDayScreen';
+import Name from '../screens/SignInScreens/PutNameScreen';
+import Register from '../screens/SignInScreens/RegisterScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +45,18 @@ export default function StackFirstNavigator(){
             <Stack.Screen
                 name='Adress'
                 component={Adress}
+            />
+            <Stack.Screen
+                name='BirthDay'
+                component={BirthDay}
+            />
+            <Stack.Screen
+                name='Name'
+                component={Name}
+            />
+            <Stack.Screen
+                name='Register'
+                component={Register}
             />
         </Stack.Navigator>
     )
