@@ -114,7 +114,7 @@ UserA = {
         name:'けん',
         level:80,
         age:'23',
-        photo:require('../img/IMG_6689.jpg'),
+        photo:'../img/IMG_6689.jpg',
         brief:'こんちゃ！',
         hobbies:'',
         valuse:'',

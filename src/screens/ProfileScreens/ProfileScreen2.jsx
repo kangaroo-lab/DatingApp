@@ -10,6 +10,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 import User from '../../data/user';
 
@@ -29,13 +30,28 @@ export default function(props){
 
 class ScrollableHeader extends Component {
     constructor(props) {
-        super(props);
+      super(props);
+      this.state = {
+        scrollY: new Animated.Value(0),
+        image:Profile.photo,
+      };
+    }
 
-        this.state = {
-          scrollY: new Animated.Value(0),
-        };
+    pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      console.log(result);
+
+      if (!result.cancelled) {
+        this.setState({image:result.uri});
       }
-
+    };
     toBriefEditScreen = () => {
         const { navigation } = this.props;
         navigation.navigate('BriefEdit',{userBrief:Profile.brief});
@@ -134,10 +150,10 @@ class ScrollableHeader extends Component {
                 styles.backgroundImage,
                 {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
                 ]}
-                source={Profile.photo}
+                source={{uri:this.state.image}}
             />
             <Animated.View style={[styles.CameraButtonContainer, {opacity:buttonOpacity}]}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={this.pickImage}>
                     <Feather name="camera" size={25} color="white" />
                 </TouchableOpacity>
             </Animated.View>
