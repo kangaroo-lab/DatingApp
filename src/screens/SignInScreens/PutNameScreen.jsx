@@ -9,6 +9,7 @@ import {
     InputAccessoryView
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 export default function(props){
     const navigation = useNavigation()
@@ -24,10 +25,22 @@ class NameScreen extends Component{
     }
 
     toRegister=()=>{
-        const {navigation} = this.props;
-        navigation.reset({
-            index:0,
-            routes: [{name:'Register'}]
+        const {currentUser} = firebase.auth();
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.add({
+            name:this.state.name
+        })
+        .then((docRef)=>{
+            console.log('Created', docRef.id)
+            const {navigation} = this.props;
+            navigation.reset({
+                index:0,
+                routes: [{name:'Register'}]
+            })
+        })
+        .catch((error)=>{
+            console.log('Error : ',error)
         })
     }
 

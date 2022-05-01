@@ -4,12 +4,11 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Pressable,
-    TextInput,
-    Button
+    Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 export default function (props){
     const navigation = useNavigation()
@@ -20,13 +19,40 @@ class BirthDayScreen extends Component{
     constructor(props){
         super(props);
         this.state={
-            date:''
+            date:new Date(),
+            age:0
+        }
+    }
+
+    getAge=(date)=>{
+        console.log(this,props.route)
+        const today = new Date()
+        const birthday = new Date(date)
+        const thisYearBirthDay = new Date(today.getFullYear(),birthday.getMonth(),birthday.getDate())
+        const age = today.getFullYear() - birthday.getFullYear()
+        if(today < thisYearBirthDay){
+            this.setState({age:age-1})
+        }else{
+            this.setState({age:age})
         }
     }
 
     toName=()=>{
-        const {navigation} = this.props;
-        navigation.navigate('Name')
+        const {currentUser} = firebase.auth();
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.add({
+            birthday:this.state.date,
+            age:this.state.age
+        })
+        .then((docRef)=>{
+            console.log('Created', docRef.id)
+            const {navigation} = this.props;
+            navigation.navigate('Name')
+        })
+        .catch((error)=>{
+            console.log('Error : ',error)
+        })
     }
 
     render(){
@@ -57,11 +83,21 @@ class BirthDayScreen extends Component{
                                     fontSize:25
                                 }
                             }}
-                            onDateChange={(date) => {this.setState({date: date})}}
+                            onDateChange={(date) => {
+                                this.setState({date: date})
+                                this.getAge(date)
+                            }}
                         />
                     </View>
                     <TouchableOpacity
-                        onPress={this.toName}
+                        onPress={()=>{
+                            if(this.state.age<18){
+                                Alert.alert('18歳未満の方はご利用できません')
+                            }else{
+                                this.toName()
+                            }
+                        }
+                        }
                         disabled={!this.state.date}
                     >
                         <View style={this.state.date?styles.goNextButton:styles.goNextButtonDisabled}>

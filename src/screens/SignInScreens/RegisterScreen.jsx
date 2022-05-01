@@ -8,9 +8,14 @@ import {
     Alert
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
-export default function(){
-    return<GoRegisterScreen/>
+import firebase from 'firebase';
+
+export default function(props){
+    console.log(props)
+    const navigation = useNavigation();
+    return<GoRegisterScreen {...props} navigation={navigation}/>
 }
 
 class GoRegisterScreen extends Component{
@@ -22,6 +27,13 @@ class GoRegisterScreen extends Component{
         }
     }
 
+    register=()=>{
+        const {navigaiton} = this.props;
+        navigaiton.reset({
+            index:0,
+            route:{name:'Drawer'}
+        })
+    }
 
     render(){
         return(
@@ -68,6 +80,7 @@ class GoRegisterScreen extends Component{
                     </View>
                     <TouchableOpacity
                         disabled={this.state.confirmAge&&this.state.confirmAll?false:true}
+                        onPress={this.register}
                     >
                         <View style={this.state.confirmAge&&this.state.confirmAll?styles.goNextButton:styles.goNextButtonDisabled}>
                             <Text style={styles.buttonLabel}>登録する</Text>

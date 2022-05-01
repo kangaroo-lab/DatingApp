@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 import userInfo from '../../data/userInfo';
 
@@ -26,8 +27,20 @@ class AdressScreen extends Component{
     }
 
     toBirthDay=()=>{
-        const {navigation} = this.props;
-        navigation.navigate('BirthDay')
+        const {currentUser} = firebase.auth();
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.add({
+            address:this.state.address
+        })
+        .then((docRef)=>{
+            console.log('Created', docRef.id)
+            const {navigation} = this.props;
+            navigation.navigate('BirthDay')
+        })
+        .catch((error)=>{
+            console.log('Error : ',error)
+        })
     }
 
     _AddressBox=({item})=>{
