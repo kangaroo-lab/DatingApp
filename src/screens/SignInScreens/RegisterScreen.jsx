@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component,useEffect} from 'react';
 import {
     StyleSheet,
     Text,
@@ -8,12 +8,11 @@ import {
     Alert
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,StackActions, NavigationActions} from '@react-navigation/native';
 
 import firebase from 'firebase';
 
 export default function(props){
-    console.log(props)
     const navigation = useNavigation();
     return<GoRegisterScreen {...props} navigation={navigation}/>
 }
@@ -28,10 +27,22 @@ class GoRegisterScreen extends Component{
     }
 
     register=()=>{
-        const {navigaiton} = this.props;
-        navigaiton.reset({
-            index:0,
-            route:{name:'Drawer'}
+        const {currentUser} = firebase.auth();
+        const db = firebase.firestore();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
+            AgreeToAge:this.state.confirmAge,
+            AgereRules:this.state.confirmAll
+        })
+        .then(()=>{
+            const {navigation} = this.props;
+            navigation.reset({
+                index:1,
+                routes: [{name:'Start'}]
+            });
+        })
+        .catch((error)=>{
+            console.log('Error : ',error)
         })
     }
 

@@ -10,6 +10,8 @@ import Adress from '../screens/SignInScreens/PutAdressScreen';
 import BirthDay from '../screens/SignInScreens/PutBirthDayScreen';
 import Name from '../screens/SignInScreens/PutNameScreen';
 import Register from '../screens/SignInScreens/RegisterScreen'
+import Start from '../screens/Register/StartToProfileScreen'
+import PutBasicInfo from '../screens/Register/PutBasicInfoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,14 @@ export default function StackFirstNavigator(){
             <Stack.Screen
                 name='Register'
                 component={Register}
+            />
+            <Stack.Screen
+                name='Start'
+                component={Start}
+            />
+            <Stack.Screen
+                name='PutBasicInfo'
+                component={PutBasicInfo}
             />
         </Stack.Navigator>
     )

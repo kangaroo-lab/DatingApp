@@ -25,7 +25,6 @@ class BirthDayScreen extends Component{
     }
 
     getAge=(date)=>{
-        console.log(this,props.route)
         const today = new Date()
         const birthday = new Date(date)
         const thisYearBirthDay = new Date(today.getFullYear(),birthday.getMonth(),birthday.getDate())
@@ -40,15 +39,15 @@ class BirthDayScreen extends Component{
     toName=()=>{
         const {currentUser} = firebase.auth();
         const db = firebase.firestore();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-        ref.add({
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
             birthday:this.state.date,
             age:this.state.age
         })
         .then((docRef)=>{
-            console.log('Created', docRef.id)
+            console.log('Created', docRef)
             const {navigation} = this.props;
-            navigation.navigate('Name')
+            navigation.navigate('Name',{id:this.props.route.params.id})
         })
         .catch((error)=>{
             console.log('Error : ',error)

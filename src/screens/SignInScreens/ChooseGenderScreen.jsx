@@ -25,14 +25,14 @@ class GenderScreen extends Component{
     toPartnerGender = () =>{
         const {currentUser} = firebase.auth();
         const db = firebase.firestore();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc('basicInfo');
-        ref.set({
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.add({
             gender:this.state.gender
         })
         .then((docRef)=>{
-            console.log('Created', docRef)
+            console.log('Created', docRef.id)
             const {navigation} = this.props;
-            navigation.navigate('PartnerGender')
+            navigation.navigate('PartnerGender',{id:docRef.id})
         })
         .catch((error)=>{
             console.log('Error',error)

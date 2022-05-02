@@ -27,17 +27,14 @@ class NameScreen extends Component{
     toRegister=()=>{
         const {currentUser} = firebase.auth();
         const db = firebase.firestore();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-        ref.add({
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
             name:this.state.name
         })
         .then((docRef)=>{
-            console.log('Created', docRef.id)
+            console.log('Created', docRef)
             const {navigation} = this.props;
-            navigation.reset({
-                index:0,
-                routes: [{name:'Register'}]
-            })
+            navigation.navigate('Register',{id:this.props.route.params.id})
         })
         .catch((error)=>{
             console.log('Error : ',error)

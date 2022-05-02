@@ -29,14 +29,14 @@ class AdressScreen extends Component{
     toBirthDay=()=>{
         const {currentUser} = firebase.auth();
         const db = firebase.firestore();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-        ref.add({
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
             address:this.state.address
         })
         .then((docRef)=>{
-            console.log('Created', docRef.id)
+            console.log('Created', docRef)
             const {navigation} = this.props;
-            navigation.navigate('BirthDay')
+            navigation.navigate('BirthDay',{id:this.props.route.params.id})
         })
         .catch((error)=>{
             console.log('Error : ',error)
