@@ -14,12 +14,18 @@ if(firebase.apps.length===0){
 
 import StackFirstNavigation from './src/rooter/StackFirstNavigation';
 
-import Ad from './src/screens/Register/PutBasicInfoScreen'
+import PutBasicInfo from './src/screens/Register/PutBasicInfoScreen';
+import ConfirmPhoto from './src/screens/Register/ConfirmPhotoScreen';
+import HobbyCategory from './src/screens/Register/HobbyCategoryScreen';
+import HobbyDetail from './src/screens/Register/HobbyDetailScreen';
+import UploadPhoto from './src/screens/Register/UploadPhotoScreen';
+import Value from './src/screens/Register/ValueScreen'
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StackFirstNavigation/>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <StackFirstNavigation/>
+    // </NavigationContainer>
+    <HobbyDetail/>
   );
 };

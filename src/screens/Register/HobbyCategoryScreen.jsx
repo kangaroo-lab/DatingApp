@@ -4,18 +4,77 @@ import {
     Text,
     View,
     TouchableOpacity,
-    TextInput,
-    Alert
+    FlatList
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-export default function(){
-    return<HobbyCategoryScreen/>
+import data from '../../data/hobbyCategory';
+
+//データをchipsで表示できるように、改造
+function fixData(data){
+    const result=[];
+    for(let i=0;i<data.length;i+=3){
+        let newArray = data.slice(i,i+3)
+        result.push(newArray)
+    }
+    return result
 }
+
+export default function(props){
+    //const navigation = useNavigation()
+    return <HobbyCategoryScreen
+    //{...props} navigation={navigation}
+    />
+}
+
 
 class HobbyCategoryScreen extends Component{
     constructor(props){
         super(props);
+        this.state={
+            count:0,
+            data:data
+        }
     }
+
+    categoryBox=({item})=>{
+        return(
+            <TouchableOpacity
+                onPress={()=>{
+                    if(!item.status){
+                        item.status=true
+                        this.setState({count:this.state.count+1})
+                    }else{
+                        item.status=false
+                        this.setState({count:this.state.count-1})
+                    }
+                }}
+            >
+                <View style={item.status===true?styles.categoryBoxComponetOn:styles.categoryBoxComponetOff}>
+                    <Text style={styles.categoryTitle}>{item.title}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+    categoryBoxRow=({item})=>{
+        return(
+            <View>
+                <FlatList
+                    data={item}
+                    renderItem={this.categoryBox}
+                    style={styles.categoryBoxComponetsRowView}
+                />
+            </View>
+        )
+    }
+
+    handleNext=()=>{
+        console.log(this.state.data)
+        const {navigation} = this.props;
+        //navigation.navigate('HobbyDetail',{data:this.state.data})
+    }
+
     render(){
         return(
             <View style={styles.fill}>
@@ -23,12 +82,18 @@ class HobbyCategoryScreen extends Component{
                     <View style={styles.titleView}>
                         <Text style={styles.title}>趣味</Text>
                     </View>
+                    <View style={styles.categoryBoxComponetsColumnView}>
+                        <FlatList
+                            data={fixData(this.state.data)}
+                            renderItem={this.categoryBoxRow}
+                        />
+                    </View>
                     <View style={styles.buttonView}>
                         <TouchableOpacity
-                            onPress={this.toBirthDay}
-                            disabled={!this.state.address}
+                            onPress={this.handleNext}
+                            disabled={this.state.count<3?true:false}
                         >
-                            <View style={this.state.address?styles.goNextButton:styles.goNextButtonDisabled}>
+                            <View style={this.state.count<3?styles.goNextButtonDisabled:styles.goNextButton}>
                                 <Text style={styles.buttonLabel}>次へ</Text>
                             </View>
                         </TouchableOpacity>
@@ -73,6 +138,7 @@ const styles = StyleSheet.create({
         backgroundColor:'lightgray',
         borderRadius:4,
         alignSelf:'center',
+        marginBottom:24,
     },
     buttonLabel:{
         fontSize:16,
@@ -80,5 +146,37 @@ const styles = StyleSheet.create({
         color:'#ffffff',
         paddingHorizontal:32,
         paddingVertical:8,
+    },
+    categoryBoxComponetsColumnView:{
+        height:'80%',
+        marginBottom:10,
+        flexDirection:'column',
+        justifyContent:'flex-start',
+    },
+    categoryBoxComponetsRowView:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginBottom:20
+    },
+    categoryBoxComponetOff:{
+        borderWidth:1,
+        borderColor:'lightgray',
+        width:100,
+        height:100,
+        borderRadius:20,
+        flexDirection:'column',
+        justifyContent:'center',
+    },
+    categoryBoxComponetOn:{
+        borderWidth:1,
+        borderColor:'tomato',
+        width:100,
+        height:100,
+        borderRadius:20,
+        flexDirection:'column',
+        justifyContent:'center',
+    },
+    categoryTitle:{
+        textAlign:'center'
     }
 })

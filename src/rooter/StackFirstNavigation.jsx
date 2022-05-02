@@ -12,13 +12,18 @@ import Name from '../screens/SignInScreens/PutNameScreen';
 import Register from '../screens/SignInScreens/RegisterScreen'
 import Start from '../screens/Register/StartToProfileScreen'
 import PutBasicInfo from '../screens/Register/PutBasicInfoScreen';
+import ConfirmPhoto from '../screens/Register/ConfirmPhotoScreen';
+import HobbyCategory from '../screens/Register/HobbyCategoryScreen';
+import HobbyDetail from '../screens/Register/HobbyDetailScreen';
+import UploadPhoto from '../screens/Register/UploadPhotoScreen';
+import ValueScreen from '../screens/Register/ValueScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function StackFirstNavigator(){
     return(
         <Stack.Navigator
-            initialRouteName='LogIn'
+            initialRouteName='PutBasicInfo'
             id='LogIn'
         >
             <Stack.Screen
@@ -67,6 +72,26 @@ export default function StackFirstNavigator(){
             <Stack.Screen
                 name='PutBasicInfo'
                 component={PutBasicInfo}
+            />
+            <Stack.Screen
+                name='HobbyCategory'
+                component={HobbyCategory}
+            />
+            <Stack.Screen
+                name='HobbyDetail'
+                component={HobbyDetail}
+            />
+            <Stack.Screen
+                name='Value'
+                component={ValueScreen}
+            />
+            <Stack.Screen
+                name='UploadPhoto'
+                component={UploadPhoto}
+            />
+            <Stack.Screen
+                name='ConfirmPhoto'
+                component={ConfirmPhoto}
             />
         </Stack.Navigator>
     )
