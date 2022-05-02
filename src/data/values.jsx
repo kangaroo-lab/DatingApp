@@ -2,29 +2,90 @@
 
 const values = [
     {
-        title:'',
+        id:0,
+        title:'質問１',
+        status:false,
         type:[
             {
                 id:0,
-                type:''
+                type:'答え１A',
+                status:false
             },
             {
                 id:1,
-                type:''
+                type:'答え１B',
+                status:false
             }
         ]
     },
     {
-        title:'',
+        id:1,
+        title:'質問２',
+        status:false,
         type:[
             {
                 id:0,
-                type:''
+                type:'答え２A',
+                status:false
             },
             {
                 id:1,
-                type:''
+                type:'答え２B',
+                status:false
+            }
+        ]
+    },
+    {
+        id:2,
+        title:'質問3',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'答え3A',
+                status:false
+            },
+            {
+                id:1,
+                type:'答え3B',
+                status:false
+            }
+        ]
+    },
+    {
+        id:3,
+        title:'質問4',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'答え4A',
+                status:false
+            },
+            {
+                id:1,
+                type:'答え4B',
+                status:false
+            }
+        ]
+    },
+    {
+        id:4,
+        title:'質問5',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'答え5A',
+                status:false
+            },
+            {
+                id:1,
+                type:'答え5B',
+                status:false
             }
         ]
     }
 ]
+
+export default values

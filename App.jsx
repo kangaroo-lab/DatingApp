@@ -19,13 +19,14 @@ import ConfirmPhoto from './src/screens/Register/ConfirmPhotoScreen';
 import HobbyCategory from './src/screens/Register/HobbyCategoryScreen';
 import HobbyDetail from './src/screens/Register/HobbyDetailScreen';
 import UploadPhoto from './src/screens/Register/UploadPhotoScreen';
-import Value from './src/screens/Register/ValueScreen'
+import Value from './src/screens/Register/ValueScreen';
+import BeforeValue from './src/screens/Register/BeforeValue';
 
 export default function App() {
   return (
     // <NavigationContainer>
     //   <StackFirstNavigation/>
     // </NavigationContainer>
-    <HobbyDetail/>
+    <UploadPhoto/>
   );
 };
