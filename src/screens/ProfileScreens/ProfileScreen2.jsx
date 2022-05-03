@@ -52,6 +52,7 @@ class ScrollableHeader extends Component {
         this.setState({image:result.uri});
       }
     };
+
     toBriefEditScreen = () => {
         const { navigation } = this.props;
         navigation.navigate('BriefEdit',{userBrief:Profile.brief});

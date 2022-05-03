@@ -6,76 +6,85 @@ const data = [
     {
      id: 0 ,
      title:" 料理・グルメ ",
-     status:true,
+     status:false,
      list:eat
     },
 
     {
      id: 1 ,
      title:" お酒 ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 2 ,
      title:" 音楽 ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 3 ,
      title:" 旅行 ",
-     status:true,
+     status:false,
      list:trip
     },
 
     {
      id: 4 ,
      title:" 漫画・アニメ ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 5 ,
      title:" スポーツ ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 6 ,
      title:" 映画 ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 7 ,
      title:" ゲーム ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 8 ,
      title:" レジャー・スポット ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 9 ,
      title:" アウトドア ",
-     status:true,
+     status:false,
      list:outDoor
     },
 
     {
      id: 10 ,
      title:" アート ",
-     status:false
+     status:false,
+     list:[]
     },
 
     {
      id: 11 ,
      title:" ファッション・美容 ",
-     status:false
+     status:false,
+     list:[]
     }
  ]
 

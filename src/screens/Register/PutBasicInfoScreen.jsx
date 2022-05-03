@@ -7,13 +7,15 @@ import {
     FlatList
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import {useNavigation} from '@react-navigation/native';
 
 import firebase from 'firebase';
 
 import userInfo from '../../data/userInfo';
 
-export default function(){
-    return <PutBasicInfo/>
+export default function(props){
+    const navigation = useNavigation()
+    return <PutBasicInfo {...props} navigation={navigation}/>
 }
 
 class PutBasicInfo extends Component{
@@ -34,14 +36,15 @@ class PutBasicInfo extends Component{
     }
 
     handleNext=()=>{
-        console.log('da')
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`)
+        let DocId;
         db.collection(`users/${currentUser.uid}/userInfo`).get()
         .then((querySnapshot)=>{
             querySnapshot.forEach((doc)=>{
                 console.log(`${doc.id}`);
+                DocId=`${doc.id}`
                 ref.doc(`${doc.id}`).update({
                     height:this.state.height,
                     bodyShape:this.state.bodyShape,
@@ -58,7 +61,7 @@ class PutBasicInfo extends Component{
                 })
             });
             const {navigation} = this.props;
-            navigation.navigate('BirthDay',{id:this.props.route.params.id})
+            navigation.navigate('HobbyCategory',{id:DocId})
         })
     }
 

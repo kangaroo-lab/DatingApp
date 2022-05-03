@@ -12,6 +12,9 @@ import {useNavigation,StackActions, NavigationActions} from '@react-navigation/n
 
 import firebase from 'firebase';
 
+import hobby from '../../data/hobbyCategory';
+import value from '../../data/values';
+
 export default function(props){
     const navigation = useNavigation();
     return<GoRegisterScreen {...props} navigation={navigation}/>
@@ -32,7 +35,9 @@ class GoRegisterScreen extends Component{
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
         ref.update({
             AgreeToAge:this.state.confirmAge,
-            AgereRules:this.state.confirmAll
+            AgereRules:this.state.confirmAll,
+            hobby:hobby,
+            value:value
         })
         .then(()=>{
             const {navigation} = this.props;

@@ -5,11 +5,13 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import data from '../../data/values';
 
-export default function(){
-    return <ValueScreen/>
+export default function(props){
+    const navigation = useNavigation()
+    return <ValueScreen {...props} navigation={navigation}/>
 }
 
 class ValueScreen extends Component{
@@ -19,6 +21,11 @@ class ValueScreen extends Component{
             data:data,
             count:0
         }
+    }
+
+    handleNext=()=>{
+        const {navigation} = this.props;
+        navigation.navigate('UploadPhoto')
     }
 
     render(){
@@ -62,7 +69,9 @@ class ValueScreen extends Component{
         }else{
             return(
                 <View style={styles.fill}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.handleNext}
+                    >
                         <View style={styles.inner}>
                             <View style={styles.titleClearView}>
                                 <Text style={styles.title}>ありがとうございました！</Text>

@@ -9,11 +9,14 @@ import {
     FlatList
 } from 'react-native';
 import { Chip } from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
 
-export default function(){
-    return <HobbyDetailScreen/>
+export default function(props){
+    const navigation = useNavigation()
+    return <HobbyDetailScreen {...props} navigation = {navigation}/>
 }
 
 //データをchipsで表示できるように、改造
@@ -35,32 +38,20 @@ function fixData(data){
     return result
 }
 
-function getData(data){
-    const result = []
-    let j=0
-    for(let i=0;i<data.length;i+=1){
-        if(data[i].status){
-            result.push(data[i])
-            const newData=fixData(data[i].list)
-            result[j].list=(newData)
-            j+=1
-        }else{
-            console.log('false')
-        }
-    }
-    console.log('===================\nTHE RESULT',result,'\n===================\n')
-    return result
-}
-
 class HobbyDetailScreen extends Component{
     constructor(props){
         super(props);
         this.state={
             count:0,
-            data:getData(data)
+            data:this.props.route.params.data,
         }
     }
 
+    handleNext=()=>{
+        console.log(this.state.data)
+        const {navigation} = this.props;
+        navigation.navigate('Value')
+    }
 
     hobbyDetailChips=({item})=>{
         return(
@@ -96,18 +87,19 @@ class HobbyDetailScreen extends Component{
     }
 
     hobbyDetailChipsComponentsView=({item})=>{
-        return(
-            <View>
-                <View style={styles.hobbyDetailChipsTitleView}>
-                    <Text style={styles.hobbyDetailChipsTitle}>{item.title}</Text>
+        if(item.status){
+            return(
+                <View>
+                    <View style={styles.hobbyDetailChipsTitleView}>
+                        <Text style={styles.hobbyDetailChipsTitle}>{item.title}</Text>
+                    </View>
+                    <FlatList
+                        data={fixData(item.list)}
+                        renderItem={this.hobbyDetailChipsColumnView}
+                        style={{justifyContent:'flex-start',flexDirection:'column'}}
+                    />
                 </View>
-                <FlatList
-                    data={item.list}
-                    renderItem={this.hobbyDetailChipsColumnView}
-                    style={{justifyContent:'flex-start',flexDirection:'column'}}
-                />
-            </View>
-        )
+            )}
     }
 
     render(){
@@ -124,7 +116,7 @@ class HobbyDetailScreen extends Component{
                     />
                     <View style={styles.buttonView}>
                         <TouchableOpacity
-                            onPress={this.toBirthDay}
+                            onPress={this.handleNext}
                             disabled={this.state.count<10?true:false}
                         >
                             <View style={this.state.count>=10?styles.goNextButton:styles.goNextButtonDisabled}>

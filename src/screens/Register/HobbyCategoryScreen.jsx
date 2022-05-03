@@ -7,6 +7,7 @@ import {
     FlatList
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
 
@@ -20,13 +21,13 @@ function fixData(data){
     return result
 }
 
+
 export default function(props){
-    //const navigation = useNavigation()
+    const navigation = useNavigation()
     return <HobbyCategoryScreen
-    //{...props} navigation={navigation}
+    {...props} navigation={navigation}
     />
 }
-
 
 class HobbyCategoryScreen extends Component{
     constructor(props){
@@ -44,6 +45,7 @@ class HobbyCategoryScreen extends Component{
                     if(!item.status){
                         item.status=true
                         this.setState({count:this.state.count+1})
+                        console.log(this.props.route.params.id)
                     }else{
                         item.status=false
                         this.setState({count:this.state.count-1})
@@ -71,8 +73,10 @@ class HobbyCategoryScreen extends Component{
 
     handleNext=()=>{
         console.log(this.state.data)
+        console.log(this.state.count)
+        this.setState({count:this.state.count+1})
         const {navigation} = this.props;
-        //navigation.navigate('HobbyDetail',{data:this.state.data})
+        navigation.navigate('HobbyDetail',{data:this.state.data,id:this.props.route.params.id})
     }
 
     render(){
@@ -91,7 +95,7 @@ class HobbyCategoryScreen extends Component{
                     <View style={styles.buttonView}>
                         <TouchableOpacity
                             onPress={this.handleNext}
-                            disabled={this.state.count<3?true:false}
+                            //disabled={this.state.count<3?true:false}
                         >
                             <View style={this.state.count<3?styles.goNextButtonDisabled:styles.goNextButton}>
                                 <Text style={styles.buttonLabel}>次へ</Text>
