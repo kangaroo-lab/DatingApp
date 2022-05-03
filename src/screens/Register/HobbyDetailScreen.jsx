@@ -51,7 +51,8 @@ class HobbyDetailScreen extends Component{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`)
-        ref.doc(this.props.route.params.id).collection(`hobby`).add({
+        ref.doc(this.props.route.params.id).collection(`hobby`)
+        .add({
             hobby:this.state.data
         })
         .then(()=>{

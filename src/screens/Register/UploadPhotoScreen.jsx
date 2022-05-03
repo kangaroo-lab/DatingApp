@@ -57,6 +57,12 @@ class UploadPhotoScreen extends Component{
 
     onAddImagePress = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if(this.state.photoAdd==true){
+            console.log('true')
+        }else{
+            console.log('false',this.state)
+            this.setState({photoAdd:true})
+        }
         if(this.state.count<1){
             if(status==='granted'){
                 // No permissions request is necessary for launching the image library
@@ -74,8 +80,10 @@ class UploadPhotoScreen extends Component{
                             compress: 0.4,
                         },
                     );
-                    console.log(manipulatorResult.uri)
-                    this.setState({photo: manipulatorResult.uri, imgUrl: manipulatorResult.uri, photoAdd:true})
+                    if(this.state.photoAdd){
+                        console.log(manipulatorResult.uri)
+                    }
+                    this.setState({photo: manipulatorResult.uri, imgUrl: manipulatorResult.uri})
                 }
             }
         }else{
@@ -164,7 +172,7 @@ class UploadPhotoScreen extends Component{
                             <TouchableOpacity
                                 onPress={()=>
                                     console.log(this.state.photo),
-                                    this.setState({photoAdd:false,count:this.state.count+1})
+                                    this.setState({photoAdd:false,count:this.state.countIdx+1})
                                 }
                             >
                                 <View style={[styles.goNextButton,{marginVertical:15}]}>
@@ -175,8 +183,7 @@ class UploadPhotoScreen extends Component{
                     </View>
                 </View>
             )
-        }
-        else{
+        }else{
             return(
                 <View style={styles.fill}>
                     <View style={styles.inner}>

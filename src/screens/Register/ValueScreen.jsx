@@ -28,7 +28,8 @@ class ValueScreen extends Component{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
-        ref.collection(`value`).add({
+        ref.collection(`value`)
+        .add({
             value:this.state.data
         })
         .then(()=>{

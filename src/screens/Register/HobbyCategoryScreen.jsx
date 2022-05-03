@@ -30,6 +30,10 @@ function fixData(data){
 class HobbyCategoryScreen extends Component{
     constructor(props){
         super(props);
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id).collection('hobby');
+
         this.state={
             count:0,
             data:data
