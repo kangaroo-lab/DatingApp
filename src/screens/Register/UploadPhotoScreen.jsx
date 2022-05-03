@@ -13,7 +13,6 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
-
 export default function(props){
     const navigation=useNavigation()
     return <UploadPhotoScreen {...props} navigation={navigation}/>
@@ -40,7 +39,7 @@ class UploadPhotoScreen extends Component{
         await this.uploadPostImg();
         console.log(await this.state)
         const { imgUrl, phrase, postIndex } = await this.state;
-        console.log(imgUrl,phrase,postIndex)
+        console.log('なんか知らんけど追加してるやつな\nURL',imgUrl,'\nPHRASE',phrase,"\nPOSTINDEX",postIndex)
         this.setState(
             {
                 addedPost:[
@@ -51,15 +50,13 @@ class UploadPhotoScreen extends Component{
                     },
                 ],
             },
-            ()=>this.updateAddedPostState(),
-            this.props.togglePostModal(),
         )
+        this.uploadPost(this.state.imgUrl,this.state.phrase,this.state.postIndex)
     }
 
 
     onAddImagePress = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        console.log(this.state.count)
         if(this.state.count<1){
             if(status==='granted'){
                 // No permissions request is necessary for launching the image library
@@ -84,13 +81,12 @@ class UploadPhotoScreen extends Component{
         }else{
             console.log('clear')
             this.onPressAdd()
-            this.uploadPost(this.state.imgUrl,this.state.phrase)
-            const {navigation} = this.props;
-            navigation.navigate('Drawer')
         }
     };
 
     uploadPostImg = async () => {
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
         const metadata = {
             contentType: 'image/jpeg',
         };
@@ -99,20 +95,22 @@ class UploadPhotoScreen extends Component{
         const imgURI = this.state.imgUrl;
         const response = await fetch(imgURI);
         const blob = await response.blob();
-        const uploadRef = storage.ref('images').child(`${postIndex}`);
+        const uploadRef = storage.ref(`users/${currentUser.uid}/images`).child(`${postIndex}`);
 
-        await uploadRef.put(blob, metadata).catch(()=>{
+        await uploadRef.put(blob, metadata).catch((e)=>{
+            console.log(e.message)
             alert('画像の保存に失敗しました')
         });
         await uploadRef
             .getDownloadURL()
-            .then(url=>{
+            .then((url)=>{
                 this.setState({
                     imgUrl: url,
                     postIndex,
                 })
             })
             .catch(()=>{
+                console.error();
                 alert('失敗しましたああああ');
             })
     }
@@ -124,16 +122,15 @@ class UploadPhotoScreen extends Component{
         ref.update({
              url,
              phrase,
+             postIndex
          })
-        //const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-        // ref.add({
-        //     url,
-        //     phrase
-        // })
-    }
-
-    updateAddedPostState(){
-        this.props.updateAddedPostState(this.state.addedPost);
+         .then(()=>{
+            const {navigation} = this.props;
+            navigation.navigate('Drawer')
+         })
+         .catch((e)=>{
+             alert(e)
+         })
     }
 
     render(){

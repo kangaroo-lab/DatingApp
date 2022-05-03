@@ -64,16 +64,19 @@ class SignIn extends Component{
                             placeholder='email'
                             style={styles.input}
                             onChangeText={this.handleEmail}
+                            keyboardType='email-address'
+                            autoCapitalize={false}
                         />
                         <TextInput
                             placeholder='password'
                             style={styles.input}
                             onChangeText={this.handlePassword}
+                            secureTextEntry={true}
                         />
                     </View>
                     <TouchableOpacity
                         onPress={this.toHomeScreen}
-                        disabled={this.state.email&&this.state.password?true:false}
+                        disabled={this.state.email&&this.state.password?false:true}
                     >
                         <View style={styles.buttobContainer}>
                             <Text style={styles.buttonLabels}>送信</Text>
