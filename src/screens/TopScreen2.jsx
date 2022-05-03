@@ -14,23 +14,9 @@ import
 } from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
+import firebase from 'firebase';
 
 export default function Top2(){
-  //navigation
-  const navigation = useNavigation();
-  //アニメーションの定義
-  const ring = useSharedValue(0);
-  const style = useAnimatedStyle(()=>{
-    return {
-      opacity:0.8-ring.value,
-      transform:[
-        {
-          scale: interpolate(ring.value, [0, 1], [0, 4]),
-        },
-      ]
-    };
-  })
-
   //検索の動作を決めるbool変数
   let flag=0;
 
@@ -46,7 +32,7 @@ export default function Top2(){
           -1,
           false
         );
-      return console.log("in ",ring.value);
+      return console.log('');
     }
     //Searchingアニメーションの終了＋検索のストップ
     else{
@@ -55,6 +41,21 @@ export default function Top2(){
       return console.log('out ',ring.value);
     }
     };
+
+  //navigation
+  const navigation = useNavigation();
+  //アニメーションの定義
+  const ring = useSharedValue(0);
+  const style = useAnimatedStyle(()=>{
+    return {
+      opacity:0.8-ring.value,
+      transform:[
+        {
+          scale: interpolate(ring.value, [0, 1], [0, 4]),
+        },
+      ]
+    };
+  })
 
   //全体の表記
   return(

@@ -48,9 +48,19 @@ class HobbyDetailScreen extends Component{
     }
 
     handleNext=()=>{
-        console.log(this.state.data)
-        const {navigation} = this.props;
-        navigation.navigate('Value')
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`)
+        ref.doc(this.props.route.params.id).collection(`hobby`).add({
+            hobby:this.state.data
+        })
+        .then(()=>{
+            const {navigation} = this.props;
+            navigation.navigate('Value',{id:this.props.route.params.id})
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
     }
 
     hobbyDetailChips=({item})=>{

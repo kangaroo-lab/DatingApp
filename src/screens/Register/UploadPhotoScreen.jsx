@@ -4,10 +4,15 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image
+    Image,
+    Alert
 } from 'react-native';
+import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
+
 
 export default function(props){
     const navigation=useNavigation()
@@ -24,32 +29,112 @@ class UploadPhotoScreen extends Component{
             buttonText:[
                 '写真をアップロード',
                 '決定'
-            ]
+            ],
+            imgUrl: '',
+            phrase: '',
+            addedPost: [],
         }
     }
 
-    pickImage = async () => {
+    async onPressAdd(){
+        await this.uploadPostImg();
+        console.log(await this.state)
+        const { imgUrl, phrase, postIndex } = await this.state;
+        console.log(imgUrl,phrase,postIndex)
+        this.setState(
+            {
+                addedPost:[
+                    {
+                        imgUrl,
+                        phrase,
+                        postIndex,
+                    },
+                ],
+            },
+            ()=>this.updateAddedPostState(),
+            this.props.togglePostModal(),
+        )
+    }
+
+
+    onAddImagePress = async () => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        console.log(this.state.count)
         if(this.state.count<1){
-            this.setState({photoAdd:true})
-            // No permissions request is necessary for launching the image library
-            let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-            });
-
-            console.log(result);
-
-            if (!result.cancelled) {
-            this.setState({photo:result.uri});
+            if(status==='granted'){
+                // No permissions request is necessary for launching the image library
+                let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                });
+                if (!result.cancelled) {
+                    const actions = []
+                    actions.push({ resize:{ width:350 } })
+                    const manipulatorResult = await ImageManipulator.manipulateAsync(
+                        result.uri,
+                        actions,
+                        {
+                            compress: 0.4,
+                        },
+                    );
+                    console.log(manipulatorResult.uri)
+                    this.setState({photo: manipulatorResult.uri, imgUrl: manipulatorResult.uri, photoAdd:true})
+                }
             }
         }else{
             console.log('clear')
+            this.onPressAdd()
+            this.uploadPost(this.state.imgUrl,this.state.phrase)
             const {navigation} = this.props;
             navigation.navigate('Drawer')
         }
     };
+
+    uploadPostImg = async () => {
+        const metadata = {
+            contentType: 'image/jpeg',
+        };
+        const postIndex = Date.now().toString();
+        const storage = firebase.storage();
+        const imgURI = this.state.imgUrl;
+        const response = await fetch(imgURI);
+        const blob = await response.blob();
+        const uploadRef = storage.ref('images').child(`${postIndex}`);
+
+        await uploadRef.put(blob, metadata).catch(()=>{
+            alert('画像の保存に失敗しました')
+        });
+        await uploadRef
+            .getDownloadURL()
+            .then(url=>{
+                this.setState({
+                    imgUrl: url,
+                    postIndex,
+                })
+            })
+            .catch(()=>{
+                alert('失敗しましたああああ');
+            })
+    }
+
+    uploadPost(url, phrase, postIndex) {
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
+             url,
+             phrase,
+         })
+        //const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        // ref.add({
+        //     url,
+        //     phrase
+        // })
+    }
+
+    updateAddedPostState(){
+        this.props.updateAddedPostState(this.state.addedPost);
+    }
 
     render(){
         if(this.state.photoAdd){
@@ -57,7 +142,7 @@ class UploadPhotoScreen extends Component{
                 <View style={styles.fill}>
                     <View style={styles.inner}>
                         <View style={styles.titleView}>
-                            <Text style={styles.title}>写真の追加</Text>
+                            <Text style={styles.title}>写真の選択</Text>
                         </View>
                         <View style={styles.photoUploadComponentView}>
                             <TouchableOpacity>
@@ -65,7 +150,7 @@ class UploadPhotoScreen extends Component{
                                     <View style={styles.photoUploadView}>
                                         <Image
                                             style={styles.photo}
-                                            source={this.state.photo?{uri:this.state.photo}:require('../../img/face_img.png')}
+                                            source={this.state.photo?{uri:this.state.imgUrl}:require('../../img/face_img.png')}
                                         />
                                     </View>
                                 </View>
@@ -73,14 +158,17 @@ class UploadPhotoScreen extends Component{
                         </View>
                         <View style={styles.twoButtonView}>
                             <TouchableOpacity
-                                onPress={this.pickImage}
+                                onPress={this.onAddImagePress}
                             >
                                 <View style={[styles.goNextButton,{marginVertical:15}]}>
                                     <Text style={styles.buttonLabel}>変更する</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={()=>this.setState({photoAdd:false,count:this.state.count+1})}
+                                onPress={()=>
+                                    console.log(this.state.photo),
+                                    this.setState({photoAdd:false,count:this.state.count+1})
+                                }
                             >
                                 <View style={[styles.goNextButton,{marginVertical:15}]}>
                                     <Text style={styles.buttonLabel}>確定する</Text>
@@ -99,7 +187,9 @@ class UploadPhotoScreen extends Component{
                             <Text style={styles.title}>写真の追加</Text>
                         </View>
                         <View style={styles.photoUploadComponentView}>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={this.onAddImagePress}
+                            >
                                 <View style={styles.photoUploadComponent}>
                                     <View style={styles.photoUploadView}>
                                         <Image
@@ -110,7 +200,7 @@ class UploadPhotoScreen extends Component{
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={this.pickImage}
+                                onPress={this.onAddImagePress}
                             >
                                 <View style={[styles.goNextButton,{marginVertical:15}]}>
                                     <Text style={styles.buttonLabel}>{this.state.buttonText[this.state.count]}</Text>
@@ -140,7 +230,7 @@ const styles = StyleSheet.create({
         fontSize:27
     },
     photoUploadComponentView:{
-        height:'80%',
+        height:'70%',
         marginBottom:10,
         flexDirection:'column',
         justifyContent:'center'
@@ -166,9 +256,8 @@ const styles = StyleSheet.create({
     },
     photoConfirmComponentView:{
         marginBottom:10,
-        height:'80%',
+        height:'70%',
         width:'80%',
-        backgroundColor:'tomato',
     },
     twoButtonView:{
         justifyContent:'space-around',

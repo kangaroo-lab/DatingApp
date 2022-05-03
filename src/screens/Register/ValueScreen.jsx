@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase';
 
 import data from '../../data/values';
 
@@ -24,8 +25,19 @@ class ValueScreen extends Component{
     }
 
     handleNext=()=>{
-        const {navigation} = this.props;
-        navigation.navigate('UploadPhoto')
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.collection(`value`).add({
+            value:this.state.data
+        })
+        .then(()=>{
+            const {navigation} = this.props;
+            navigation.navigate('UploadPhoto',{id:this.props.route.params.id})
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
     }
 
     render(){

@@ -36,8 +36,6 @@ class GoRegisterScreen extends Component{
         ref.update({
             AgreeToAge:this.state.confirmAge,
             AgereRules:this.state.confirmAll,
-            hobby:hobby,
-            value:value
         })
         .then(()=>{
             const {navigation} = this.props;

@@ -73,7 +73,7 @@ class SignIn extends Component{
                     </View>
                     <TouchableOpacity
                         onPress={this.toHomeScreen}
-                        disabled={this.state.email&&this.state.password?false:true}
+                        disabled={this.state.email&&this.state.password?true:false}
                     >
                         <View style={styles.buttobContainer}>
                             <Text style={styles.buttonLabels}>送信</Text>

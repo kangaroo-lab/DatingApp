@@ -11,6 +11,11 @@ import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
 
+export default function(props){
+    const navigation = useNavigation()
+    return <HobbyCategoryScreen {...props} navigation={navigation}/>
+}
+
 //データをchipsで表示できるように、改造
 function fixData(data){
     const result=[];
@@ -21,13 +26,6 @@ function fixData(data){
     return result
 }
 
-
-export default function(props){
-    const navigation = useNavigation()
-    return <HobbyCategoryScreen
-    {...props} navigation={navigation}
-    />
-}
 
 class HobbyCategoryScreen extends Component{
     constructor(props){
