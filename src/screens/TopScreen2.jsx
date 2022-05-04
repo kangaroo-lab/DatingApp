@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -17,6 +17,43 @@ import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 export default function Top2(){
+  const [data, setData] = useState([])
+  const [hobby, setHobby] = useState([])
+
+  useEffect(()=>{
+    const userInfo = []
+    const hobbyInfo = []
+    const db = firebase.firestore();
+    const {currentUser} = firebase.auth();
+    const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+    let unsubscribe =  ref.onSnapshot((snapShot)=>{
+      snapShot.forEach((doc)=>{
+        const data = doc.data()
+        userInfo.push({
+          id: doc.id,
+          name: data.name
+        });
+        ref.doc(`${doc.id}`).collection('hobby')
+          .onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+              const hData = doc.data().hobby
+              for(let i = 0; i<hData.length; i++){
+                if(hData[i].status){
+                  hobbyInfo.push({
+                    title:hData[i].title,
+                    list:hData[i].list
+                  })
+                };
+              };
+            })
+            setHobby(hobbyInfo)
+          })
+      })
+      setData(userInfo)
+    });
+    return unsubscribe
+  },[])
+
   //検索の動作を決めるbool変数
   let flag=0;
 
@@ -32,7 +69,7 @@ export default function Top2(){
           -1,
           false
         );
-      return console.log('');
+      return console.log('CATCH DATA IS ',data,hobby);
     }
     //Searchingアニメーションの終了＋検索のストップ
     else{

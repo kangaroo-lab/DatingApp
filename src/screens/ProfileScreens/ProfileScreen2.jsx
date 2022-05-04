@@ -12,6 +12,8 @@ import { Entypo } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
+import firebase from 'firebase';
+
 import User from '../../data/user';
 
 import Hobbys from '../../components/profile/Hobbys';
@@ -23,6 +25,16 @@ const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const Profile = User.profile
 
+function getTrueData(data){
+  const result = []
+  for(let i=0;i<data.length; i++){
+    if(data[i].status){
+      result.push(data[i])
+    }
+  }
+  return result
+}
+
 export default function(props){
     const navigation = useNavigation();
     return <ScrollableHeader {...props} navigation={navigation}/>
@@ -33,8 +45,56 @@ class ScrollableHeader extends Component {
       super(props);
       this.state = {
         scrollY: new Animated.Value(0),
-        image:Profile.photo,
+        brief:'',
+        hobby:[],
+        value:[],
+        basicInfo:[]
       };
+      const data4basic=[];
+      const data4hobby=[];
+      const data4value=[];
+      const db = firebase.firestore();
+      const {currentUser} = firebase.auth();
+      const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+      // firebaseからデータを取得、加工
+      ref.onSnapshot((snapShot)=>{
+        snapShot.forEach((doc)=>{
+          const data = doc.data()
+          data4basic.push({
+            id:doc.id,
+            data:data
+          });
+          ref.doc(doc.id).collection('hobby')
+            .onSnapshot((snapShot)=>{
+              snapShot.forEach((doc)=>{
+                const hobbyData = doc.data().hobby
+                hobbyData.forEach((elem)=>{
+                  if(elem.status){
+                    data4hobby.push({
+                      data:elem
+                    });
+                  }
+                });
+              });
+              this.setState({hobby:data4hobby});
+            });
+          ref.doc(doc.id).collection('value')
+            .onSnapshot((snapShot)=>{
+              snapShot.forEach((doc)=>{
+                const valueData = doc.data().value
+                valueData.forEach((elem)=>{
+                  if(elem.status){
+                    data4value.push({
+                      data:elem
+                    });
+                  }
+                });
+              });
+              this.setState({value:data4value});
+            });
+        });
+        this.setState({basicInfo:data4basic});
+      });
     }
 
     pickImage = async () => {
@@ -68,7 +128,7 @@ class ScrollableHeader extends Component {
     <View style={styles.scrollViewContent}>
         <View style={styles.scrollViewContents}>
             <View style={styles.BasicArea}>
-                <Text style={styles.name}>{Profile.name}</Text>
+                <Text style={styles.name}>{this.state.basicInfo.name}</Text>
                 <Text style={styles.age}>({Profile.age})</Text>
             </View>
             <View style={styles.introduction}>

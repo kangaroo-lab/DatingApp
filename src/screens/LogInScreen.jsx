@@ -77,11 +77,14 @@ class LogIn extends Component{
                             placeholder='email'
                             style={styles.input}
                             onChangeText={this.handleEmail}
+                            keyboardType='email-address'
+                            autoCapitalize={false}
                         />
                         <TextInput
                             placeholder='password'
                             style={styles.input}
                             onChangeText={this.handlePassWord}
+                            secureTextEntry={true}
                         />
                     </View>
                     <TouchableOpacity

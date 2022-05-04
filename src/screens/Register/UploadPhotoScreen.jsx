@@ -63,7 +63,7 @@ class UploadPhotoScreen extends Component{
             console.log('false',this.state)
             this.setState({photoAdd:true})
         }
-        if(this.state.count<1){
+        if(this.state.count<=1){
             if(status==='granted'){
                 // No permissions request is necessary for launching the image library
                 let result = await ImagePicker.launchImageLibraryAsync({
@@ -172,7 +172,7 @@ class UploadPhotoScreen extends Component{
                             <TouchableOpacity
                                 onPress={()=>
                                     console.log(this.state.photo),
-                                    this.setState({photoAdd:false,count:this.state.countIdx+1})
+                                    this.setState({photoAdd:false,count:this.state.count+1})
                                 }
                             >
                                 <View style={[styles.goNextButton,{marginVertical:15}]}>
