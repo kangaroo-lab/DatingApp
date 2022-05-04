@@ -31,7 +31,10 @@ class AdressScreen extends Component{
         const db = firebase.firestore();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
         ref.update({
-            address:this.state.address
+            address:{
+                title:'address',
+                value:this.state.address
+            }
         })
         .then((docRef)=>{
             console.log('Created', docRef)

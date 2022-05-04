@@ -41,8 +41,14 @@ class BirthDayScreen extends Component{
         const db = firebase.firestore();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
         ref.update({
-            birthday:this.state.date,
-            age:this.state.age
+            age:{
+                title:'age',
+                value:this.state.age
+            },
+            birthday:{
+                title:'birthday',
+                value:this.state.date
+            }
         })
         .then((docRef)=>{
             console.log('Created', docRef)

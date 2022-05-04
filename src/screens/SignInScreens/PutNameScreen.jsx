@@ -29,7 +29,10 @@ class NameScreen extends Component{
         const db = firebase.firestore();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
         ref.update({
-            name:this.state.name
+            name:{
+                title:'name',
+                value:this.state.name
+            }
         })
         .then((docRef)=>{
             console.log('Created', docRef)

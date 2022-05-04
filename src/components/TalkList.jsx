@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-native';
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 
@@ -7,12 +7,13 @@ import User from'../data/user';
 export default function MessageList(){
     //routeの設定
     const navigation = useNavigation();
+    const [count, setCount] = useState(0);
 
     //画面の再レンダリングのbool
     const isFocused = useIsFocused();
     // Listのデータを獲得する関数
     function makeTalkList(TestUsers){
-        let UserData = [];
+        const UserData = [];
         for(let i=0; i<TestUsers.length; i++){
             if(TestUsers[i].level=='pre'){
                 let n = 0;
@@ -21,8 +22,9 @@ export default function MessageList(){
                     n++;
                     j++;
                 }
-                UserData.push(
-                    {id:UserData.length-1,
+                UserData.push({
+
+                    id:count,
                     userName:User.profile.name,
                     name:TestUsers[i].match.profile.name,
                     message:TestUsers[i].talk.list[0].message ,
@@ -31,7 +33,9 @@ export default function MessageList(){
                     photo:TestUsers[i].match.profile.photo,
                     count:n,
                     listUpdate:TestUsers[i].talk.listUpdate
+
                 })
+                setCount(count++)
             }
         }
         return UserData

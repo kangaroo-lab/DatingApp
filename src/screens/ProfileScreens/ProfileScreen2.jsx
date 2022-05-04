@@ -27,7 +27,7 @@ const Profile = User.profile
 
 function getTrueData(data){
   const result = []
-  for(let i=0;i<data.length; i++){
+  for(let i=0;i < data.length; i++){
     if(data[i].status){
       result.push(data[i])
     }
@@ -40,62 +40,101 @@ export default function(props){
     return <ScrollableHeader {...props} navigation={navigation}/>
 }
 
+
 class ScrollableHeader extends Component {
     constructor(props) {
       super(props);
       this.state = {
         scrollY: new Animated.Value(0),
         brief:'',
+        data:[],
+        flag:false,
         hobby:[],
-        value:[],
-        basicInfo:[]
+        value:[]
       };
-      const data4basic=[];
-      const data4hobby=[];
-      const data4value=[];
-      const db = firebase.firestore();
-      const {currentUser} = firebase.auth();
-      const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-      // firebaseからデータを取得、加工
-      ref.onSnapshot((snapShot)=>{
+      this.userInfoRef = this.getRef()
+    }
+
+    getData(){
+      this.userInfoRef.onSnapshot((snapShot)=>{
+        const result = []
         snapShot.forEach((doc)=>{
-          const data = doc.data()
-          data4basic.push({
+          let d = doc.data()
+          result.push({
             id:doc.id,
-            data:data
+            name:d.name,
+            age:d.age,
+            brief:d.brief,
+            photo:d.url,
+            profileList:[
+              d.name,d.age,d.blood,d.address,d.workPlace,d.birthPlace,d.family,d.language,d.height,d.bodyShape,d.schoolHistory,d.jobType,d.job,d.income,d.holiday,d.drink,d.smoke,d.roomMate,d.marriage,d.kids,d.kidsWant,d.childCare,d.howToMeet,d.dateMoney
+            ]
           });
-          ref.doc(doc.id).collection('hobby')
-            .onSnapshot((snapShot)=>{
-              snapShot.forEach((doc)=>{
-                const hobbyData = doc.data().hobby
-                hobbyData.forEach((elem)=>{
-                  if(elem.status){
-                    data4hobby.push({
-                      data:elem
-                    });
-                  }
-                });
-              });
-              this.setState({hobby:data4hobby});
-            });
-          ref.doc(doc.id).collection('value')
-            .onSnapshot((snapShot)=>{
-              snapShot.forEach((doc)=>{
-                const valueData = doc.data().value
-                valueData.forEach((elem)=>{
-                  if(elem.status){
-                    data4value.push({
-                      data:elem
-                    });
-                  }
-                });
-              });
-              this.setState({value:data4value});
-            });
         });
-        this.setState({basicInfo:data4basic});
+        this.setState({data:result,flag:true});
+        this.getHobbyData();
+        this.getValueData();
+      })
+    }
+
+    getHobbyData(){
+      this.getHobby().onSnapshot((snapShot)=>{
+        const result = [];
+        snapShot.forEach((doc)=>{
+          const d = doc.data().hobby;
+          const listOfDetail=[];
+          for(let i=0;i<d.length;i++){
+            if(d[i].status){
+              for(let j=0;j<d[i].list.length;j++){
+                if(d[i].list[j].status){
+                  listOfDetail.push({
+                    title:d[i].list[j].title
+                  })
+                }
+              }
+              listOfDetail.push({
+                title:''
+              })
+              result.push(listOfDetail)
+            };
+          };
+        });
+        this.setState({hobby:result})
       });
     }
+
+    getHobby(){
+      return this.userInfoRef.doc(this.state.data[0].id).collection('hobby')
+    }
+
+    getValueData(){
+      this.getValue().onSnapshot((snapShot)=>{
+        const result = []
+        snapShot.forEach((doc)=>{
+          const d = doc.data().value;
+          for(let i=0;i<d.length;i++){
+            if(d[i].status){
+              result.push({
+                data:d[i]
+              });
+            }
+          };
+        });
+        this.setState({value:result})
+      });
+    }
+
+    getValue(){
+      return this.userInfoRef.doc(this.state.data[0].id).collection('value')
+    }
+
+    getRef(){
+      const db = firebase.firestore();
+      const {currentUser} = firebase.auth();
+      return db.collection(`users/${currentUser.uid}/userInfo`);
+    };
+
+
 
     pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -124,55 +163,63 @@ class ScrollableHeader extends Component {
   }
 
   _renderScrollViewContent() {
-    return (
-    <View style={styles.scrollViewContent}>
-        <View style={styles.scrollViewContents}>
-            <View style={styles.BasicArea}>
-                <Text style={styles.name}>{this.state.basicInfo.name}</Text>
-                <Text style={styles.age}>({Profile.age})</Text>
-            </View>
-            <View style={styles.introduction}>
-                <Text style={styles.Title}>プロフィール</Text>
-                <View style={styles.Detail}>
-                    <Text style={styles.profileDetail}>
-                        {Profile.brief}
-                    </Text>
-                </View>
-                <View style={styles.PencilButtonCntainer}>
-                    <TouchableOpacity
-                    style={styles.button}
-                    onPress={this.toBriefEditScreen}
-                    >
-                        <Entypo name="pencil" size={25} color="white" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.introduction}>
-                <Text style={styles.Title}>趣味</Text>
-                <View style={styles.Detail}>
-                    <Hobbys hobbies={Profile.hobbies}/>
-                </View>
-            </View>
-            <View style={styles.introduction}>
-                <Text style={styles.Title}>価値観</Text>
-                <View style={styles.Detail}>
-                    <Values values={Profile.values}/>
-                </View>
-            </View>
-            <View style={styles.introduction}>
-                <Text style={styles.Title}>基本情報</Text>
-                <View style={styles.Detail}>
-                    <BasicInfo
-                        user={Profile}
-                    />
-                </View>
-            </View>
+    if(!this.state.flag){}
+    else{
+      const CallData = this.state.data[0];
+      const CallHobby = this.state.hobby[0];
+      return (
+        <View style={styles.scrollViewContent}>
+          <View style={styles.scrollViewContents}>
+              <View style={styles.BasicArea}>
+                  <Text style={styles.name}>{CallData.name.value}</Text>
+                  <Text style={styles.age}>({CallData.age.value})</Text>
+              </View>
+              <View style={styles.introduction}>
+                  <Text style={styles.Title}>プロフィール</Text>
+                  <View style={styles.Detail}>
+                      <Text style={styles.profileDetail}>
+                          {(CallData.brief.value)===''?'未設定':CallData.brief.value}
+                      </Text>
+                  </View>
+                  <View style={styles.PencilButtonCntainer}>
+                      <TouchableOpacity
+                      style={styles.button}
+                      onPress={this.toBriefEditScreen}
+                      >
+                          <Entypo name="pencil" size={25} color="white" />
+                      </TouchableOpacity>
+                  </View>
+              </View>
+              <View style={styles.introduction}>
+                  <Text style={styles.Title}>趣味</Text>
+                  <View style={styles.Detail}>
+                      <Hobbys hobbies={CallHobby}/>
+                  </View>
+              </View>
+              <View style={styles.introduction}>
+                  <Text style={styles.Title}>価値観</Text>
+                  <View style={styles.Detail}>
+                      <Values values={Profile.values}/>
+                  </View>
+              </View>
+              <View style={styles.introduction}>
+                  <Text style={styles.Title}>基本情報</Text>
+                  <View style={styles.Detail}>
+                      <BasicInfo
+                          user={CallData}
+                      />
+                  </View>
+              </View>
+          </View>
         </View>
-    </View>
-    );
+      );
+    }
   }
 
   render() {
+    if(!this.state.flag){
+      this.getData()
+    }
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],

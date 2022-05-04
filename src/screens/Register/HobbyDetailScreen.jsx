@@ -33,6 +33,7 @@ function fixData(data){
             result.push(newArray)
             newArray=[]
             saveData=''
+            i-=1;
         }
     }
     return result

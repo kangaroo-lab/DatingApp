@@ -46,12 +46,30 @@ class PutBasicInfo extends Component{
                 console.log(`${doc.id}`);
                 DocId=`${doc.id}`
                 ref.doc(`${doc.id}`).update({
-                    height:this.state.height,
-                    bodyShape:this.state.bodyShape,
-                    schoolHistory:this.state.schoolHistory,
-                    income:this.state.income,
-                    holiday:this.state.holiday,
-                    smoke:this.state.smoke,
+                    height:{
+                        title:'height',
+                        value:this.state.height,
+                    },
+                    bodyShape:{
+                        title:'bodyShape',
+                        value:this.state.bodyShape,
+                    },
+                    schoolHistory:{
+                        title:'schoolHistory',
+                        value:this.state.schoolHistory
+                    },
+                    income:{
+                        title:'income',
+                        value:this.state.income
+                    },
+                    holiday:{
+                        title:'holiday',
+                        value:this.state.holiday
+                    },
+                    smoke:{
+                        title:'smoke',
+                        value:this.state.smoke
+                    },
                 })
                 .then(()=>{
                     console.log('Create!')

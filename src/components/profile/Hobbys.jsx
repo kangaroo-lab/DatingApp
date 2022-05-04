@@ -1,12 +1,75 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import { Chip } from 'react-native-paper';
 
-export default function Hobbys({hobbies}){
+//データをchipsで表示できるように、改造
+function fixData(data){
+    let saveData = ''
+    const result = []
+    let newArray = []
+    for(let i=0;i<data.length;i+=1){
+        if(saveData.length<15){
+            saveData+=data[i].title
+            newArray.push(data[i])
+        }else{
+            //console.log(newArray)
+            result.push(newArray)
+            newArray=[]
+            saveData=''
+            i-=1
+        }
+    }
+    console.log('IN HOBBYS ',result)
+    return result
+}
+
+export default function Hobbys(hobbies){
+
+    const hobbyChipRow=({item})=>{
+        return(
+            <Chip
+                style={styles.hobbyDetailChips}
+                selected={item.status}
+                selectedColor={item.status?'tomato':'dimgray'}
+                onPress={()=>{
+                    if(!item.status){
+                        item.status=true
+                    }else{
+                        item.status=false
+                    }
+                }}
+            >
+                {item.title}
+            </Chip>
+        )
+    }
+
+    const hobbyChipColumn=({item})=>{
+        console.log('ITEM IS ',item.title)
+        return(
+            <View>
+                <FlatList
+                    data={item}
+                    renderItem={hobbyChipRow}
+                    style={{
+                        justifyContent:'flex-start',
+                        flexDirection:'row'
+                    }}
+                />
+            </View>
+        )
+    }
+
+    console.log('DATA IS >>>>>>>>>>>>>>>>>>\n',fixData(hobbies.hobbies))
+
     return(
         <View style={styles.HobbyContainer}>
-            <View style={styles.ElementBox}>
-                <Text style={styles.element}>{hobbies}</Text>
+            <View>
+                <FlatList
+                    data={fixData(hobbies.hobbies)}
+                    renderItem={hobbyChipColumn}
+                />
             </View>
             <View style={styles.PlusButtonContainer}>
                 <TouchableOpacity style={styles.button}>
@@ -25,6 +88,10 @@ const styles = StyleSheet.create({
     },
     ElementBox:{
         flexDirection:'row',
+    },
+    hobbyDetailChips:{
+        marginHorizontal:5,
+        marginBottom:3,
     },
     element:{
         flexDirection:'column',

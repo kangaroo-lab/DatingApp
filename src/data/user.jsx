@@ -234,3 +234,8 @@ UserA = {
 UserB.matchList[0].match=UserA
 UserC.matchList[0].match=UserA
 export default UserA;
+
+
+for(let i = 0; i<UserA.profile.profileList.length;i++){
+    console.log('"d.'+UserA.profile.profileList[i].title+'",')
+}

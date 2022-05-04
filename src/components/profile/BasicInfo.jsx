@@ -3,10 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native
 import RNPickerSelect from 'react-native-picker-select';
 import userInfo from '../../data/userInfo';
 import {useNavigation} from '@react-navigation/native';
+import firebase from 'firebase'
+
 
 export default function BasicInfo({user}){
     const navigation = useNavigation();
-    const [data, setData] = useState(user.profileList)
+    const [data, setData] = useState(user.profileList);
+
+    const datas = []
 
     const InfoRender=({item})=>{
         if(item.list){
@@ -18,10 +22,11 @@ export default function BasicInfo({user}){
                             <RNPickerSelect
                                 style={styles.infoDataDetailText}
                                 onValueChange={(value) =>
-                                    data[item.id].container=value
+                                    data[item.id].value=value,
+                                    setData(data)
                                 }
-                                items={item.list.map((data,idx) => {return ({label:data, value:idx})})}
-                                placeholder={{label:'未設定',value:0}}
+                                items={item.list.map((data) => {return ({label:data, value:data})})}
+                                placeholder={data[item.id].value==''?{label:'未設定',value:0}:{label:data[item.id].value,value:data[item.id].value}}
                             />
                         </TouchableOpacity>
                     </View>
@@ -34,10 +39,10 @@ export default function BasicInfo({user}){
                     <View style={styles.infoDataDetail}>
                         <TouchableOpacity
                             onPress={()=>{
-                                navigation.navigate('NameEdit',{user:data[item.id].container})
+                                navigation.navigate('NameEdit',{user:data[item.id].value})
                             }}
                         >
-                            <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
+                            <Text style={styles.infoDataDetailText}>{data[item.id].value}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -52,7 +57,7 @@ export default function BasicInfo({user}){
                                 console.log(data)
                             }}
                         >
-                            <Text style={styles.infoDataDetailText}>{data[item.id].container}</Text>
+                            <Text style={styles.infoDataDetailText}>{data[item.id].value?data[item.id].value:'未設定'}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -85,6 +90,6 @@ const styles = StyleSheet.create({
         paddingVertical:10
     },
     infoDataDetailText:{
-        color:'rgba(0,0,0,0.50)'
+        color:'darkgray'
     }
 })
