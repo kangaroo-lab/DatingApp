@@ -1,80 +1,75 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Chip } from 'react-native-paper';
 
-//データをchipsで表示できるように、改造
-function fixData(data){
-    let saveData = ''
-    const result = []
-    let newArray = []
-    for(let i=0;i<data.length;i+=1){
-        if(saveData.length<15){
-            saveData+=data[i].title
-            newArray.push(data[i])
-        }else{
-            //console.log(newArray)
-            result.push(newArray)
-            newArray=[]
-            saveData=''
-            i-=1
-        }
-    }
-    console.log('IN HOBBYS ',result)
-    return result
-}
-
 export default function Hobbys(hobbies){
+    const dataCount = hobbies.hobbies.id;
 
-    const hobbyChipRow=({item})=>{
-        return(
-            <Chip
-                style={styles.hobbyDetailChips}
-                selected={item.status}
-                selectedColor={item.status?'tomato':'dimgray'}
-                onPress={()=>{
-                    if(!item.status){
-                        item.status=true
-                    }else{
-                        item.status=false
-                    }
-                }}
-            >
-                {item.title}
-            </Chip>
-        )
+    function fixData(data){
+        let saveData = '';
+        const result = [];
+        let newArray = [];
+        for(let i=0;i<dataCount;i+=1){
+            if(saveData.length<15){
+                saveData+=data.data[i].title;
+                newArray.push(data.data[i])
+            }else{
+                result.push(newArray);
+                newArray=[];
+                saveData='';
+                i-=1
+            }
+        };
+        result.push([{
+            title:''
+        }])
+        return result
     }
 
     const hobbyChipColumn=({item})=>{
-        console.log('ITEM IS ',item.title)
+        console.log('ITEM IS \n',item)
+        if(item.title){
+            return(
+                    <Chip
+                        style={styles.hobbyDetailChips}
+                    >
+                        {item.title}
+                    </Chip>
+            )
+        }else{
+            return(
+                    <Chip
+                        style={[styles.hobbyDetailChips,{backgroundColor:'rgba(0,0,0,0.30)'}]}
+                    >
+                        +
+                    </Chip>
+            )
+        }
+    }
+
+    console.log('fixData is >>>>>>>>>>>>>>\n',fixData(hobbies.hobbies))
+
+    const hobbyChipRow=({item})=>{
+        console.log(item)
         return(
-            <View>
+            <View style={{flexDirection:'row',justifyContent:'flex-start'}}>
                 <FlatList
                     data={item}
-                    renderItem={hobbyChipRow}
-                    style={{
-                        justifyContent:'flex-start',
-                        flexDirection:'row'
-                    }}
+                    renderItem={hobbyChipColumn}
+                    style={{flexDirection:'row',justifyContent:'flex-start',marginBottom:5}}
                 />
             </View>
         )
     }
 
-    console.log('DATA IS >>>>>>>>>>>>>>>>>>\n',fixData(hobbies.hobbies))
-
     return(
         <View style={styles.HobbyContainer}>
-            <View>
-                <FlatList
-                    data={fixData(hobbies.hobbies)}
-                    renderItem={hobbyChipColumn}
-                />
-            </View>
-            <View style={styles.PlusButtonContainer}>
-                <TouchableOpacity style={styles.button}>
-                    <Entypo name="plus" size={28} color="white" />
-                </TouchableOpacity>
+            <View style={{flexDirection:'column',justifyContent:'flex-start'}}>
+                    <FlatList
+                        data={fixData(hobbies.hobbies)}
+                        renderItem={hobbyChipRow}
+                    />
             </View>
         </View>
     )

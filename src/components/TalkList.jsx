@@ -7,7 +7,6 @@ import User from'../data/user';
 export default function MessageList(){
     //routeの設定
     const navigation = useNavigation();
-    const [count, setCount] = useState(0);
 
     //画面の再レンダリングのbool
     const isFocused = useIsFocused();
@@ -23,8 +22,7 @@ export default function MessageList(){
                     j++;
                 }
                 UserData.push({
-
-                    id:count,
+                    id:UserData.length,
                     userName:User.profile.name,
                     name:TestUsers[i].match.profile.name,
                     message:TestUsers[i].talk.list[0].message ,
@@ -33,9 +31,7 @@ export default function MessageList(){
                     photo:TestUsers[i].match.profile.photo,
                     count:n,
                     listUpdate:TestUsers[i].talk.listUpdate
-
                 })
-                setCount(count++)
             }
         }
         return UserData

@@ -13,11 +13,16 @@ import { LogBox } from 'react-native';
 LogBox.ignoreAllLogs()
 
 import StackFirstNavigation from './src/rooter/StackFirstNavigation';
+import TalkList from './src/screens/TalkScreens/Pre/TalkListScreen';
+import TabNavigation from './src/rooter/TabNavigator';
+import StackNavigator from './src/rooter/StackNavigator'
 
 export default function App() {
   return (
     <NavigationContainer>
        <StackFirstNavigation/>
+       {/* <TabNavigation/> */}
+       {/* <StackNavigator/> */}
     </NavigationContainer>
   );
 };

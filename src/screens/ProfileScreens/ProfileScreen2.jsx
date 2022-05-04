@@ -78,6 +78,7 @@ class ScrollableHeader extends Component {
     }
 
     getHobbyData(){
+      let index = 0;
       this.getHobby().onSnapshot((snapShot)=>{
         const result = [];
         snapShot.forEach((doc)=>{
@@ -90,14 +91,20 @@ class ScrollableHeader extends Component {
                   listOfDetail.push({
                     title:d[i].list[j].title
                   })
+                  index+=1;
+                  console.log(index)
                 }
               }
-              listOfDetail.push({
-                title:''
-              })
-              result.push(listOfDetail)
             };
           };
+          listOfDetail.push({
+            title:''
+          })
+          console.log(index)
+          result.push({
+            data:listOfDetail,
+            id:index
+          })
         });
         this.setState({hobby:result})
       });
@@ -167,6 +174,7 @@ class ScrollableHeader extends Component {
     else{
       const CallData = this.state.data[0];
       const CallHobby = this.state.hobby[0];
+      console.log(CallHobby)
       return (
         <View style={styles.scrollViewContent}>
           <View style={styles.scrollViewContents}>
