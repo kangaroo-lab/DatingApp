@@ -4,31 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Chip } from 'react-native-paper';
 
 export default function Hobbys(hobbies){
-    const dataCount = hobbies.hobbies.id;
-
-    function fixData(data){
-        let saveData = '';
-        const result = [];
-        let newArray = [];
-        for(let i=0;i<dataCount;i+=1){
-            if(saveData.length<15){
-                saveData+=data.data[i].title;
-                newArray.push(data.data[i])
-            }else{
-                result.push(newArray);
-                newArray=[];
-                saveData='';
-                i-=1
-            }
-        };
-        result.push([{
-            title:''
-        }])
-        return result
-    }
-
     const hobbyChipColumn=({item})=>{
-        console.log('ITEM IS \n',item)
         if(item.title){
             return(
                     <Chip
@@ -48,10 +24,7 @@ export default function Hobbys(hobbies){
         }
     }
 
-    console.log('fixData is >>>>>>>>>>>>>>\n',fixData(hobbies.hobbies))
-
     const hobbyChipRow=({item})=>{
-        console.log(item)
         return(
             <View style={{flexDirection:'row',justifyContent:'flex-start'}}>
                 <FlatList
@@ -67,7 +40,7 @@ export default function Hobbys(hobbies){
         <View style={styles.HobbyContainer}>
             <View style={{flexDirection:'column',justifyContent:'flex-start'}}>
                     <FlatList
-                        data={fixData(hobbies.hobbies)}
+                        data={hobbies.hobbies}
                         renderItem={hobbyChipRow}
                     />
             </View>

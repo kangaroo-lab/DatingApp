@@ -25,21 +25,31 @@ const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const Profile = User.profile
 
-function getTrueData(data){
-  const result = []
-  for(let i=0;i < data.length; i++){
-    if(data[i].status){
-      result.push(data[i])
-    }
-  }
-  return result
-}
-
 export default function(props){
     const navigation = useNavigation();
     return <ScrollableHeader {...props} navigation={navigation}/>
 }
 
+function fixData(data){
+  let saveData = '';
+  const result = [];
+  let newArray = [];
+  for(let i=0;i<data.id;i+=1){
+      if(saveData.length<15){
+          saveData+=data.data[i].title;
+          newArray.push(data.data[i])
+      }else{
+          result.push(newArray);
+          newArray=[];
+          saveData='';
+          i-=1
+      }
+  };
+  result.push([{
+      title:''
+  }])
+  return result
+}
 
 class ScrollableHeader extends Component {
     constructor(props) {
@@ -50,9 +60,11 @@ class ScrollableHeader extends Component {
         data:[],
         flag:false,
         hobby:[],
-        value:[]
+        value:[],
+        count:0
       };
       this.userInfoRef = this.getRef()
+      this.getData()
     }
 
     getData(){
@@ -74,6 +86,7 @@ class ScrollableHeader extends Component {
         this.setState({data:result,flag:true});
         this.getHobbyData();
         this.getValueData();
+        this.setState({count:this.state.count+1})
       })
     }
 
@@ -92,7 +105,6 @@ class ScrollableHeader extends Component {
                     title:d[i].list[j].title
                   })
                   index+=1;
-                  console.log(index)
                 }
               }
             };
@@ -100,13 +112,13 @@ class ScrollableHeader extends Component {
           listOfDetail.push({
             title:''
           })
-          console.log(index)
           result.push({
             data:listOfDetail,
             id:index
           })
         });
-        this.setState({hobby:result})
+        console.log('趣味追加なう')
+        this.setState({hobby:fixData(result[0])})
       });
     }
 
@@ -173,8 +185,8 @@ class ScrollableHeader extends Component {
     if(!this.state.flag){}
     else{
       const CallData = this.state.data[0];
-      const CallHobby = this.state.hobby[0];
-      console.log(CallHobby)
+      const CallHobby = this.state.hobby;
+      console.log('出来上がったものがこちらになります',this.state.hobby)
       return (
         <View style={styles.scrollViewContent}>
           <View style={styles.scrollViewContents}>
@@ -226,7 +238,6 @@ class ScrollableHeader extends Component {
 
   render() {
     if(!this.state.flag){
-      this.getData()
     }
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],

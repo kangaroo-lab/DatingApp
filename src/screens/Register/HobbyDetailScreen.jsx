@@ -14,6 +14,7 @@ import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
 
+
 export default function(props){
     const navigation = useNavigation()
     return <HobbyDetailScreen {...props} navigation = {navigation}/>
