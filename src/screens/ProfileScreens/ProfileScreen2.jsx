@@ -61,10 +61,17 @@ class ScrollableHeader extends Component {
         flag:false,
         hobby:[],
         value:[],
-        count:0
+        count:0,
+        image:''
       };
       this.userInfoRef = this.getRef()
       this.getData()
+    }
+
+    getPosts(){
+      const db = firebase.storage();
+      const {currentUser} = firebase.auth();
+
     }
 
     getData(){
@@ -83,7 +90,7 @@ class ScrollableHeader extends Component {
             ]
           });
         });
-        this.setState({data:result,flag:true});
+        this.setState({data:result,flag:true,image:result[0].photo});
         this.getHobbyData();
         this.getValueData();
         this.setState({count:this.state.count+1})
@@ -186,7 +193,7 @@ class ScrollableHeader extends Component {
     else{
       const CallData = this.state.data[0];
       const CallHobby = this.state.hobby;
-      console.log('出来上がったものがこちらになります',this.state.hobby)
+      console.log(`CHECK PHOTO URL >>>>>>>>>\n${this.state.image}`)
       return (
         <View style={styles.scrollViewContent}>
           <View style={styles.scrollViewContents}>
