@@ -14,18 +14,13 @@ export default function TalkBoardGround({MessageHistory,UserName}){
         */
     const [inputHeight, setInputHeight] = useState(0);
     const [bodyText, setBodyText] = useState('');
-    const [data, setData] = useState([])
 
-    console.log(MessageHistory)
-
-    useEffect(()=>{
-        setData(MessageHistory)
-    },[])
+    console.log('koko')
 
     //Send or Catch
     //属性でmessageの形変えながらフラットリストを順番に返せるようにする
     const GetTalkElem=({item})=>{
-        if(item.sendBy==UserName){
+        if(item.user==UserName){
             return <SendMessage message={item.message}/>
         }else{
             return <CatchMessage message={item.message}/>
@@ -46,7 +41,7 @@ export default function TalkBoardGround({MessageHistory,UserName}){
     <View style={styles.container}>
         <FlatList
             removeClippedSubviews={false}
-            data={data.list}
+            data={MessageHistory}
             renderItem={GetTalkElem}
             contentContainerStyle={{paddingBottom:20}}
             inverted
