@@ -1,55 +1,39 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-native';
 import {useNavigation,useIsFocused} from '@react-navigation/native';
+import { format } from 'date-fns';
 
-import User from'../data/user';
+export default function MessageList({user,message}){
 
-export default function MessageList(){
+    function fixData(){
+        const newData = [];
+        user.forEach((item,index) => {
+            newData.push({
+                name:item.name,
+                message:message[index].message,
+                img:item.img,
+                date:format(message[index].date,'MM/dd'),
+                key:message[index].key
+            })
+        });
+        return (newData);
+    }
+
     //routeの設定
     const navigation = useNavigation();
 
     //画面の再レンダリングのbool
     const isFocused = useIsFocused();
-    // Listのデータを獲得する関数
-    function makeTalkList(TestUsers){
-        const UserData = [];
-        for(let i=0; i<TestUsers.length; i++){
-            if(TestUsers[i].level=='pre'){
-                let n = 0;
-                let j = 0;
-                while(TestUsers[i].talk.list[j].sendBy==TestUsers[i].match.profile.name){
-                    n++;
-                    j++;
-                }
-                UserData.push({
-                    id:UserData.length,
-                    userName:User.profile.name,
-                    name:TestUsers[i].match.profile.name,
-                    message:TestUsers[i].talk.list[0].message ,
-                    list:TestUsers[i].talk,
-                    date:'2021/3/9',
-                    photo:TestUsers[i].match.profile.photo,
-                    count:n,
-                    listUpdate:TestUsers[i].talk.listUpdate
-                })
-            }
-        }
-        return UserData
-    }
 
     // Listに表示される内容をデータから獲得 → FaltListでデータを表示できるようにする
     const TalkElement=({item})=>{
-        if(item.count==0){
             return (
                 <TouchableOpacity
-                    onPress={()=> navigation.navigate('TalkBoard',{
-                        MessageHistory:item.list,
-                        UserName:item.userName
-                    })}
+                    onPress={()=> navigation.navigate('TalkBoard',{key:item.key})}
                 >
                     <View style={styles.messageListElement}>
                         <View>
-                            <Image source={item.photo}style={styles.image}/>
+                            <Image source={{uri:item.img}} style={styles.image}/>
                         </View>
                         <View style={styles.messageInner}>
                             <View style={styles.messageTextBox}>
@@ -67,52 +51,16 @@ export default function MessageList(){
                     </View>
                 </TouchableOpacity>
             )
-        }else{
-            return(
-                <TouchableOpacity
-                onPress={()=> navigation.navigate('TalkBoard',{
-                    MessageHistory:item.list,
-                    UserName:item.userName
-                })}
-                >
-                    <View style={styles.messageListElement}>
-                        <View>
-                            <Image source={item.photo}style={styles.image}/>
-                        </View>
-                        <View style={styles.messageInner}>
-                            <View style={styles.messageTextBox}>
-                                <View style={styles.nameBox}>
-                                    <Text style={styles.name}>{item.name}</Text>
-                                </View>
-                                <View style={styles.messageBox}>
-                                    <Text style={styles.message}>{item.message}</Text>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.dateBox}>
-                            <Text style={styles.date}>{item.date}</Text>
-                            <View style={styles.messageCountArea}>
-                                <View style={styles.messageCountBox}>
-                                    <Text　style={styles.messageCount}>{item.count}</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            )
-        }
     }
     //再レンダリングのデータを取得する
 
     // Listの返し
     if(isFocused){
-        const TestUsers = User.matchList
-        const users = makeTalkList(TestUsers)
+        const data=fixData()
         return(
             <View style={styles.messageList}>
                 <FlatList
-                data={users}
-                extraData={users.listUpdate}
+                data={data}
                 renderItem={TalkElement}
                 />
             </View>

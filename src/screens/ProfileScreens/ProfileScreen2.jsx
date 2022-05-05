@@ -124,7 +124,6 @@ class ScrollableHeader extends Component {
             id:index
           })
         });
-        console.log('趣味追加なう')
         this.setState({hobby:fixData(result[0])})
       });
     }
@@ -193,7 +192,6 @@ class ScrollableHeader extends Component {
     else{
       const CallData = this.state.data[0];
       const CallHobby = this.state.hobby;
-      console.log(`CHECK PHOTO URL >>>>>>>>>\n${this.state.image}`)
       return (
         <View style={styles.scrollViewContent}>
           <View style={styles.scrollViewContents}>

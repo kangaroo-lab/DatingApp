@@ -16,6 +16,8 @@ export default function TalkBoardGround({MessageHistory,UserName}){
     const [bodyText, setBodyText] = useState('');
     const [data, setData] = useState([])
 
+    console.log(MessageHistory)
+
     useEffect(()=>{
         setData(MessageHistory)
     },[])

@@ -17,8 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 export default function Top2(){
-  const [data, setData] = useState([])
-  const [hobby, setHobby] = useState([])
+  const [key, setKey] = useState('6E3yrZUp4lfYPTDQb6d6');
 
   useEffect(()=>{
     const userInfo = []
@@ -46,16 +45,60 @@ export default function Top2(){
                 };
               };
             })
-            setHobby(hobbyInfo)
           })
       })
-      setData(userInfo)
     });
     return unsubscribe
   },[])
 
   //検索の動作を決めるbool変数
   let flag=0;
+
+  // 仮作成:TalkRoomに参加させる
+  function joinRoom(){
+    const db = firebase.firestore();
+    const ref = db.collection(`talkRooms`);
+    const {currentUser} = firebase.auth();
+    ref.doc(key)
+      .update({
+        memberB:currentUser.uid,
+      })
+      .then(()=>{
+        getKey(key);
+      })
+  }
+
+  // 仮作成:TalkRoomを作成して、アクセスを可能にする
+  function makeRoom(){
+    const db = firebase.firestore();
+    const ref = db.collection(`talkRooms`);
+    const {currentUser} = firebase.auth()
+    ref
+      .add({
+        memberA:currentUser.uid,
+      })
+      .then((docRef)=>{
+        getKey(docRef.id);
+        setKey(docRef.id);
+        ref.doc(docRef.id).collection('talkRoom')
+          .add({
+            time:new Date(),
+            message:'メッセージを送ってみましょう！',
+            user:'アプリ公式',
+          })
+      })
+  }
+
+  // roomkeyをuserInfoに追加して、userがroomに参加できるようにする
+  function getKey(roomKey){
+    const db = firebase.firestore();
+    const {currentUser} = firebase.auth()
+    const ref = db.collection(`users/${currentUser.uid}/talkLists`);
+    ref
+      .add({
+        key:roomKey,
+      })
+  }
 
   //検索中の波形アニメーションを実装(アニメーションはViewタッチで発火)
   function searching(){
@@ -69,7 +112,10 @@ export default function Top2(){
           -1,
           false
         );
-      return console.log('CATCH DATA IS ',data,hobby);
+        joinRoom()
+
+        // makeRoom()
+      return console.log();
     }
     //Searchingアニメーションの終了＋検索のストップ
     else{
@@ -109,6 +155,7 @@ export default function Top2(){
       <View style={styles.mainContain}>
         <View style={styles.mainContainRow}>
           <TouchableOpacity
+            disabled={true}
             style={styles.circleButton}
             onPress={()=>{
               console.log('push');

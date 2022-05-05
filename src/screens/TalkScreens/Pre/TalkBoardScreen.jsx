@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { StyleSheet, View, KeyboardAvoidingView,StatusBar } from 'react-native';
-import {array} from 'prop-types'
+import {string} from 'prop-types'
+import firebase from 'firebase';
 
 import TalkBoardGround from '../../../components/TalkBoardGround';
 
@@ -9,17 +10,46 @@ const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
 export default function TalkBoard(props){
     //データの追加に伴って再レンダリングを行う
-    const {MessageHistory,UserName} = props.route.params;
-    const [data,setData] = useState(MessageHistory)
-    const name = UserName
+    const {key} = props.route.params;
+    const [data,setData] = useState([]);
+    const [name,setName] = useState();
+
+    useEffect(()=>{
+        let unsubscribe = joinTheRoom()
+        return unsubscribe;
+    },[]);
+
+    function joinTheRoom(){
+        const db = firebase.firestore();
+        const ref = db.collection(`talkRooms`).doc(key).collection('talkRoom');
+        const saveData = [];
+        ref.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                saveData.push(doc.data());
+            });
+            setData(saveData);
+        });
+        getUserName();
+    };
+
+    function getUserName(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                setName(doc.data().name.value)
+            });
+        });
+    };
 
     return(
     <View style={styles.container}>
         {/* Talk画面全体の表示 */}
         <KeyboardAvoidingView
-        behavior='padding'
-        style={styles.TalkContainer}
-        keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
+            behavior='padding'
+            style={styles.TalkContainer}
+            keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
         >
             <TalkBoardGround
                 MessageHistory={data}
@@ -32,7 +62,7 @@ export default function TalkBoard(props){
 }
 
 TalkBoard.propTypes = {
-    MessageHistory:array,
+    MessageHistory:string,
 }
 
 const styles = StyleSheet.create({
