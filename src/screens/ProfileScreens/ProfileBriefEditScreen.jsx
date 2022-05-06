@@ -1,17 +1,40 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
 import { string } from 'prop-types';
+import firebase from 'firebase';
 
 import User from '../../data/user';
 
 export default function BriefEdit(props){
     const navigation = props.navigation;
-    const userBrief = props.route.params
-    const [brief, setBrief] = useState(userBrief.userBrief);
+    const {userBrief,id} = props.route.params
+    const [brief, setBrief] = useState(userBrief);
     function ReflectEditFile(newBrief){
         User.profile.brief=newBrief
     }
     const inputAccessoryViewID = 'uniqueID';
+
+    function handlePress(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(`${id}`);
+        ref.update({
+            brief:{
+                title:'brief',
+                value:brief
+            }
+        })
+        .then(()=>{
+            navigation.reset({
+                index:0,
+                routes:[{name:'Profile'}]
+            });
+        })
+        .catch(()=>{
+            alert('プロフ変更に失敗したお？')
+        })
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.titleBox}>
@@ -30,8 +53,7 @@ export default function BriefEdit(props){
                 <View style={styles.submitButtonArea}>
                     <TouchableOpacity
                         onPress={()=>{
-                            ReflectEditFile(brief)
-                            navigation.navigate('Profile',{'brief':brief})
+                            handlePress()
                         }}
                     >
                         <View style={styles.submitButton}>

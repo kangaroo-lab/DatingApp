@@ -260,7 +260,7 @@ class ScrollableHeader extends Component {
 
     toBriefEditScreen = () => {
         const { navigation } = this.props;
-        navigation.navigate('BriefEdit',{userBrief:Profile.brief});
+        navigation.navigate('BriefEdit',{userBrief:this.state.data[0].brief.value,id:this.state.userKey});
     }
 
     toNameEditScreen = () => {

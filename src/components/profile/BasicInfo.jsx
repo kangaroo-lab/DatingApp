@@ -75,7 +75,7 @@ export default function BasicInfo({user,count}){
                     <View style={styles.infoDataDetail}>
                         <TouchableOpacity
                             onPress={()=>{
-                                navigation.navigate('NameEdit',{user:data[item.id].value})
+                                navigation.navigate('NameEdit',{user:data[item.id].value,id:user.id})
                             }}
                         >
                             <Text style={styles.infoDataDetailText}>{data[item.id].value}</Text>

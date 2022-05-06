@@ -17,7 +17,8 @@ export default function ProfileNavigator(){
                 name='Profile'
                 component={Profile}
                 options={{
-                    headerShown:false
+                    headerShown:false,
+                    animation:'fade'
                 }}
             />
             <Stack.Screen

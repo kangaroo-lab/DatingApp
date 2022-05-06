@@ -1,15 +1,42 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,TextInput,Keyboard,InputAccessoryView } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    TextInput,
+    Keyboard,
+    InputAccessoryView
+} from 'react-native';
+import firebase from 'firebase';
 
 import User from '../../data/user';
 
 export default function NameEdit(props){
     const navigation = props.navigation;
-    const userName = props.route.params
-    const [name, setName] = useState(userName.user);
+    const {user,id} = props.route.params;
+    const [name, setName] = useState(user);
     const inputAccessoryViewID = 'uniqueID';
-    function ReflectEditFile(newName){
-        User.profile.name=User.profile.profileList[0].container=newName;
+
+    function handlePress(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(id);
+        ref.update({
+            name:{
+                title:'name',
+                value:name
+            }
+        })
+        .then(()=>{
+            navigation.reset({
+                index:0,
+                routes:[{name:'Profile'}]
+            })
+        })
+        .catch(()=>{
+            alert('名前の変更に失敗したお')
+        })
     }
 
     return(
@@ -26,8 +53,7 @@ export default function NameEdit(props){
                 <View>
                     <TouchableOpacity
                         onPress={()=>{
-                            ReflectEditFile(name)
-                            navigation.navigate('Profile',{'name':name})
+                            handlePress()
                         }}
                     >
                         <View style={styles.submitButton}>
