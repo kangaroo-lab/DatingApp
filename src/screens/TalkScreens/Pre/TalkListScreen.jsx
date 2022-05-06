@@ -50,7 +50,7 @@ export default function TalkList(){
         const room = [];
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`);
-        ref.doc(key).collection('talkRoom')
+        ref.doc(key).collection('talkRoom').orderBy('time','desc')
             .onSnapshot((snapShot)=>{
                 snapShot.forEach((doc)=>{
                     room.push({
