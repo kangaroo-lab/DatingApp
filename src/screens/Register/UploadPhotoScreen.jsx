@@ -93,7 +93,6 @@ class UploadPhotoScreen extends Component{
     };
 
     uploadPostImg = async () => {
-        const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const metadata = {
             contentType: 'image/jpeg',

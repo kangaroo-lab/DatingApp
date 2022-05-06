@@ -10,7 +10,10 @@ import {
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 
 import firebase from 'firebase';
 
@@ -19,6 +22,7 @@ import User from '../../data/user';
 import Hobbys from '../../components/profile/Hobbys';
 import Values from '../../components/profile/Values';
 import BasicInfo from '../../components/profile/BasicInfo';
+import data from '../../data/hobbyDatas/hobbyDataEat';
 
 const HEADER_MAX_HEIGHT= 550;
 const HEADER_MIN_HEIGHT = 100;
@@ -62,23 +66,27 @@ class ScrollableHeader extends Component {
         hobby:[],
         value:[],
         count:0,
-        image:''
+        image:'',
+        userKey:'',
+        rerenderCount:0,
+        saveCount:0
       };
-      this.userInfoRef = this.getRef()
-      this.getData()
+      this.userInfoRef = this.getRef();
+      this.getData();
+      if(this.state.rerenderCount!==this.state.saveCount){
+        this.updateData();
+        this.setState({saveCount:rerenderCount});
+      }
     }
 
-    getPosts(){
-      const db = firebase.storage();
-      const {currentUser} = firebase.auth();
 
-    }
 
     getData(){
       this.userInfoRef.onSnapshot((snapShot)=>{
         const result = []
         snapShot.forEach((doc)=>{
           let d = doc.data()
+          this.setState({userKey:doc.id})
           result.push({
             id:doc.id,
             name:d.name,
@@ -159,22 +167,95 @@ class ScrollableHeader extends Component {
       return db.collection(`users/${currentUser.uid}/userInfo`);
     };
 
-
-
     pickImage = async () => {
-      // No permissions request is necessary for launching the image library
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+      if(status==='granted'){
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+          });
+          if (!result.cancelled) {
+            const actions = []
+            actions.push({ resize:{ width:350 } })
+            const manipulatorResult = await ImageManipulator.manipulateAsync(
+                result.uri,
+                actions,
+                {
+                    compress: 0.4,
+                },
+            )
+            this.setState({image: manipulatorResult.uri, imgUrl: manipulatorResult.uri});
+            this.onPressAdd();
+          };
+        }else{
+          console.log('clear');
+        };
+    };
+
+    async onPressAdd(){
+      await this.uploadPostImg();
+      console.log(await this.state)
+      const { imgUrl, phrase, postIndex } = await this.state;
+      console.log('なんか知らんけど追加してるやつな\nURL',imgUrl,'\nPHRASE',phrase,"\nPOSTINDEX",postIndex)
+      this.setState(
+          {
+              addedPost:[
+                  {
+                      imgUrl,
+                      phrase,
+                      postIndex,
+                  },
+              ],
+          },
+      )
+      this.uploadPost(this.state.imgUrl,this.state.phrase,this.state.postIndex)
+  }
+
+  uploadPost(url, phrase, postIndex) {
+    console.log('upLoading!!',this.state.userKey)
+    const db = firebase.firestore();
+    const {currentUser} = firebase.auth();
+    const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.state.userKey);
+    ref.update({
+         url:url,
+         postIndex:postIndex
+     })
+     .then(()=>{
+       console.log('UPLOAD!')
+     })
+     .catch((e)=>{
+         alert(e)
+     })
+}
+
+
+    uploadPostImg = async () => {
+      console.log('POST IMG')
+      const metadata = {
+        contentType: 'image/jpeg',
+      };
+      const {currentUser} = firebase.auth();
+      const postIndex = Date.now().toString();
+      const storage = firebase.storage();
+      const imgURI = this.state.imgUrl;
+      const response = await fetch(imgURI);
+      const blob = await response.blob();
+      const uploadRef = storage.ref(`users/${currentUser.uid}/images`).child(`${postIndex}`);
+
+      await uploadRef.put(blob, metadata).catch((e)=>{
+        console.error(e.message);
+        alert('画像の登録に失敗したあああああああ');
       });
 
-      console.log(result);
-
-      if (!result.cancelled) {
-        this.setState({image:result.uri});
-      }
+      await uploadRef
+        .getDownloadURL()
+        .then((url)=>{
+          this.setState({
+            imgUrl:url,
+            postIndex,
+          });
+        });
     };
 
     toBriefEditScreen = () => {
@@ -232,6 +313,7 @@ class ScrollableHeader extends Component {
                   <View style={styles.Detail}>
                       <BasicInfo
                           user={CallData}
+                          count={this.state.rerenderCount}
                       />
                   </View>
               </View>

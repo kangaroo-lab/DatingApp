@@ -19,13 +19,6 @@ export default function TalkList(){
         return unsubscribe;
     },[]);
 
-    function getUserRef(){
-        const db = firebase.firestore();
-        const {currentUser} = firebase.auth();
-        return db.collection(`users/${currentUser.uid}/userInfo`);
-    };
-
-
     function getTalkRef(){
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
@@ -66,7 +59,6 @@ export default function TalkList(){
                         key:key
                     })
                 });
-                console.log(room)
                 setData(room)
             });
     }
@@ -83,13 +75,10 @@ export default function TalkList(){
                         img:userInfo.url
                     });
                 });
-                console.log(user)
                 setPartner(user)
             });
     }
 
-    function makeDataToScreen(){
-    }
 
     return(
     <View

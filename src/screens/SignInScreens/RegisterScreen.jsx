@@ -45,7 +45,7 @@ class GoRegisterScreen extends Component{
                 value:''
             },
             blood:{
-                title:'brief',
+                title:'blood',
                 value:''
             },
             workPlace:{

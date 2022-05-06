@@ -1,16 +1,50 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList,Platform } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import userInfo from '../../data/userInfo';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase'
 
 
-export default function BasicInfo({user}){
+export default function BasicInfo({user,count}){
     const navigation = useNavigation();
     const [data, setData] = useState(user.profileList);
 
-    const datas = []
+    function updateData(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(user.id);
+        const call = data;
+        ref.update({
+          // name:call[0],
+          age:call[1],
+          blood:call[2],
+          address:call[3],
+          workPlace:call[4],
+          birthPlace:call[5],
+          family:call[6],
+          // language:call[7],
+          height:call[8],
+          bodyShape:call[9],
+          schoolHistory:call[10],
+          jobType:call[11],
+          // job:call[12],
+          income:call[13],
+          holiday:call[14],
+          smoke:call[15],
+          roomMate:call[16],
+          marriage:call[17],
+          kids:call[18],
+          kidsWant:call[19],
+          childCare:call[20],
+          howToMeet:call[21],
+          dateMoney:call[22],
+          // url:this.state.result,
+          // brief:this.state.data[0].brief,
+        })
+        .then(()=>console.log('Updated!'))
+        .catch(()=>console.error('Disabled!!'))
+      }
 
     const InfoRender=({item})=>{
         if(item.list){
@@ -21,10 +55,12 @@ export default function BasicInfo({user}){
                         <TouchableOpacity>
                             <RNPickerSelect
                                 style={styles.infoDataDetailText}
-                                onValueChange={(value) =>
-                                    data[item.id].value=value,
-                                    setData(data)
+                                onValueChange={(value) =>{
+                                    data[item.id].value=value
+                                    if(Platform.OS=='android'){updateData()}
                                 }
+                                }
+                                onDonePress={()=>updateData()}
                                 items={item.list.map((data) => {return ({label:data, value:data})})}
                                 placeholder={data[item.id].value==''?{label:'未設定',value:0}:{label:data[item.id].value,value:data[item.id].value}}
                             />
@@ -75,6 +111,8 @@ export default function BasicInfo({user}){
         </View>
     )
 }
+
+
 
 const styles = StyleSheet.create({
     container:{
