@@ -29,7 +29,10 @@ export default function MessageList({user,message}){
     const TalkElement=({item})=>{
             return (
                 <TouchableOpacity
-                    onPress={()=> navigation.navigate('TalkBoard',{key:item.key})}
+                    onPress={()=>
+                        navigation.navigate(
+                            'TalkBoard',{key:item.key}
+                            )}
                 >
                     <View style={styles.messageListElement}>
                         <View>

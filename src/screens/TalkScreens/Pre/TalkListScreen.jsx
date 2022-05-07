@@ -1,6 +1,10 @@
 import React,{useEffect,useState} from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+    StyleSheet,
+    View
+} from 'react-native';
 import firebase from 'firebase';
+import {useIsFocused} from '@react-navigation/native';
 
 import MessageList from '../../../components/TalkList';
 
@@ -25,6 +29,7 @@ export default function TalkList(){
         return db.collection(`users/${currentUser.uid}/talkLists`);
     }
 
+    //パートナーの情報とトークの情報をゲット
     function getRoomRef(key){
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`);
@@ -52,7 +57,6 @@ export default function TalkList(){
         const ref = db.collection(`talkRooms`);
         ref.doc(key)
             .onSnapshot((snapShot)=>{
-                console.log(snapShot.data().message)
                 const data = snapShot.data().message;
                 data.forEach((element)=>{
                     room.push({
@@ -61,7 +65,6 @@ export default function TalkList(){
                         key:key
                     });
                 });
-                console.log('ROOM ',room)
                 setData(room)
             });
     };
@@ -82,6 +85,16 @@ export default function TalkList(){
             });
     }
 
+
+    const isFocused = useIsFocused();
+
+    if(!isFocused){
+        return(
+            <View>
+
+            </View>
+        )
+    }
 
     return(
     <View

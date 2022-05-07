@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -31,6 +31,14 @@ const Profile = User.profile
 
 export default function(props){
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
+    if(!isFocused){
+      return(
+          <View>
+
+          </View>
+      )
+  }
     return <ScrollableHeader {...props} navigation={navigation}/>
 }
 
@@ -78,7 +86,6 @@ class ScrollableHeader extends Component {
         this.setState({saveCount:rerenderCount});
       }
     }
-
 
 
     getData(){

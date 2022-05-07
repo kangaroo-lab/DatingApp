@@ -29,13 +29,11 @@ export default function TalkBoard(props){
 
 
     useEffect(()=>{
-        console.log('EFFECT')
         let unsubscribe = joinTheRoom()
         return unsubscribe;
     },[]);
 
     function joinTheRoom(){
-        console.log('JOIN THE ROOM');
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`).doc(key);
         const saveData = [];
@@ -48,7 +46,6 @@ export default function TalkBoard(props){
     };
 
     function getUserName(){
-        console.log('GET NAME');
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`);
@@ -62,19 +59,15 @@ export default function TalkBoard(props){
     function addTalkData(){
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`).doc(key);
-        console.log('データが追加される前のデータ状態\n',data)
         ref.update({
             message:data
         })
         .then(()=>{
-            console.log('データが追加された後のデータ状態\n',data)
             console.log('\n\n\n\n\nUpdate!!')
         })
         .catch(()=>{
             console.error('ERROR:Something wrong is happened!')
         })
-
-
     }
 
     function updateTalkData(){
