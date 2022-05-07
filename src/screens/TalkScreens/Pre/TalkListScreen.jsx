@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import {useIsFocused} from '@react-navigation/native';
+import moment from 'moment'
 
 import MessageList from '../../../components/TalkList';
 
@@ -12,6 +13,8 @@ export default function TalkList(){
     const [data, setData] = useState([]);
     const [partner, setPartner] = useState([]);
     const [count, setCount] = useState(0);
+    const [read,setRead] = useState([]);
+    const [unReads,setUnReads] = useState([]);
 
     useEffect(()=>{
         let unsubscribe = getTalkRef()
@@ -36,25 +39,26 @@ export default function TalkList(){
         const {currentUser} = firebase.auth();
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                let partnerId = '';
-                if(currentUser.uid==doc.data().memberA){
-                    partnerId=doc.data().memberB
-                }else if(currentUser.uid==doc.data().memberB){
-                    partnerId=doc.data().memberA;
-                }else{
-                    console.log('ERROR IN GET ROOM REF IN TALKLIST SCREEN')
-                }
-                getPartnerRef(partnerId);
-                getRoomContents(key);
-                setCount(count+1)
+                doc.data().member.forEach((elem)=>{
+                    const partnerId = []
+                    if(currentUser.uid!==elem.id){
+                        partnerId.push({
+                            id:elem.id,
+                            dateTime:elem.dateTime.toDate()
+                        });
+                    }
+                    getPartnerRef(partnerId);
+                    getRoomContents(key,elem.dateTime.toDate());
+                })
             });
         });
     }
 
-    function getRoomContents(key){
-        const room = [];
+    function getRoomContents(key,partnerId){
+        let room = [];
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`);
+        let n = 0;
         ref.doc(key)
             .onSnapshot((snapShot)=>{
                 const data = snapShot.data().message;
@@ -62,27 +66,35 @@ export default function TalkList(){
                     room.push({
                         message:element.message,
                         date:element.time.toDate(),
-                        key:key
+                        key:key,
+                        unReads:0
                     });
+                    if(partnerId < element.time.toDate()){
+                        n+=1;
+                        room[0].unReads=n;
+                    }
                 });
+                // room = unReadCount(room)
                 setData(room)
             });
     };
 
-    function getPartnerRef(id){
+    function getPartnerRef(ids){
         const db = firebase.firestore();
         const user = []
-        db.collection(`users/${id}/userInfo`)
-            .onSnapshot((snapShot)=>{
-                snapShot.forEach((doc)=>{
-                    const userInfo = doc.data();
-                    user.push({
-                        name:userInfo.name.value,
-                        img:userInfo.url
+        ids.forEach((id)=>{
+            db.collection(`users/${id.id}/userInfo`)
+                .onSnapshot((snapShot)=>{
+                    snapShot.forEach((doc)=>{
+                        const userInfo = doc.data();
+                        user.push({
+                            name:userInfo.name.value,
+                            img:userInfo.url
+                        });
                     });
-                });
                 setPartner(user)
             });
+        });
     }
 
 
@@ -102,7 +114,7 @@ export default function TalkList(){
             flex:1
         }}
     >
-        <MessageList style={styles.MessageList} user={partner} message={data}/>
+        <MessageList style={styles.MessageList} user={partner} message={data} count={unReads}/>
 
     </View>
     );

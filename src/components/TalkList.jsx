@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 import { format } from 'date-fns';
 
-export default function MessageList({user,message}){
+export default function MessageList({user,message,unReads}){
 
     function fixData(){
         const newData = [];
@@ -13,7 +13,8 @@ export default function MessageList({user,message}){
                 message:message[index].message,
                 img:item.img,
                 date:format(message[index].date,'MM/dd'),
-                key:message[index].key
+                key:message[index].key,
+                unRead:message[index].unReads
             })
         });
         return (newData);
@@ -50,6 +51,11 @@ export default function MessageList({user,message}){
                         </View>
                         <View style={styles.dateBox}>
                             <Text style={styles.date}>{item.date}</Text>
+                        </View>
+                        <View style={styles.messageCountArea}>
+                            <View style={item.unRead===''?{}:styles.messageCountBox}>
+                                <Text style={styles.messageCount}>{item.unRead===''?'':item.unRead}</Text>
+                            </View>
                         </View>
                     </View>
                 </TouchableOpacity>
