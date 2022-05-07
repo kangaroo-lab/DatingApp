@@ -22,9 +22,7 @@ export default function TalkBoard(props){
     //データの追加に伴って再レンダリングを行う
     const {key} = props.route.params;
     const [data,setData] = useState([]);
-    const [hideData,setHideData] = useState();
     const [name,setName] = useState();
-    const [count,setCount] = useState(0);
 
     const [inputHeight, setInputHeight] = useState(0);
     const [bodyText, setBodyText] = useState('');
@@ -36,36 +34,21 @@ export default function TalkBoard(props){
         return unsubscribe;
     },[]);
 
-    useEffect(()=>{
-        return ()=>{console.log('re-rendering by data')
-                    setData(hideData)}
-    },[hideData]);
-
-    useEffect(()=>{
-        console.log(' data ')
-    },[data])
-
-    useEffect(()=>{
-        console.log('re-rendering by Height')
-    },[inputHeight])
-
     function joinTheRoom(){
-        console.log('JOIN THE ROOM')
+        console.log('JOIN THE ROOM');
         const db = firebase.firestore();
-        const ref = db.collection(`talkRooms`).doc(key).collection('talkRoom');
+        const ref = db.collection(`talkRooms`).doc(key);
         const saveData = [];
-        ref.orderBy('time','desc').onSnapshot((snapShot)=>{
-            snapShot.forEach((doc)=>{
-                saveData.push(doc.data());
-            });
-            setData(saveData);
+        ref.onSnapshot((snapShot)=>{
+            saveData.push(snapShot.data().message)
+            console.log(saveData[0])
+            setData(saveData[0]);
         });
         getUserName();
     };
 
-
     function getUserName(){
-        console.log('GET NAME')
+        console.log('GET NAME');
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`);
@@ -76,24 +59,32 @@ export default function TalkBoard(props){
         });
     };
 
-    function updateTalkData(){
+    function addTalkData(){
         const db = firebase.firestore();
-        const ref = db.collection(`talkRooms`).doc(key).collection('talkRoom');
+        const ref = db.collection(`talkRooms`).doc(key);
+        console.log('データが追加される前のデータ状態\n',data)
+        ref.update({
+            message:data
+        })
+        .then(()=>{
+            console.log('データが追加された後のデータ状態\n',data)
+            console.log('\n\n\n\n\nUpdate!!')
+        })
+        .catch(()=>{
+            console.error('ERROR:Something wrong is happened!')
+        })
+
+
+    }
+
+    function updateTalkData(){
         const newData={
             message:bodyText,
             time:new Date(),
             user:name
         }
-        setHideData([...data,newData])
-        ref.add(newData)
-        .then(()=>{
-            console.log('\n\n\n\n\n\n\n\n\n\n\n\n\nUpdate!!')
-            joinTheRoom()
-            setCount(count+1)
-        })
-        .catch(()=>{
-            console.error('ERROR:Something wrong is happened!')
-        })
+        data.unshift(newData)
+        addTalkData(newData)
     }
 
     const GetTalkElem=({item})=>{
@@ -115,7 +106,6 @@ export default function TalkBoard(props){
             <FlatList
                 removeClippedSubviews={false}
                 data={data}
-                extraData={count}
                 renderItem={GetTalkElem}
                 contentContainerStyle={{paddingBottom:20}}
                 inverted

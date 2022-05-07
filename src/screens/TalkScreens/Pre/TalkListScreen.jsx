@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { StyleSheet, View, Text,TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import firebase from 'firebase';
 
 import MessageList from '../../../components/TalkList';
@@ -50,18 +50,21 @@ export default function TalkList(){
         const room = [];
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`);
-        ref.doc(key).collection('talkRoom').orderBy('time','desc')
+        ref.doc(key)
             .onSnapshot((snapShot)=>{
-                snapShot.forEach((doc)=>{
+                console.log(snapShot.data().message)
+                const data = snapShot.data().message;
+                data.forEach((element)=>{
                     room.push({
-                        message:doc.data().message,
-                        date:doc.data().time.toDate(),
+                        message:element.message,
+                        date:element.time.toDate(),
                         key:key
-                    })
+                    });
                 });
+                console.log('ROOM ',room)
                 setData(room)
             });
-    }
+    };
 
     function getPartnerRef(id){
         const db = firebase.firestore();
