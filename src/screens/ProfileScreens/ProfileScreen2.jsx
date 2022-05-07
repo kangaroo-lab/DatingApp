@@ -337,7 +337,7 @@ class ScrollableHeader extends Component {
       inputRange: [0, HEADER_SCROLL_DISTANCE],
       outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
       extrapolate: 'clamp',
-    });
+    },);
     const imageOpacity = this.state.scrollY.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
         outputRange: [1, 1, 0],
@@ -361,6 +361,7 @@ class ScrollableHeader extends Component {
           scrollEventThrottle={16}
           onScroll={Animated.event(
             [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
+            ,{useNativeDriver:false}
           )}
         >
           {this._renderScrollViewContent()}

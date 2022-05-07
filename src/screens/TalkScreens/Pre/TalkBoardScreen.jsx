@@ -39,7 +39,6 @@ export default function TalkBoard(props){
         const saveData = [];
         ref.onSnapshot((snapShot)=>{
             saveData.push(snapShot.data().message)
-            console.log(saveData[0])
             setData(saveData[0]);
         });
         getUserName();
@@ -86,6 +85,10 @@ export default function TalkBoard(props){
         }else{
             return <CatchMessage message={item.message}/>
         }
+    }
+
+    if(data.length==0){
+        return<View></View>
     }
 
     return(

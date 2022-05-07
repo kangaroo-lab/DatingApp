@@ -8,7 +8,8 @@ import {
     Alert
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import firebase from 'firebase'
+import firebase from 'firebase';
+import PropTypes from 'prop-types';
 
 export default function(props){
     const navigation = useNavigation();

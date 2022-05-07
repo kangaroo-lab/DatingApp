@@ -111,7 +111,6 @@ export default function OfficialTalkList(){
         if(data.length==0||partner.length==0){
             return null
         }
-        console.log('MAKE UP DATA')
         data.forEach((elem,index)=>{
             renderDate.push({
                 name:partner[index].name,
@@ -158,6 +157,9 @@ export default function OfficialTalkList(){
         )
     }
 
+    if(perfectData.length==0){
+        return<View></View>
+    }
 
     if(!isFocused){
         return(
@@ -167,11 +169,8 @@ export default function OfficialTalkList(){
         )
     }else{
         if(data.length==0||partner.length==0){
-            console.log('マジクソ')
             return(<View></View>)
         }
-        console.log('いけるやん？')
-        console.log(renderDate)
         return(
         <View>
             <View style={styles.messageList}>

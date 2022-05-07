@@ -15,9 +15,6 @@ import firebase from 'firebase';
 import SendMessage from '../../../components/sendMessage';
 import CatchMessage from '../../../components/catchMessage';
 
-
-import OfficialTalkBoardGround from '../../../components/OfficialTalkBoardGround';
-
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
@@ -30,26 +27,22 @@ export default function OfficialTalkBoard(props){
     const [bodyText, setBodyText] = useState('');
 
     useEffect(()=>{
-        console.log('EFFECT')
         let unsubscribe = joinTheRoom()
         return unsubscribe;
     },[]);
 
     function joinTheRoom(){
-        console.log('JOIN THE ROOM');
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`).doc(key);
         const saveData = [];
         ref.onSnapshot((snapShot)=>{
             saveData.push(snapShot.data().message)
-            console.log(saveData[0])
             setData(saveData[0]);
         });
         getUserName();
     };
 
     function getUserName(){
-        console.log('GET NAME');
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`);
@@ -63,12 +56,10 @@ export default function OfficialTalkBoard(props){
     function addTalkData(){
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`).doc(key);
-        console.log('データが追加される前のデータ状態\n',data)
         ref.update({
             message:data
         })
         .then(()=>{
-            console.log('データが追加された後のデータ状態\n',data)
             console.log('\n\n\n\n\nUpdate!!')
         })
         .catch(()=>{
@@ -93,6 +84,11 @@ export default function OfficialTalkBoard(props){
             }else{
                 return <CatchMessage message={item.message}/>
             }
+        }
+
+
+        if(data.length==0){
+            return<View></View>
         }
 
         return(
