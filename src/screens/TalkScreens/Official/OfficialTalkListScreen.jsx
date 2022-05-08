@@ -34,12 +34,12 @@ export default function OfficialTalkList(){
 
     useEffect(()=>{
         makeUpData();
-        setMount(false)
-    },[mount])
+    },[data],[partner],[count])
 
     useEffect(()=>{
-        makeUpData();
-    },[data],[partner],[count])
+        console.log('PARTNER できたみたい！',partner)
+        makeUpData()
+    },[partner])
 
     function getTalkRef(){
         const db = firebase.firestore();
@@ -55,6 +55,7 @@ export default function OfficialTalkList(){
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
                 if(doc.data().status){
+                    console.log('DATA ON',doc.data())
                     doc.data().member.forEach((elem)=>{
                         const partnerId = []
                         if(currentUser.uid!==elem.id){
@@ -63,12 +64,13 @@ export default function OfficialTalkList(){
                             });
                         }
                         if(partnerId.length!==0){
+                            console.log('PRTNER ID　取れたよ！',partnerId);
                             getPartnerRef(partnerId);
                         }
-                        getRoomContents(key);
-                        setCount(count+1)
-                        makeUpData()
+                        console.log('ここまできたよ！')
                     });
+                    getRoomContents(key);
+                    setCount(count+1)
                 }
             });
         });
@@ -98,11 +100,13 @@ export default function OfficialTalkList(){
                 });
                 oneData.push(room)
                 setData(oneData)
+                console.log('DATA 作れたよ！',data)
             });
     };
 
 
     function getPartnerRef(ids){
+        console.log('PARTNER のデータ取りに行くよ！')
         const db = firebase.firestore();
         const user = []
         ids.forEach((id)=>{
@@ -114,8 +118,14 @@ export default function OfficialTalkList(){
                             name:userInfo.name.value,
                             img:userInfo.url
                         });
+                        if(user.length!==0){
+                            console.log('PARTNER 作ったよ！',user)
+                            setPartner(user)
+                            makeUpData()
+                        }else{
+                            console.log('PARTNER　作れてないよ！？',userInfo)
+                        }
                     });
-                    setPartner(user)
                 });
             })
     }
@@ -124,6 +134,7 @@ export default function OfficialTalkList(){
 
     function makeUpData(){
         if(data.length==0||partner.length==0){
+            console.log('なんかまだ足りてないみたい…',partner,data)
             return null
         }
         data.forEach((elem,index)=>{
@@ -139,6 +150,7 @@ export default function OfficialTalkList(){
                 })
             }
         })
+        console.log('RENDERDATA * ',renderDate)
         setPerfectData(renderDate)
         setMount(true)
     }

@@ -105,18 +105,23 @@ export default function TalkBoard(props,{navigation}){
         });
         const {currentUser} = firebase.auth();
         const userRef = db.collection(`users/${currentUser.uid}/talkLists`);
-        userRef.onSnapshot((doc)=>{
-            if(doc.data().key==key){
-                userRef.doc(key).update({
-                    request:true,
-                    key:key
-                })
-            }
-        })
+        userRef.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                if(doc.data().key==key){
+                    console.log(doc.data())
+                    userRef.doc(doc.id).update({
+                        key:key,
+                        request:true
+                    });
+                }
+            });
+        });
     };
 
     function keep(){
         console.log('KEEPで')
+        const db = firebase.firestore();
+        const ref = db.collection(`talkRooms`).doc(key);
     }
 
     function reject(){
@@ -182,6 +187,17 @@ export default function TalkBoard(props,{navigation}){
 
     function handleGood(){
         console.log('いいねの申告')
+        Alert.alert(
+            'いいね申請しますか？',
+            '申請は週に五回までです',
+            [
+            {text:'はい',onPress:()=>{toRequest()}},
+            {text:'いいえ',onPress:()=>{}}
+        ]
+        )
+    };
+
+    function toRequest(){
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const refUser = db.collection(`users/${currentUser.uid}/talkLists`);
