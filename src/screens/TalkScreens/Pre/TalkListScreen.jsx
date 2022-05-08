@@ -18,7 +18,7 @@ export default function TalkList(){
         let unsubscribe = getTalkRef()
             .onSnapshot((snapShot)=>{
                 snapShot.forEach((doc)=>{
-                    getRoomRef(doc.data().key)
+                    getRoomRef(doc.data().key);
                 });
             });
         return unsubscribe;
@@ -37,16 +37,18 @@ export default function TalkList(){
         const {currentUser} = firebase.auth();
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                doc.data().member.forEach((elem)=>{
-                    const partnerId = []
-                    if(currentUser.uid!==elem.id){
-                        partnerId.push({
-                            id:elem.id,
-                        });
-                    }
-                    getPartnerRef(partnerId);
-                    getRoomContents(key);
-                })
+                if(!doc.data().status){
+                    doc.data().member.forEach((elem)=>{
+                        const partnerId = []
+                        if(currentUser.uid!==elem.id){
+                            partnerId.push({
+                                id:elem.id,
+                            });
+                        }
+                        getPartnerRef(partnerId);
+                        getRoomContents(key);
+                    });
+                };
             });
         });
     }

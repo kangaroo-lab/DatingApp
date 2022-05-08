@@ -61,7 +61,6 @@ export default function MessageList({user,message}){
                 </TouchableOpacity>
             )
     }
-    //再レンダリングのデータを取得する
 
     // Listの返し
     if(isFocused){

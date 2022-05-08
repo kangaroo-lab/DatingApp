@@ -28,10 +28,9 @@ export default function StackOfficialNavigator() {
              options={{
                headerTitle:' ',
                headerShown:true,
-               headerRight:()=>(
-                 <TalkBoardHeader/>
+               headerRight:({route})=>(
+                 <TalkBoardHeader route={route}/>
               ),
-
              }}
             />
         </Stack.Navigator>

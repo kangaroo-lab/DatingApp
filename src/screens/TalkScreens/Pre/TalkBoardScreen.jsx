@@ -7,10 +7,11 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
-import {string} from 'prop-types'
 import firebase from 'firebase';
+import {useNavigation} from '@react-navigation/native';
 
 import SendMessage from '../../../components/sendMessage';
 import CatchMessage from '../../../components/catchMessage';
@@ -18,12 +19,15 @@ import CatchMessage from '../../../components/catchMessage';
 //navigationのheaderを無視するための数字！
 const KEYBOARD_VERTICAL_OFFSET = 90 + StatusBar.currentHeight;
 
-export default function TalkBoard(props){
+
+
+export default function TalkBoard(props,{navigation}){
     //データの追加に伴って再レンダリングを行う
     const {key} = props.route.params;
     const [data,setData] = useState([]);
     const [name,setName] = useState();
-    const [member,setMember] = useState([])
+    const [member,setMember] = useState([]);
+    const [request,setRequest] = useState(false);
 
     const [inputHeight, setInputHeight] = useState(0);
     const [bodyText, setBodyText] = useState('');
@@ -38,11 +42,10 @@ export default function TalkBoard(props){
         if(data.length!==0){
             const db = firebase.firestore();
             const ref = db.collection(`talkRooms`).doc(key);
-            console.log('data is ',data)
             ref.update({
                 message:data
-            })
-        }
+            });
+        };
     },[data])
 
     function joinTheRoom(){
@@ -52,6 +55,11 @@ export default function TalkBoard(props){
         const saveData = [];
         const members = [];
         ref.onSnapshot((snapShot)=>{
+            if(snapShot.data().requested&&!snapShot.data().status){
+                console.log('REQUESTED')
+                setRequest(true)
+                checkRequest()
+            }
             saveData.push(snapShot.data().message)
             saveData[0].forEach((elem)=>{
                 elem.read.forEach((member)=>{
@@ -64,9 +72,56 @@ export default function TalkBoard(props){
             setData(saveData[0]);
             setMember(members[0])
         });
-
         getUserName();
     };
+
+    function checkRequest(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/talkLists`);
+        ref.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                if(!doc.data().request){
+                    Alert.alert(
+                        'いいねされました！',
+                        '本マッチにいくと上限なく会話していくことができます！',
+                        [
+                            {text:'受諾',onPress:()=>{statusUp()}},
+                            {text:'keep!',onPress:()=>{keep()}},
+                            {text:'拒否',onPress:()=>{reject()}}
+                        ]
+                        )
+                }
+            })
+        })
+    }
+
+    function statusUp(){
+        console.log('受理された')
+        const db = firebase.firestore();
+        const ref = db.collection(`talkRooms`).doc(key);
+        ref.update({
+            status:true
+        });
+        const {currentUser} = firebase.auth();
+        const userRef = db.collection(`users/${currentUser.uid}/talkLists`);
+        userRef.onSnapshot((doc)=>{
+            if(doc.data().key==key){
+                userRef.doc(key).update({
+                    request:true,
+                    key:key
+                })
+            }
+        })
+    };
+
+    function keep(){
+        console.log('KEEPで')
+    }
+
+    function reject(){
+        console.log('拒否')
+    }
 
     function getUserName(){
         const db = firebase.firestore();
@@ -125,6 +180,30 @@ export default function TalkBoard(props){
         }
     }
 
+    function handleGood(){
+        console.log('いいねの申告')
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const refUser = db.collection(`users/${currentUser.uid}/talkLists`);
+        const refRoom = db.collection(`talkRooms`).doc(key);
+        let id = ''
+        refUser.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                if(doc.data().key==key){
+                    console.log('ON')
+                    id=doc.id
+                };
+            });
+            refUser.doc(id).set({
+                key:key,
+                request:true
+            });
+        });
+        refRoom.update({
+            requested:true
+        })
+    }
+
     if(data.length==0){
         return<View></View>
     }
@@ -148,9 +227,13 @@ export default function TalkBoard(props){
                 <View>
                     <View style={styles.footerContainer}>
                         <View style={styles.contentsView}>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={()=>
+                                    handleGood()
+                                }
+                            >
                                 <View>
-                                    <Image source={require('../../../img/camera.png')} style={styles.image}/>
+                                    <Image source={require('../../../img/ハートのマーク.png')} style={styles.image}/>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -187,6 +270,10 @@ export default function TalkBoard(props){
     </View>
     );
 }
+
+TalkBoard.navigationOptions =({
+    headerTitle:'Start',
+})
 
 const styles = StyleSheet.create({
     container:{

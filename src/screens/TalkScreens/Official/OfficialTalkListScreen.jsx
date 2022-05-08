@@ -54,20 +54,22 @@ export default function OfficialTalkList(){
         const {currentUser} = firebase.auth();
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                doc.data().member.forEach((elem)=>{
-                    const partnerId = []
-                    if(currentUser.uid!==elem.id){
-                        partnerId.push({
-                            id:elem.id,
-                        });
-                    }
-                    if(partnerId.length!==0){
-                        getPartnerRef(partnerId);
-                    }
-                    getRoomContents(key);
-                    setCount(count+1)
-                    makeUpData()
-                });
+                if(doc.data().status){
+                    doc.data().member.forEach((elem)=>{
+                        const partnerId = []
+                        if(currentUser.uid!==elem.id){
+                            partnerId.push({
+                                id:elem.id,
+                            });
+                        }
+                        if(partnerId.length!==0){
+                            getPartnerRef(partnerId);
+                        }
+                        getRoomContents(key);
+                        setCount(count+1)
+                        makeUpData()
+                    });
+                }
             });
         });
     }
