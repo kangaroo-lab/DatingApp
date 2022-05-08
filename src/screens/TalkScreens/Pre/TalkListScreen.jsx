@@ -12,8 +12,6 @@ import MessageList from '../../../components/TalkList';
 export default function TalkList(){
     const [data, setData] = useState([]);
     const [partner, setPartner] = useState([]);
-    const [count, setCount] = useState(0);
-    const [read,setRead] = useState([]);
     const [unReads,setUnReads] = useState([]);
 
     useEffect(()=>{
@@ -44,19 +42,19 @@ export default function TalkList(){
                     if(currentUser.uid!==elem.id){
                         partnerId.push({
                             id:elem.id,
-                            dateTime:elem.dateTime.toDate()
                         });
                     }
                     getPartnerRef(partnerId);
-                    getRoomContents(key,elem.dateTime.toDate());
+                    getRoomContents(key);
                 })
             });
         });
     }
 
-    function getRoomContents(key,partnerId){
+    function getRoomContents(key){
         let room = [];
         const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
         const ref = db.collection(`talkRooms`);
         let n = 0;
         ref.doc(key)
@@ -69,10 +67,11 @@ export default function TalkList(){
                         key:key,
                         unReads:0
                     });
-                    if(partnerId < element.time.toDate()){
-                        n+=1;
-                        room[0].unReads=n;
-                    }
+                    element.read.forEach((member)=>{
+                        if(member.id==currentUser.uid&&!member.read){
+                            room[0].unReads+=1;
+                        }
+                    })
                 });
                 // room = unReadCount(room)
                 setData(room)

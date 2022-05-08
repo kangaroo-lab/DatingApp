@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 import { format } from 'date-fns';
 
-export default function MessageList({user,message,unReads}){
+export default function MessageList({user,message}){
 
     function fixData(){
         const newData = [];
@@ -53,8 +53,8 @@ export default function MessageList({user,message,unReads}){
                             <Text style={styles.date}>{item.date}</Text>
                         </View>
                         <View style={styles.messageCountArea}>
-                            <View style={item.unRead===''?{}:styles.messageCountBox}>
-                                <Text style={styles.messageCount}>{item.unRead===''?'':item.unRead}</Text>
+                            <View style={item.unRead===0?{}:styles.messageCountBox}>
+                                <Text style={styles.messageCount}>{item.unRead===0?'':item.unRead}</Text>
                             </View>
                         </View>
                     </View>

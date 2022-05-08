@@ -22,6 +22,7 @@ export default function OfficialTalkBoard(props){
     const {key} = props.route.params;
     const [data, setData] = useState([])
     const [name, setName] = useState()
+    const [member,setMember] = useState([])
 
     const [inputHeight, setInputHeight] = useState(0);
     const [bodyText, setBodyText] = useState('');
@@ -31,13 +32,35 @@ export default function OfficialTalkBoard(props){
         return unsubscribe;
     },[]);
 
+    useEffect(()=>{
+        if(data.length!==0){
+            const db = firebase.firestore();
+            const ref = db.collection(`talkRooms`).doc(key);
+            console.log('data is ',data)
+            ref.update({
+                message:data
+            })
+        }
+    },[data])
+
     function joinTheRoom(){
         const db = firebase.firestore();
         const ref = db.collection(`talkRooms`).doc(key);
+        const {currentUser} = firebase.auth();
+        const members = [];
         const saveData = [];
         ref.onSnapshot((snapShot)=>{
             saveData.push(snapShot.data().message)
+            saveData[0].forEach((elem)=>{
+                elem.read.forEach((member)=>{
+                    if(member.id==currentUser.uid){
+                        member.read = true;
+                    };
+                });
+            });
+            members.push(snapShot.data().member)
             setData(saveData[0]);
+            setMember(members[0])
         });
         getUserName();
     };
@@ -68,10 +91,24 @@ export default function OfficialTalkBoard(props){
     };
 
         function updateTalkData(){
+            const saveDate = [];
+            const {currentUser} = firebase.auth();
+            let flag = false;
+            member.forEach((member)=>{
+                if(member.id==currentUser.uid){
+                    flag=true
+                }
+                saveDate.push({
+                    id:member.id,
+                    read:flag
+                });
+                flag=false;
+            });
             const newData={
                 message:bodyText,
                 time:new Date(),
-                user:name
+                user:name,
+                read:saveDate
             }
             data.unshift(newData)
             addTalkData(newData)

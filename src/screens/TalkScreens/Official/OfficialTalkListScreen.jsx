@@ -10,6 +10,7 @@ import {
 import firebase from 'firebase';
 import {useIsFocused,useNavigation} from '@react-navigation/native';
 import { format } from 'date-fns';
+import { concat } from 'react-native-reanimated';
 
 
 export default function OfficialTalkList(){
@@ -53,18 +54,20 @@ export default function OfficialTalkList(){
         const {currentUser} = firebase.auth();
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                let partnerId = '';
-                if(currentUser.uid==doc.data().memberA){
-                    partnerId=doc.data().memberB
-                }else if(currentUser.uid==doc.data().memberB){
-                    partnerId=doc.data().memberA;
-                }else{
-                    console.log('ERROR IN GET ROOM REF IN TALKLIST SCREEN')
-                }
-                getPartnerRef(partnerId);
-                getRoomContents(key);
-                setCount(count+1)
-                makeUpData()
+                doc.data().member.forEach((elem)=>{
+                    const partnerId = []
+                    if(currentUser.uid!==elem.id){
+                        partnerId.push({
+                            id:elem.id,
+                        });
+                    }
+                    if(partnerId.length!==0){
+                        getPartnerRef(partnerId);
+                    }
+                    getRoomContents(key);
+                    setCount(count+1)
+                    makeUpData()
+                });
             });
         });
     }
@@ -72,6 +75,7 @@ export default function OfficialTalkList(){
     function getRoomContents(key){
         const room = [];
         const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
         const ref = db.collection(`talkRooms`);
         ref.doc(key)
             .onSnapshot((snapShot)=>{
@@ -81,28 +85,37 @@ export default function OfficialTalkList(){
                     room.push({
                         message:element.message,
                         date:element.time.toDate(),
-                        key:key
+                        key:key,
+                        unReads:0
                     });
+                    element.read.forEach((member)=>{
+                        if(member.id==currentUser.uid&&!member.read){
+                            room[0].unReads+=1;
+                        }
+                    })
                 });
                 oneData.push(room)
                 setData(oneData)
             });
     };
 
-    function getPartnerRef(id){
+
+    function getPartnerRef(ids){
         const db = firebase.firestore();
         const user = []
-        db.collection(`users/${id}/userInfo`)
-            .onSnapshot((snapShot)=>{
-                snapShot.forEach((doc)=>{
-                    const userInfo = doc.data();
-                    user.push({
-                        name:userInfo.name.value,
-                        img:userInfo.url
+        ids.forEach((id)=>{
+            db.collection(`users/${id.id}/userInfo`)
+                .onSnapshot((snapShot)=>{
+                    snapShot.forEach((doc)=>{
+                        const userInfo = doc.data();
+                        user.push({
+                            name:userInfo.name.value,
+                            img:userInfo.url
+                        });
                     });
+                    setPartner(user)
                 });
-                setPartner(user)
-            });
+            })
     }
 
     const renderDate = [];
@@ -112,11 +125,17 @@ export default function OfficialTalkList(){
             return null
         }
         data.forEach((elem,index)=>{
-            renderDate.push({
-                name:partner[index].name,
-                message:elem,
-                img:partner[index].img,
-            })
+            if(renderDate.length!==0){
+                if(renderDate[index].img==partner[index].img){
+                    console.log('データが重複してる！')
+                }
+            }else{
+                renderDate.push({
+                    name:partner[index].name,
+                    message:elem,
+                    img:partner[index].img,
+                })
+            }
         })
         setPerfectData(renderDate)
         setMount(true)
@@ -152,24 +171,29 @@ export default function OfficialTalkList(){
                     <View style={styles.dateBox}>
                         <Text style={styles.date}>{date}</Text>
                     </View>
+                        <View style={styles.messageCountArea}>
+                            <View style={item.message[0].unReads===0?{}:styles.messageCountBox}>
+                                <Text style={styles.messageCount}>{item.message[0].unReads===0?'':item.message[0].unReads}</Text>
+                            </View>
+                        </View>
                 </View>
             </TouchableOpacity>
         )
     }
 
     if(perfectData.length==0){
-        return<View></View>
+        return<View><Text></Text></View>
     }
 
     if(!isFocused){
         return(
             <View>
-                <Text>aaa</Text>
+                <Text></Text>
             </View>
         )
     }else{
         if(data.length==0||partner.length==0){
-            return(<View></View>)
+            return(<View><Text>aaa</Text></View>)
         }
         return(
         <View>

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TalkBoard from'../screens/TalkScreens/Pre/TalkBoardScreen';
 import TalkList from '../screens/TalkScreens/Pre/TalkListScreen';
 
-import TalkBoardHeader from'../components/talkBoardHeader';
+import TalkBoardHeader from'../components/preTalkBoardLeftHeader';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +30,7 @@ export default function StackNavigator() {
                headerShown:true,
                headerRight:()=>(
                  <TalkBoardHeader/>
-              )
+              ),
              }}
             />
         </Stack.Navigator>

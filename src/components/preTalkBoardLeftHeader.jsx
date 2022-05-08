@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet,View,TouchableOpacity } from 'react-native';
 import { AntDesign,Entypo } from '@expo/vector-icons';
 
+
 export default function TalkBoardHeader(){
     return(
         <View style={styles.container}>
