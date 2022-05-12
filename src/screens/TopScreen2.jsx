@@ -59,13 +59,13 @@ export default function Top2(){
     const db = firebase.firestore();
     const ref = db.collection(`talkRooms`);
     const {currentUser} = firebase.auth();
-    ref.doc(key)
-      .update({
-        memberB:currentUser.uid,
-      })
-      .then(()=>{
-        getKey(key);
-      })
+    const data = ref.doc(key).get().member
+      // ref.doc(key).update({
+      //   member:data.push({id:currentUser.uid}),
+      // })
+      // .then(()=>{
+      //   getKey(key);
+      // })
   }
 
   // 仮作成:TalkRoomを作成して、アクセスを可能にする
@@ -75,17 +75,16 @@ export default function Top2(){
     const {currentUser} = firebase.auth()
     ref
       .add({
-        memberA:currentUser.uid,
+        member:[{id:currentUser.uid,}],
+        message:[{
+          time:new Date(),
+          message:'メッセージを送ってみましょう！',
+          user:'アプリ公式',
+          }],
+        requested:false,
+        status:false
       })
       .then((docRef)=>{
-        getKey(docRef.id);
-        setKey(docRef.id);
-        ref.doc(docRef.id).collection('talkRoom')
-          .add({
-            time:new Date(),
-            message:'メッセージを送ってみましょう！',
-            user:'アプリ公式',
-          })
       })
   }
 
@@ -97,6 +96,7 @@ export default function Top2(){
     ref
       .add({
         key:roomKey,
+        requset:false
       })
   }
 

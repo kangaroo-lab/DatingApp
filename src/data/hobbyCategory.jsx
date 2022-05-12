@@ -1,6 +1,9 @@
 import eat from './hobbyDatas/hobbyDataEat';
 import trip from './hobbyDatas/hobbyDataTrip';
-import outDoor from './hobbyDatas/hobbyDataOutDoor'
+import outDoor from './hobbyDatas/hobbyDataOutDoor';
+import drink from './hobbyDatas/hobbyDataDrink';
+import music from './hobbyDatas/hobbyDataMusic';
+import anime from './hobbyDatas/hobbyDataAnime';
 
 const data = [
     {
@@ -14,14 +17,14 @@ const data = [
      id: 1 ,
      title:" お酒 ",
      status:false,
-     list:[]
+     list:drink
     },
 
     {
      id: 2 ,
      title:" 音楽 ",
      status:false,
-     list:[]
+     list:music
     },
 
     {
@@ -35,7 +38,7 @@ const data = [
      id: 4 ,
      title:" 漫画・アニメ ",
      status:false,
-     list:[]
+     list:anime
     },
 
     {
