@@ -4,6 +4,12 @@ import outDoor from './hobbyDatas/hobbyDataOutDoor';
 import drink from './hobbyDatas/hobbyDataDrink';
 import music from './hobbyDatas/hobbyDataMusic';
 import anime from './hobbyDatas/hobbyDataAnime';
+import sports from './hobbyDatas/hobbyDataSports';
+import movies from './hobbyDatas/hobbyDataMovie';
+import games from './hobbyDatas/hobbyDataGame';
+import spots from './hobbyDatas/hobbyDataSpot';
+import arts from './hobbyDatas/hobbyDataArt';
+import make from './hobbyDatas/hobbyDataMake';
 
 const data = [
     {
@@ -45,28 +51,28 @@ const data = [
      id: 5 ,
      title:" スポーツ ",
      status:false,
-     list:[]
+     list:sports
     },
 
     {
      id: 6 ,
      title:" 映画 ",
      status:false,
-     list:[]
+     list:movies
     },
 
     {
      id: 7 ,
      title:" ゲーム ",
      status:false,
-     list:[]
+     list:games
     },
 
     {
      id: 8 ,
      title:" レジャー・スポット ",
      status:false,
-     list:[]
+     list:spots
     },
 
     {
@@ -80,14 +86,14 @@ const data = [
      id: 10 ,
      title:" アート ",
      status:false,
-     list:[]
+     list:arts
     },
 
     {
      id: 11 ,
      title:" ファッション・美容 ",
      status:false,
-     list:[]
+     list:make
     }
  ]
 

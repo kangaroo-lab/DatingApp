@@ -3,89 +3,232 @@
 const values = [
     {
         id:0,
-        title:'質問１',
+        title:'あなたは朝方？それとも夜型？',
         status:false,
         type:[
             {
                 id:0,
-                type:'答え１A',
-                status:false
+                type:'朝方',
+                status:false,
+                relate:1
             },
             {
                 id:1,
-                type:'答え１B',
-                status:false
+                type:'夜型',
+                status:false,
+                relate:2,
             }
         ]
     },
     {
         id:1,
-        title:'質問２',
+        title:'朝早く起きたら',
         status:false,
         type:[
             {
                 id:0,
-                type:'答え２A',
-                status:false
+                type:'運動したり、読書したり自己投資！',
+                status:false,
+                relate:3
             },
             {
                 id:1,
-                type:'答え２B',
-                status:false
+                type:'スマホ見ちゃいます笑',
+                status:false,
+                relate:3
             }
         ]
     },
     {
         id:2,
-        title:'質問3',
+        title:'夜寝れない時は',
         status:false,
         type:[
             {
                 id:0,
-                type:'答え3A',
-                status:false
+                type:'勉強します！',
+                status:false,
+                relate:3
             },
             {
                 id:1,
-                type:'答え3B',
-                status:false
+                type:'友達にLINEとか、YouTube!',
+                status:false,
+                relate:3
             }
         ]
     },
     {
         id:3,
-        title:'質問4',
+        title:'どちらかというと',
         status:false,
         type:[
             {
                 id:0,
-                type:'答え4A',
-                status:false
+                type:'インドア',
+                status:false,
+                relate:4
             },
             {
                 id:1,
-                type:'答え4B',
-                status:false
+                type:'アウトドア',
+                status:false,
+                relate:5
             }
         ]
     },
     {
         id:4,
-        title:'質問5',
+        title:'休日は',
         status:false,
         type:[
             {
                 id:0,
-                type:'答え5A',
-                status:false
+                type:'趣味に没頭',
+                status:false,
+                relate:8
             },
             {
                 id:1,
-                type:'答え5B',
-                status:false
+                type:'友達と集まる！',
+                status:false,
+                relate:8
             }
         ]
-    }
+    },
+    {
+        id:5,
+        title:'遊びいいくなら…',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'街に繰り出す',
+                status:false,
+                relate:6
+            },
+            {
+                id:1,
+                type:'自然の中へ！',
+                status:false,
+                relate:7
+            }
+        ]
+    },
+    {
+        id:6,
+        title:'どちらかというと',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'大人数で大騒ぎ！',
+                status:false,
+                relate:8
+            },
+            {
+                id:1,
+                type:'二、三人で街をふらふら',
+                status:false,
+                relate:8
+            }
+        ]
+    },
+    {
+        id:7,
+        title:'大自然の中',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'みんなでBBQ！',
+                status:false,
+                relate:8
+            },
+            {
+                id:1,
+                type:'ソロキャンプ！',
+                status:false,
+                relate:8
+            }
+        ]
+    },
+    {
+        id:8,
+        title:'デートするなら',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'ラウンジデート！',
+                status:false,
+                relate:9
+            },
+            {
+                id:1,
+                type:'お散歩デート！',
+                status:false,
+                relate:9,
+            }
+        ]
+    },
+    {
+        id:9,
+        title:'パートナーとは',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'友達みたいな関係がいい',
+                status:false,
+                relate:10
+            },
+            {
+                id:1,
+                type:'高め合える関係がいい',
+                status:false,
+                relate:11,
+            }
+        ]
+    },
+    {
+        id:10,
+        title:'連絡は',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'些細なことでも連絡したい',
+                status:false,
+                relate:101
+            },
+            {
+                id:1,
+                type:'伝えたいことだけでいい',
+                status:false,
+                relate:111,
+            }
+        ]
+    },
+    {
+        id:11,
+        title:'二人の時は',
+        status:false,
+        type:[
+            {
+                id:0,
+                type:'めちゃくちゃいちゃつきたい',
+                status:false,
+                relate:1000
+            },
+            {
+                id:1,
+                type:'落ち着いたカップルでいたい',
+                status:false,
+                relate:1001,
+            }
+        ]
+    },
 ]
 
 export default values

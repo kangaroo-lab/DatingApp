@@ -12,7 +12,10 @@ import data from '../../data/values';
 
 export default function(props){
     const navigation = useNavigation()
-    return <ValueScreen {...props} navigation={navigation}/>
+    return <ValueScreen
+     {...props}
+     navigation={navigation}
+     />
 }
 
 class ValueScreen extends Component{
@@ -41,8 +44,12 @@ class ValueScreen extends Component{
         })
     }
 
+    callNext(){
+
+    }
+
     render(){
-        if(this.state.count<5){
+        if(this.state.count<100){
             return(
                 <View style={styles.fill}>
                     <View style={styles.inner}>
@@ -52,7 +59,7 @@ class ValueScreen extends Component{
                         <View style={styles.cardComponentView}>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.count+1})
+                                    this.setState({count:this.state.data[this.state.count].type[0].relate})
                                     this.state.data[this.state.count].type[0].status=true
                                     this.state.data[this.state.count].status=true
                                 }}
@@ -66,7 +73,7 @@ class ValueScreen extends Component{
                             </View>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.count+1})
+                                    this.setState({count:this.state.data[this.state.count].type[1].relate})
                                     this.state.data[this.state.count].type[1].status=true
                                     this.state.data[this.state.count].status=true
                                 }}
