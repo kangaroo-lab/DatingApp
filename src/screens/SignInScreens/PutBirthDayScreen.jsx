@@ -20,7 +20,8 @@ class BirthDayScreen extends Component{
         super(props);
         this.state={
             date:new Date(),
-            age:0
+            age:0,
+            today:new Date()
         }
     }
 
@@ -89,7 +90,7 @@ class BirthDayScreen extends Component{
                                 }
                             }}
                             onDateChange={(date) => {
-                                this.setState({date: date})
+                                this.setState({date:new Date(date)})
                                 this.getAge(date)
                             }}
                         />
@@ -103,9 +104,9 @@ class BirthDayScreen extends Component{
                             }
                         }
                         }
-                        disabled={!this.state.date}
+                        disabled={this.state.age!==0?false:true}
                     >
-                        <View style={this.state.date?styles.goNextButton:styles.goNextButtonDisabled}>
+                        <View style={this.state.age!==0?styles.goNextButton:styles.goNextButtonDisabled}>
                             <Text style={styles.buttonLabel}>次へ</Text>
                         </View>
                     </TouchableOpacity>

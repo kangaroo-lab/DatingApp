@@ -9,7 +9,7 @@ import {
     FlatList
 } from 'react-native';
 import { Chip } from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import {ThemeProvider, useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
@@ -46,6 +46,7 @@ class HobbyDetailScreen extends Component{
         this.state={
             count:0,
             data:this.props.route.params.data,
+            id:'',
         }
     }
 
@@ -58,13 +59,42 @@ class HobbyDetailScreen extends Component{
             hobby:this.state.data
         })
         .then(()=>{
-            const {navigation} = this.props;
-            navigation.navigate('Value',{id:this.props.route.params.id})
+            console.log('ADD')
+            this.addAppManager();
         })
         .catch((error)=>{
-            console.log(error)
+            console.log(error);
         })
     }
+
+    addAppManager(){
+        console.log('addAppManager ON')
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`AppManager`);
+        ref.add({
+            id:currentUser.uid,
+            hobby:this.getId(),
+        })
+        .then((docRef)=>{
+            const {navigation} = this.props;
+            navigation.navigate('Value',{id:this.props.route.params.id,key:docRef.id});
+        })
+        .catch((error)=>{
+            console.error(error);
+        });
+    };
+
+    getId(){
+        const data = this.state.data;
+        const result = [];
+        data.forEach((item)=>{
+            if(item.status){
+                result.push(item.id);
+            };
+        });
+        return result;
+    };
 
     hobbyDetailChips=({item})=>{
         return(

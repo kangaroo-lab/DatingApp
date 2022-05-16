@@ -10,13 +10,15 @@ const values = [
                 id:0,
                 type:'朝方',
                 status:false,
-                relate:1
+                relate:1,
+                n:0
             },
             {
                 id:1,
                 type:'夜型',
                 status:false,
                 relate:2,
+                n:1000000
             }
         ]
     },
@@ -29,13 +31,15 @@ const values = [
                 id:0,
                 type:'運動したり、読書したり自己投資！',
                 status:false,
-                relate:3
+                relate:3,
+                n:0
             },
             {
                 id:1,
                 type:'スマホ見ちゃいます笑',
                 status:false,
-                relate:3
+                relate:3,
+                n:100
             }
         ]
     },
@@ -48,13 +52,15 @@ const values = [
                 id:0,
                 type:'勉強します！',
                 status:false,
-                relate:3
+                relate:3,
+                n:0
             },
             {
                 id:1,
                 type:'友達にLINEとか、YouTube!',
                 status:false,
-                relate:3
+                relate:3,
+                n:100
             }
         ]
     },
@@ -67,13 +73,15 @@ const values = [
                 id:0,
                 type:'インドア',
                 status:false,
-                relate:4
+                relate:4,
+                n:0
             },
             {
                 id:1,
                 type:'アウトドア',
                 status:false,
-                relate:5
+                relate:5,
+                n:10000
             }
         ]
     },
@@ -86,13 +94,15 @@ const values = [
                 id:0,
                 type:'趣味に没頭',
                 status:false,
-                relate:8
+                relate:8,
+                n:0
             },
             {
                 id:1,
                 type:'友達と集まる！',
                 status:false,
-                relate:8
+                relate:8,
+                n:10
             }
         ]
     },
@@ -105,13 +115,15 @@ const values = [
                 id:0,
                 type:'街に繰り出す',
                 status:false,
-                relate:6
+                relate:6,
+                n:0
             },
             {
                 id:1,
                 type:'自然の中へ！',
                 status:false,
-                relate:7
+                relate:7,
+                n:10
             }
         ]
     },
@@ -124,13 +136,15 @@ const values = [
                 id:0,
                 type:'大人数で大騒ぎ！',
                 status:false,
-                relate:8
+                relate:8,
+                n:0
             },
             {
                 id:1,
                 type:'二、三人で街をふらふら',
                 status:false,
-                relate:8
+                relate:8,
+                n:1
             }
         ]
     },
@@ -143,13 +157,15 @@ const values = [
                 id:0,
                 type:'みんなでBBQ！',
                 status:false,
-                relate:8
+                relate:8,
+                n:0
             },
             {
                 id:1,
                 type:'ソロキャンプ！',
                 status:false,
-                relate:8
+                relate:8,
+                n:1
             }
         ]
     },
@@ -162,13 +178,15 @@ const values = [
                 id:0,
                 type:'ラウンジデート！',
                 status:false,
-                relate:9
+                relate:9,
+                n:0
             },
             {
                 id:1,
                 type:'お散歩デート！',
                 status:false,
                 relate:9,
+                n:100000
             }
         ]
     },
@@ -181,13 +199,15 @@ const values = [
                 id:0,
                 type:'友達みたいな関係がいい',
                 status:false,
-                relate:10
+                relate:10,
+                n:0
             },
             {
                 id:1,
                 type:'高め合える関係がいい',
                 status:false,
                 relate:11,
+                n:1000
             }
         ]
     },
@@ -200,13 +220,15 @@ const values = [
                 id:0,
                 type:'些細なことでも連絡したい',
                 status:false,
-                relate:101
+                relate:101,
+                n:0
             },
             {
                 id:1,
                 type:'伝えたいことだけでいい',
                 status:false,
-                relate:111,
+                relate:101,
+                n:1000
             }
         ]
     },
@@ -219,13 +241,15 @@ const values = [
                 id:0,
                 type:'めちゃくちゃいちゃつきたい',
                 status:false,
-                relate:1000
+                relate:101,
+                n:0
             },
             {
                 id:1,
                 type:'落ち着いたカップルでいたい',
                 status:false,
-                relate:1001,
+                relate:101,
+                n:1000
             }
         ]
     },

@@ -23,7 +23,8 @@ class ValueScreen extends Component{
         super(props);
         this.state={
             data:data,
-            count:0
+            count:0,
+            level:0,
         }
     }
 
@@ -31,22 +32,36 @@ class ValueScreen extends Component{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id);
+        ref.update({
+            appManagerKey:this.props.route.params.key
+        })
+        .catch((error)=>{console.log('ERROR : ',error)})
         ref.collection(`value`)
         .add({
             value:this.state.data
         })
         .then(()=>{
-            const {navigation} = this.props;
-            navigation.navigate('UploadPhoto',{id:this.props.route.params.id})
+            this.addAppanager();
         })
         .catch((error)=>{
-            console.log(error)
+            console.log(error);
         })
-    }
+    };
 
-    callNext(){
-
-    }
+    addAppanager(){
+        const db = firebase.firestore();
+        const docRef = db.collection(`AppManager`).doc(this.props.route.params.key);
+        docRef.update({
+            value:this.state.level
+        })
+        .then(()=>{
+            const {navigation} = this.props;
+            navigation.navigate('UploadPhoto',{id:this.props.route.params.id});
+        })
+        .catch((error)=>{
+            console.error(error)
+        });
+    };
 
     render(){
         if(this.state.count<100){
@@ -59,7 +74,7 @@ class ValueScreen extends Component{
                         <View style={styles.cardComponentView}>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.data[this.state.count].type[0].relate})
+                                    this.setState({count:this.state.data[this.state.count].type[0].relate,level:this.state.level+this.state.data[this.state.count].type[0].n})
                                     this.state.data[this.state.count].type[0].status=true
                                     this.state.data[this.state.count].status=true
                                 }}
@@ -73,7 +88,7 @@ class ValueScreen extends Component{
                             </View>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.data[this.state.count].type[1].relate})
+                                    this.setState({count:this.state.data[this.state.count].type[1].relate,level:this.state.level+this.state.data[this.state.count].type[1].n})
                                     this.state.data[this.state.count].type[1].status=true
                                     this.state.data[this.state.count].status=true
                                 }}

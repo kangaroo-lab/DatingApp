@@ -8,7 +8,7 @@ import {
     Alert
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import {useNavigation,StackActions, NavigationActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import firebase from 'firebase';
 

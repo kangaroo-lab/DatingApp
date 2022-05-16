@@ -6,13 +6,17 @@ import {
     TouchableOpacity,
     FlatList
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
 
 export default function(props){
     const navigation = useNavigation()
+    const isFocused = useIsFocused();
+    if(!isFocused){
+        return  <View/>
+    };
     return <HobbyCategoryScreen {...props} navigation={navigation}/>
 }
 
@@ -30,10 +34,6 @@ function fixData(data){
 class HobbyCategoryScreen extends Component{
     constructor(props){
         super(props);
-        const db = firebase.firestore();
-        const {currentUser} = firebase.auth();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.props.route.params.id).collection('hobby');
-
         this.state={
             count:0,
             data:data
@@ -47,7 +47,6 @@ class HobbyCategoryScreen extends Component{
                     if(!item.status){
                         item.status=true
                         this.setState({count:this.state.count+1})
-                        console.log(this.props.route.params.id)
                     }else{
                         item.status=false
                         this.setState({count:this.state.count-1})
@@ -74,8 +73,6 @@ class HobbyCategoryScreen extends Component{
     }
 
     handleNext=()=>{
-        console.log(this.state.data)
-        console.log(this.state.count)
         this.setState({count:this.state.count+1})
         const {navigation} = this.props;
         navigation.navigate('HobbyDetail',{data:this.state.data,id:this.props.route.params.id})
@@ -97,7 +94,7 @@ class HobbyCategoryScreen extends Component{
                     <View style={styles.buttonView}>
                         <TouchableOpacity
                             onPress={this.handleNext}
-                            //disabled={this.state.count<3?true:false}
+                            disabled={this.state.count<3?true:false}
                         >
                             <View style={this.state.count<3?styles.goNextButtonDisabled:styles.goNextButton}>
                                 <Text style={styles.buttonLabel}>次へ</Text>

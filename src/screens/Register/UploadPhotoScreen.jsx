@@ -37,9 +37,7 @@ class UploadPhotoScreen extends Component{
 
     async onPressAdd(){
         await this.uploadPostImg();
-        console.log(await this.state)
         const { imgUrl, phrase, postIndex } = await this.state;
-        console.log('なんか知らんけど追加してるやつな\nURL',imgUrl,'\nPHRASE',phrase,"\nPOSTINDEX",postIndex)
         this.setState(
             {
                 addedPost:[
@@ -60,7 +58,6 @@ class UploadPhotoScreen extends Component{
         if(this.state.photoAdd==true){
             console.log('true')
         }else{
-            console.log('false',this.state)
             this.setState({photoAdd:true})
         }
         if(this.state.count<=1){
@@ -80,9 +77,6 @@ class UploadPhotoScreen extends Component{
                             compress: 0.4,
                         },
                     );
-                    if(this.state.photoAdd){
-                        console.log(manipulatorResult.uri)
-                    }
                     this.setState({photo: manipulatorResult.uri, imgUrl: manipulatorResult.uri})
                 }
             }

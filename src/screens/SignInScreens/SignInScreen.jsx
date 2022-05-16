@@ -25,9 +25,7 @@ class SignIn extends Component{
     }
     toHomeScreen = () =>{
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-        .then((userCredential)=>{
-            const {user} = userCredential;
-            console.log(user.uid);
+        .then(()=>{
             const {navigation} = this.props;
             navigation.reset({
                 index:0,

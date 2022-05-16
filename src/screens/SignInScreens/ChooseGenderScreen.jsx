@@ -30,7 +30,6 @@ class GenderScreen extends Component{
             gender:this.state.gender
         })
         .then((docRef)=>{
-            console.log('Created', docRef.id)
             const {navigation} = this.props;
             navigation.navigate('PartnerGender',{id:docRef.id})
         })
