@@ -34,9 +34,7 @@ export default function(props){
     const isFocused = useIsFocused();
     if(!isFocused){
       return(
-          <View>
-
-          </View>
+          <View/>
       )
   }
     return <ScrollableHeader {...props} navigation={navigation}/>

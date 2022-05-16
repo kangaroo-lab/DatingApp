@@ -25,6 +25,7 @@ class ValueScreen extends Component{
             data:data,
             count:0,
             level:0,
+            prof:this.props.route.params.prof
         }
     }
 
@@ -50,7 +51,7 @@ class ValueScreen extends Component{
 
     addAppanager(){
         const db = firebase.firestore();
-        const docRef = db.collection(`AppManager`).doc(this.props.route.params.key);
+        const docRef = db.collection(`AppManager/${this.state.prof.gender}/${this.state.prof.address}`).doc(this.props.route.params.key);
         docRef.update({
             value:this.state.level
         })
@@ -74,7 +75,7 @@ class ValueScreen extends Component{
                         <View style={styles.cardComponentView}>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.data[this.state.count].type[0].relate,level:this.state.level+this.state.data[this.state.count].type[0].n})
+                                    this.setState({count:this.state.data[this.state.count].type[0].relate, level:this.state.level+this.state.data[this.state.count].type[0].n})
                                     this.state.data[this.state.count].type[0].status=true
                                     this.state.data[this.state.count].status=true
                                 }}
@@ -88,7 +89,7 @@ class ValueScreen extends Component{
                             </View>
                             <TouchableOpacity
                                 onPress={()=>{
-                                    this.setState({count:this.state.data[this.state.count].type[1].relate,level:this.state.level+this.state.data[this.state.count].type[1].n})
+                                    this.setState({count:this.state.data[this.state.count].type[1].relate, level: this.state.level + this.state.data[this.state.count].type[1].n})
                                     this.state.data[this.state.count].type[1].status=true
                                     this.state.data[this.state.count].status=true
                                 }}

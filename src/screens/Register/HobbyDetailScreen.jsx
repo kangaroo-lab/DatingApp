@@ -54,31 +54,41 @@ class HobbyDetailScreen extends Component{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`users/${currentUser.uid}/userInfo`)
+        const array = [];
+        ref.onSnapshot((snapShot)=>{
+            snapShot.forEach((docs)=>{
+                const data = docs.data();
+                array.push({
+                    gender:data.gender,
+                    address:data.address.value,
+                });
+            });
+        });
         ref.doc(this.props.route.params.id).collection(`hobby`)
         .add({
             hobby:this.state.data
         })
         .then(()=>{
             console.log('ADD')
-            this.addAppManager();
+            this.addAppManager(array[0]);
         })
         .catch((error)=>{
             console.log(error);
         })
     }
 
-    addAppManager(){
+    addAppManager(data){
         console.log('addAppManager ON')
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
-        const ref = db.collection(`AppManager`);
+        const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
         ref.add({
             id:currentUser.uid,
             hobby:this.getId(),
         })
         .then((docRef)=>{
             const {navigation} = this.props;
-            navigation.navigate('Value',{id:this.props.route.params.id,key:docRef.id});
+            navigation.navigate('Value',{id:this.props.route.params.id,key:docRef.id,prof:data});
         })
         .catch((error)=>{
             console.error(error);
