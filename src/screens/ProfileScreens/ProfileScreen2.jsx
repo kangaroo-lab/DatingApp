@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import {useNavigation,useIsFocused} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -22,7 +22,6 @@ import User from '../../data/user';
 import Hobbys from '../../components/profile/Hobbys';
 import Values from '../../components/profile/Values';
 import BasicInfo from '../../components/profile/BasicInfo';
-import data from '../../data/hobbyDatas/hobbyDataEat';
 
 const HEADER_MAX_HEIGHT= 550;
 const HEADER_MIN_HEIGHT = 100;
@@ -31,12 +30,6 @@ const Profile = User.profile
 
 export default function(props){
     const navigation = useNavigation();
-    const isFocused = useIsFocused();
-    if(!isFocused){
-      return(
-          <View/>
-      )
-  }
     return <ScrollableHeader {...props} navigation={navigation}/>
 }
 

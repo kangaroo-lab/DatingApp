@@ -53,7 +53,9 @@ class ValueScreen extends Component{
         const db = firebase.firestore();
         const docRef = db.collection(`AppManager/${this.state.prof.gender}/${this.state.prof.address}`).doc(this.props.route.params.key);
         docRef.update({
-            value:this.state.level
+            value:this.state.level,
+            wait:false,
+            search:false
         })
         .then(()=>{
             const {navigation} = this.props;

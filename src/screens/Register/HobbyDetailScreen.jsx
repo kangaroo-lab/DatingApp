@@ -4,12 +4,10 @@ import {
     Text,
     View,
     TouchableOpacity,
-    TextInput,
-    Alert,
     FlatList
 } from 'react-native';
 import { Chip } from 'react-native-paper';
-import {ThemeProvider, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
 import data from '../../data/hobbyCategory';
@@ -61,6 +59,8 @@ class HobbyDetailScreen extends Component{
                 array.push({
                     gender:data.gender,
                     address:data.address.value,
+                    search:false,
+                    wait:false
                 });
             });
         });
@@ -69,7 +69,6 @@ class HobbyDetailScreen extends Component{
             hobby:this.state.data
         })
         .then(()=>{
-            console.log('ADD')
             this.addAppManager(array[0]);
         })
         .catch((error)=>{

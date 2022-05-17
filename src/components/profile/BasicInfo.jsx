@@ -8,7 +8,7 @@ import firebase from 'firebase'
 
 export default function BasicInfo({user,count}){
     const navigation = useNavigation();
-    const [data, setData] = useState(user.profileList);
+    const data　=user.profileList;
 
     function updateData(){
         const db = firebase.firestore();
