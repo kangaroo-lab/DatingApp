@@ -1,6 +1,5 @@
-import React,{useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet,  View, FlatList } from 'react-native';
 import { Chip } from 'react-native-paper';
 
 export default function Hobbys(hobbies){

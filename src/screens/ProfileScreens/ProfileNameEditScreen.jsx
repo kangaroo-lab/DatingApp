@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 
-import User from '../../data/user';
-
 export default function NameEdit(props){
     const navigation = props.navigation;
     const {user,id} = props.route.params;

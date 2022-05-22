@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -193,9 +193,7 @@ class ScrollableHeader extends Component {
 
     async onPressAdd(){
       await this.uploadPostImg();
-      console.log(await this.state)
       const { imgUrl, phrase, postIndex } = await this.state;
-      console.log('なんか知らんけど追加してるやつな\nURL',imgUrl,'\nPHRASE',phrase,"\nPOSTINDEX",postIndex)
       this.setState(
           {
               addedPost:[
@@ -211,7 +209,6 @@ class ScrollableHeader extends Component {
   }
 
   uploadPost(url, phrase, postIndex) {
-    console.log('upLoading!!',this.state.userKey)
     const db = firebase.firestore();
     const {currentUser} = firebase.auth();
     const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.state.userKey);
@@ -229,7 +226,6 @@ class ScrollableHeader extends Component {
 
 
     uploadPostImg = async () => {
-      console.log('POST IMG')
       const metadata = {
         contentType: 'image/jpeg',
       };

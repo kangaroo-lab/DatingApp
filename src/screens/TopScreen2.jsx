@@ -13,21 +13,16 @@ import
   withRepeat,
   withTiming
 } from 'react-native-reanimated';
-import {useNavigation,useIsFocused} from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
 
 export default function Top2(){
-  const isFocused = useIsFocused();
-  if(!isFocused){
-    return(
-        <View/>
-    )
-}
 
   const [key, setKey] = useState('6E3yrZUp4lfYPTDQb6d6');
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
+  const [hobby, setHobby] = useState([]);
 
   useEffect(()=>{
     const userInfo = []
@@ -45,6 +40,25 @@ export default function Top2(){
           address:data.address.value,
           gender:data.gender
         });
+      });
+      ref.doc(userInfo[0].id).collection('hobby').onSnapshot((snapShot)=>{
+        snapShot.forEach((doc)=>{
+          const data = doc.data().hobby;
+          data.forEach((elem)=>{
+            if(elem.status){
+              const hobbys = [];
+              elem.list.forEach((h)=>{
+                if(h.status){
+                  hobbys.push(h.id)
+                };
+              });
+              hobbyInfo.push(
+                elem.id,
+              );
+            };
+          });
+        });
+        setHobby(hobbyInfo)
       });
       setData(userInfo[0])
     });
@@ -109,12 +123,11 @@ export default function Top2(){
     ref.orderBy('value','asc').onSnapshot((snapShot)=>{
       snapShot.forEach((doc)=>{
         if(doc.data().wait){
-          // const data = {
-          //   id: doc.data().id,
-          //   value:doc.data().value,
-          //   hobby:doc.data().hobby
-          // }
-          const data = doc.data().value
+          const data = {
+            id: doc.data().id,
+            value:doc.data().value,
+            hobby:doc.data().hobby
+          }
           if(doc.data().value==n){
             equal.push(data)
           }else if(doc.data().value>n){
@@ -125,6 +138,10 @@ export default function Top2(){
         };
       });
       console.log(`VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}`);
+      let partnerData = filter(equal);
+      if(partnerData!=null){
+        console.log(partnerData.id)
+      };
     });
   };
 
@@ -134,8 +151,18 @@ export default function Top2(){
 
   function filter(array){
     const db = firebase.firestore();
-
-  }
+    for(let i=0; i<array.length;i++ ){
+      console.log(array[i].id)
+      for(let j=0;j<array[i].hobby.length;j++){
+        console.log(j)
+        if(hobby.includes(array[i].hobby[j])){
+          console.log('THE MATCH HOBBY IS ',array[i].hobby[j])
+          return array[i]
+        };
+      };
+    };
+    return null
+  };
 
 
   // 仮作成:TalkRoomに参加させる

@@ -17,13 +17,16 @@ import TalkList from './src/screens/TalkScreens/Pre/TalkListScreen';
 import TabNavigation from './src/rooter/TabNavigator';
 import StackNavigator from './src/rooter/StackNavigator'
 import Values from './src/screens/Register/ValueScreen'
+import Drawer from './src/rooter/DrawerNavigator'
+import Tab from './src/rooter/TabNavigator'
 
 export default function App() {
   return (
     <NavigationContainer>
         <StackFirstNavigation/>
         {/* <TabNavigation/> */}
-        {/* <StackNavigator/> */}
+      {/* <StackNavigator/> */}
+      {/* <Drawer/> */}
     </NavigationContainer>
     // <Values/>
   );
