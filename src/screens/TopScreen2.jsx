@@ -123,7 +123,7 @@ export default function Top2(){
     const about = [...Array(20)].map(()=>0);
     let i=0;
     let k=0;
-    let j=20;
+    let j=19;
     ref.orderBy('value','asc').onSnapshot((snapShot)=>{
       snapShot.forEach((doc)=>{
         if(doc.data().wait){
@@ -150,11 +150,29 @@ export default function Top2(){
           };
         };
       });
-      console.log(`VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}`);
+      for(let i=0;i<20;i++){
+        if(high[0]==0){
+          high.shift();
+        }
+      };
 
+      let x=0;
+      let y=0;
+      for(let i=0;i<20;i++){
+        if(i%2==0){
+          about[i]=high[x];
+          x+=1;
+        }else{
+          about[i]=low[y];
+          y+=1;
+        };
+      };
+      console.log(`CHANGED VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}\nABOUT: ${about}`);
       let partnerData = filter(equal);
       if(partnerData!=null){
-        console.log(partnerData.id)
+        console.log(partnerData.id);
+      }else{
+        partnerData = filter(about);
       };
     });
   };
