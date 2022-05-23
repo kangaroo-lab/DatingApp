@@ -19,7 +19,7 @@ import firebase from 'firebase';
 
 export default function Top2(){
 
-  const [key, setKey] = useState('6E3yrZUp4lfYPTDQb6d6');
+  const [key, setKey] = useState('');
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
@@ -117,9 +117,13 @@ export default function Top2(){
     console.log(n)
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.partner}/${data.address}`);
-    const equal = [];
-    const high = [];
-    const low = [];
+    const equal = [...Array(20)].map(()=>0);
+    const high = [...Array(20)].map(()=>0);
+    const low = [...Array(20)].map(()=>0);
+    const about = [...Array(20)].map(()=>0);
+    let i=0;
+    let k=0;
+    let j=20;
     ref.orderBy('value','asc').onSnapshot((snapShot)=>{
       snapShot.forEach((doc)=>{
         if(doc.data().wait){
@@ -129,15 +133,25 @@ export default function Top2(){
             hobby:doc.data().hobby
           }
           if(doc.data().value==n){
-            equal.push(data)
+            if(i<20){
+              equal[i]=data
+              i+=1
+            }
           }else if(doc.data().value>n){
-            high.unshift(data)
+            if(j>0){
+              high[j]=data;
+              j-=1
+            }
           }else{
-            low.push(data)
+            if(k<20){
+              low[k]=data
+              k+=1
+            }
           };
         };
       });
       console.log(`VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}`);
+
       let partnerData = filter(equal);
       if(partnerData!=null){
         console.log(partnerData.id)
@@ -152,6 +166,9 @@ export default function Top2(){
   function filter(array){
     const db = firebase.firestore();
     for(let i=0; i<array.length;i++ ){
+      if(array[i]==0){
+        continue
+      }
       console.log(array[i].id)
       for(let j=0;j<array[i].hobby.length;j++){
         console.log(j)
