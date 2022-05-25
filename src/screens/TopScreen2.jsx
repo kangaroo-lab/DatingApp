@@ -170,12 +170,81 @@ export default function Top2(){
       console.log(`CHANGED VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}\nABOUT: ${about}`);
       let partnerData = filter(equal);
       if(partnerData!=null){
-        console.log(partnerData.id);
+        console.log('WILL MATCH PARTNER IS',partnerData.id);
+
       }else{
         partnerData = filter(about);
+        if(partnerData!=null){
+
+        };
       };
     });
   };
+
+  // 仮作成:TalkRoomに参加させる
+  function joinRoom(){
+    const db = firebase.firestore();
+    const ref = db.collection(`talkRooms`);
+    const {currentUser} = firebase.auth();
+    const data = ref.doc(key).get().member
+      ref.doc(key).update({
+        member:data.push({id:currentUser.uid}),
+      })
+      .then(()=>{
+        getKey(key);
+      })
+  }
+
+
+  // 仮作成:TalkRoomを作成して、アクセスを可能にする
+  // function makeRoom(){
+  //   const db = firebase.firestore();
+  //   const ref = db.collection(`talkRooms`);
+  //   const {currentUser} = firebase.auth()
+  //   ref
+  //     .add({
+  //       member:[{id:currentUser.uid,}],
+  //       message:[{
+  //         time:new Date(),
+  //         message:'メッセージを送ってみましょう！',
+  //         user:'アプリ公式',
+  //         }],
+  //       requested:false,
+  //       status:false
+  //     })
+  //     .then((docRef)=>{
+  //       getKey(docRef.id)
+  //     })
+  // }
+
+  // roomkeyをuserInfoに追加して、userがroomに参加できるようにする
+  function getKey(roomKey){
+    const db = firebase.firestore();
+    const {currentUser} = firebase.auth()
+    const ref = db.collection(`users/${currentUser.uid}/talkLists`);
+    ref
+      .add({
+        key:roomKey,
+        requset:false
+      })
+  }
+
+
+  function pushKey(){
+
+  }
+
+  function changeNext(){
+
+  }
+
+  function turnNow(){
+
+  }
+
+  function turnMatchOn(){
+
+  }
 
   //  -> 検索条件いあうひとだけを残す
   //    -> 趣味の合うひとを検索(カテゴリが同じ人だけでフィルターにする)
@@ -199,54 +268,6 @@ export default function Top2(){
     return null
   };
 
-
-  // 仮作成:TalkRoomに参加させる
-  function joinRoom(){
-    const db = firebase.firestore();
-    const ref = db.collection(`talkRooms`);
-    const {currentUser} = firebase.auth();
-    const data = ref.doc(key).get().member
-      ref.doc(key).update({
-        member:data.push({id:currentUser.uid}),
-      })
-      .then(()=>{
-        getKey(key);
-      })
-  }
-
-
-  // 仮作成:TalkRoomを作成して、アクセスを可能にする
-  function makeRoom(){
-    const db = firebase.firestore();
-    const ref = db.collection(`talkRooms`);
-    const {currentUser} = firebase.auth()
-    ref
-      .add({
-        member:[{id:currentUser.uid,}],
-        message:[{
-          time:new Date(),
-          message:'メッセージを送ってみましょう！',
-          user:'アプリ公式',
-          }],
-        requested:false,
-        status:false
-      })
-      .then((docRef)=>{
-        getKey(docRef.id)
-      })
-  }
-
-  // roomkeyをuserInfoに追加して、userがroomに参加できるようにする
-  function getKey(roomKey){
-    const db = firebase.firestore();
-    const {currentUser} = firebase.auth()
-    const ref = db.collection(`users/${currentUser.uid}/talkLists`);
-    ref
-      .add({
-        key:roomKey,
-        requset:false
-      })
-  }
 
   //検索中の波形アニメーションを実装(アニメーションはViewタッチで発火)
   function searching(){

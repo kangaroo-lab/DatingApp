@@ -10,9 +10,6 @@ import { Chip } from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
-import data from '../../data/hobbyCategory';
-
-
 export default function(props){
     const navigation = useNavigation()
     return <HobbyDetailScreen {...props} navigation = {navigation}/>
@@ -51,7 +48,7 @@ class HobbyDetailScreen extends Component{
     handleNext=()=>{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
-        const ref = db.collection(`users/${currentUser.uid}/userInfo`)
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
         const array = [];
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((docs)=>{
@@ -60,7 +57,9 @@ class HobbyDetailScreen extends Component{
                     gender:data.gender,
                     address:data.address.value,
                     search:false,
-                    wait:false
+                    wait:false,
+                    now:false,
+                    match:false,
                 });
             });
         });
@@ -81,17 +80,30 @@ class HobbyDetailScreen extends Component{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
         const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-        ref.add({
-            id:currentUser.uid,
-            hobby:this.getId(),
-        })
-        .then((docRef)=>{
-            const {navigation} = this.props;
-            navigation.navigate('Value',{id:this.props.route.params.id,key:docRef.id,prof:data});
-        })
-        .catch((error)=>{
-            console.error(error);
-        });
+        let size = 0;
+        ref.get().then((snap)=>{
+            size = snap.size;
+            if(size%2==0){
+                data.push({
+                    next:'wait'
+                });
+            }else{
+                data.push({
+                    next:'search'
+                });
+            }
+            ref.add({
+                id:currentUser.uid,
+                hobby:this.getId(),
+            })
+            .then((docRef)=>{
+                const {navigation} = this.props;
+                navigation.navigate('Value',{id:this.props.route.params.id,key:docRef.id,prof:data});
+            })
+            .catch((error)=>{
+                console.error(error);
+            });
+            })
     };
 
     getId(){
