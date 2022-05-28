@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from 'react';
 import {
     StyleSheet,
-    View
+    View,
+    Text
 } from 'react-native';
 import firebase from 'firebase';
 import {useIsFocused} from '@react-navigation/native';
@@ -13,6 +14,7 @@ export default function TalkList(){
     const [data, setData] = useState([]);
     const [partner, setPartner] = useState([]);
     const [unReads,setUnReads] = useState([]);
+
 
     useEffect(()=>{
         let unsubscribe = getTalkRef()
@@ -100,14 +102,6 @@ export default function TalkList(){
 
 
     const isFocused = useIsFocused();
-
-    if(!isFocused){
-        return(
-            <View>
-
-            </View>
-        )
-    }
 
     return(
     <View

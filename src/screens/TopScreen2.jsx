@@ -23,6 +23,7 @@ export default function Top2(){
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
+  const [matched,setMatched] = useState(false)
 
   useEffect(()=>{
     const userInfo = []
@@ -97,7 +98,6 @@ export default function Top2(){
       let value = 0;
       ref.doc(data.key).onSnapshot((snapShot)=>{
         value = snapShot.data().value;
-        console.log('Value Is ',value);
         serchForMatch(value)
       })
     }else{
@@ -111,9 +111,143 @@ export default function Top2(){
     }
   }
 
+
+  //SEARCH側のコード
+
+  //TalkRoomの制作
+    async function makeRoom(partner){
+      console.log('KEY ON')
+      const sleep = () => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(1)
+          }, 1000)
+        })
+      }
+
+      await sleep()
+      const db = firebase.firestore();
+      const ref = db.collection('talkRooms');
+      const {currentUser} = firebase.auth();
+      ref.add({
+        member:[{
+          id:currentUser.uid,
+        },{
+          id:partner.id,
+        }],
+        message:[{
+          time:new Date(),
+          message:'メッセージを送ってみましょう！',
+          user:'アプリ公式',
+          read:[{
+            id:currentUser.uid,
+            read:false
+          },{
+            id:partner.id,
+            read:false
+          }]
+        }],
+        requested:false,
+        status:false
+      })
+      //->相手のmatchをtrueにする+talkroomのkeyを付与する
+      .then((docRef)=>{
+        console.log('CLEAR THE KEY')
+        controlSendKeys(docRef.id,partner)
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    }
+
+    async function controlSendKeys(key,partnerData){
+        await getKey(key)
+        //マッチしたことをpartnerに伝える
+        await pushMatchForPartner(partnerData.keyId);
+        await sendKey(partnerData.id,key)
+    }
+
+    async function getKey(key){
+      const db = firebase.firestore();
+      const {currentUser} = firebase.auth();
+      const ref = db.collection(`users/${currentUser.uid}/talkLists`);
+      ref.add({
+        key:key,
+        requset:false
+      })
+      .then(console.log('GET KEY'))
+      .catch((err)=>console.log(err))
+    }
+
+    //partnerの操作
+    //(partnerに鍵を付与して、マッチしたことを伝える)
+    async function sendKey(partnerId,key){
+      const db = firebase.firestore();
+      const ref = db.collection(`users/${partnerId}/talkLists`);
+      ref.add({
+        key:key,
+        requset:false
+      })
+      .then(console.log('SEND KEY'))
+      .catch(console.log('ERROR ON SEND KEY'))
+    }
+
+    //partnerにマッチしたことを通知
+    async function pushMatchForPartner(partnerKeyId){
+      const db = firebase.firestore();
+      const ref = db.collection(`AppManager/${data.partner}/${data.address}`).doc(partnerKeyId);
+      ref.update({
+        match:true
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    }
+
+
+  //  -> 検索条件いあうひとだけを残す
+  //    -> 趣味の合うひとを検索(カテゴリが同じ人だけでフィルターにする)
+  //      -> 趣味の内容で被る人がいたらマッチングしちゃおう(マッチは、相手にkeyを送る形で実現する)
+  async function filter(array){
+    const sleep = () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(1)
+        }, 3000)
+      })
+    }
+    console.log('ON FILTER')
+    await sleep()
+    const db = firebase.firestore();
+    for(let i=0; i<array.length;i++ ){
+      if(array[i]==0){
+        continue
+      }
+      console.log(array[i].id)
+      for(let j=0;j<array[i].hobby.length;j++){
+        console.log(j)
+        if(hobby.includes(array[i].hobby[j])){
+          console.log('THE MATCH HOBBY IS ',array[i].hobby[j])
+          console.log('CLEAR!')
+          return array[i]
+        };
+      };
+    };
+    return null
+  };
+
   //appmanagerより、性別と場所で検索
   //-> 価値観の数値で近い人を配列に入れる
-  function serchForMatch(n){
+  async function serchForMatch(n){
+    const sleep = () => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(1)
+        }, 2000)
+      })
+    }
+
+    await sleep()
     console.log(n)
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.partner}/${data.address}`);
@@ -124,10 +258,11 @@ export default function Top2(){
     let i=0;
     let k=0;
     let j=19;
-    ref.orderBy('value','asc').onSnapshot((snapShot)=>{
+    ref.orderBy('value','asc').onSnapshot(async(snapShot)=>{
       snapShot.forEach((doc)=>{
         if(doc.data().wait){
           const data = {
+            keyId:doc.id,
             id: doc.data().id,
             value:doc.data().value,
             hobby:doc.data().hobby
@@ -150,6 +285,7 @@ export default function Top2(){
           };
         };
       });
+
       for(let i=0;i<20;i++){
         if(high[0]==0){
           high.shift();
@@ -167,11 +303,17 @@ export default function Top2(){
           y+=1;
         };
       };
-      console.log(`CHANGED VALUE IS ${n}\nEQUAL: ${equal}\nLOW: ${low}\nHIGH: ${high}\nABOUT: ${about}`);
-      let partnerData = filter(equal);
-      if(partnerData!=null){
-        console.log('WILL MATCH PARTNER IS',partnerData.id);
 
+      //配列で価値観の近いお相手をソートした
+      //->趣味が一つでも被っている相手を探索して、マッチのお相手を決定！
+      let partnerData = await filter(equal);
+      if(partnerData!=null){
+        await sleep()
+        console.log('WILL MATCH PARTNER IS',partnerData.keyId);
+        //マッチが決定したらroomを制作
+        const roomKey = await makeRoom(partnerData)
+        .then(matchedAlert(partnerData))
+        console.log('KEY IS ', roomKey);
       }else{
         partnerData = filter(about);
         if(partnerData!=null){
@@ -181,92 +323,20 @@ export default function Top2(){
     });
   };
 
-  // 仮作成:TalkRoomに参加させる
-  function joinRoom(){
-    const db = firebase.firestore();
-    const ref = db.collection(`talkRooms`);
-    const {currentUser} = firebase.auth();
-    const data = ref.doc(key).get().member
-      ref.doc(key).update({
-        member:data.push({id:currentUser.uid}),
+
+  async function matchedAlert(partnerData){
+    const sleep = () =>{
+      return new Promise(resolve =>{
+        setTimeout(()=>{
+          resolve(1)
+        },2000)
       })
-      .then(()=>{
-        getKey(key);
-      })
+    }
+    await sleep()
+    searching()
+    alert(`${partnerData.id}とマッチしました`)
   }
 
-
-  // 仮作成:TalkRoomを作成して、アクセスを可能にする
-  // function makeRoom(){
-  //   const db = firebase.firestore();
-  //   const ref = db.collection(`talkRooms`);
-  //   const {currentUser} = firebase.auth()
-  //   ref
-  //     .add({
-  //       member:[{id:currentUser.uid,}],
-  //       message:[{
-  //         time:new Date(),
-  //         message:'メッセージを送ってみましょう！',
-  //         user:'アプリ公式',
-  //         }],
-  //       requested:false,
-  //       status:false
-  //     })
-  //     .then((docRef)=>{
-  //       getKey(docRef.id)
-  //     })
-  // }
-
-  // roomkeyをuserInfoに追加して、userがroomに参加できるようにする
-  function getKey(roomKey){
-    const db = firebase.firestore();
-    const {currentUser} = firebase.auth()
-    const ref = db.collection(`users/${currentUser.uid}/talkLists`);
-    ref
-      .add({
-        key:roomKey,
-        requset:false
-      })
-  }
-
-
-  function pushKey(){
-
-  }
-
-  function changeNext(){
-
-  }
-
-  function turnNow(){
-
-  }
-
-  function turnMatchOn(){
-
-  }
-
-  //  -> 検索条件いあうひとだけを残す
-  //    -> 趣味の合うひとを検索(カテゴリが同じ人だけでフィルターにする)
-  //      -> 趣味の内容で被る人がいたらマッチングしちゃおう(マッチは、相手にkeyを送る形で実現する)
-
-  function filter(array){
-    const db = firebase.firestore();
-    for(let i=0; i<array.length;i++ ){
-      if(array[i]==0){
-        continue
-      }
-      console.log(array[i].id)
-      for(let j=0;j<array[i].hobby.length;j++){
-        console.log(j)
-        if(hobby.includes(array[i].hobby[j])){
-          console.log('THE MATCH HOBBY IS ',array[i].hobby[j])
-          return array[i]
-        };
-      };
-    };
-    return null
-  };
 
 
   //検索中の波形アニメーションを実装(アニメーションはViewタッチで発火)
