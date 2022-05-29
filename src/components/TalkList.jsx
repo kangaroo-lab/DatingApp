@@ -3,21 +3,21 @@ import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 import { format } from 'date-fns';
 
-export default function MessageList({user,message}){
+export default function MessageList({users,messages}){
 
-    function fixData(){
-        const newData = [];
-        user.forEach((item,index) => {
-            newData.push({
+    function reFixData(){
+        const result = []
+        users.forEach((item,index)=>{
+            result.push({
                 name:item.name,
-                message:message[index].message,
+                message:messages[index].message,
                 img:item.img,
-                date:format(message[index].date,'MM/dd'),
-                key:message[index].key,
-                unRead:message[index].unReads
+                date:format(messages[index].date,'MM/dd'),
+                key:messages[index].key,
+                unRead:messages[index].unReads
             })
-        });
-        return (newData);
+        })
+        return result
     }
 
     //routeの設定
@@ -64,11 +64,11 @@ export default function MessageList({user,message}){
 
     // Listの返し
     if(isFocused){
-        const data=fixData()
+        const newData = reFixData()
         return(
             <View style={styles.messageList}>
                 <FlatList
-                data={data}
+                data={newData}
                 renderItem={TalkElement}
                 />
             </View>

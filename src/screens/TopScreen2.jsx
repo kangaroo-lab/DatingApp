@@ -23,11 +23,13 @@ export default function Top2(){
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
+  const [partners, setPartners] = useState([]);
   const [matched,setMatched] = useState(false)
 
   useEffect(()=>{
     const userInfo = []
     const hobbyInfo = []
+    const partnersInfo = []
     const db = firebase.firestore();
     const {currentUser} = firebase.auth();
     const ref = db.collection(`users/${currentUser.uid}/userInfo`);
@@ -36,6 +38,7 @@ export default function Top2(){
         const data = doc.data()
         userInfo.push({
           id: doc.id,
+          userId:currentUser.uid,
           partner: data.partnerGender,
           key:data.appManagerKey,
           address:data.address.value,
@@ -60,6 +63,17 @@ export default function Top2(){
           });
         });
         setHobby(hobbyInfo)
+      });
+      const refTalkLists = db.collection(`users/${currentUser.uid}/talkLists`);
+      refTalkLists.onSnapshot((snapShot)=>{
+        if(!snapShot.empty){
+          snapShot.forEach((doc)=>{
+            partnersInfo.push(
+              doc.data().partner
+            );
+          });
+        };
+        setPartners(partnersInfo)
       });
       setData(userInfo[0])
     });
@@ -161,19 +175,20 @@ export default function Top2(){
     }
 
     async function controlSendKeys(key,partnerData){
-        await getKey(key)
+        await getKey(key,partnerData)
         //マッチしたことをpartnerに伝える
         await pushMatchForPartner(partnerData.keyId);
         await sendKey(partnerData.id,key)
     }
 
-    async function getKey(key){
+    async function getKey(key,partnerData){
       const db = firebase.firestore();
       const {currentUser} = firebase.auth();
       const ref = db.collection(`users/${currentUser.uid}/talkLists`);
       ref.add({
         key:key,
-        requset:false
+        requset:false,
+        partner:partnerData.id
       })
       .then(console.log('GET KEY'))
       .catch((err)=>console.log(err))
@@ -186,7 +201,8 @@ export default function Top2(){
       const ref = db.collection(`users/${partnerId}/talkLists`);
       ref.add({
         key:key,
-        requset:false
+        requset:false,
+        partner:data.userId
       })
       .then(console.log('SEND KEY'))
       .catch(console.log('ERROR ON SEND KEY'))
@@ -227,8 +243,6 @@ export default function Top2(){
       for(let j=0;j<array[i].hobby.length;j++){
         console.log(j)
         if(hobby.includes(array[i].hobby[j])){
-          console.log('THE MATCH HOBBY IS ',array[i].hobby[j])
-          console.log('CLEAR!')
           return array[i]
         };
       };
@@ -260,7 +274,8 @@ export default function Top2(){
     let j=19;
     ref.orderBy('value','asc').onSnapshot(async(snapShot)=>{
       snapShot.forEach((doc)=>{
-        if(doc.data().wait){
+        if(doc.data().wait&&!partners.includes(doc.data().id)){
+          console.log(doc.data().id)
           const data = {
             keyId:doc.id,
             id: doc.data().id,
@@ -303,9 +318,8 @@ export default function Top2(){
           y+=1;
         };
       };
-
-      //配列で価値観の近いお相手をソートした
-      //->趣味が一つでも被っている相手を探索して、マッチのお相手を決定！
+      // 配列で価値観の近いお相手をソートした
+      // ->趣味が一つでも被っている相手を探索して、マッチのお相手を決定！
       let partnerData = await filter(equal);
       if(partnerData!=null){
         await sleep()
@@ -315,9 +329,13 @@ export default function Top2(){
         .then(matchedAlert(partnerData))
         console.log('KEY IS ', roomKey);
       }else{
-        partnerData = filter(about);
+        partnerData = await filter(about);
         if(partnerData!=null){
-
+          await sleep()
+          console.log('WILL MATCH PARTNER IS IN NEXT ',partnerData.keyId);
+          const roomKey = await makeRoom(partnerData)
+          .then(matchedAlert(partnerData))
+          console.log('KEY IS ', roomKey);
         };
       };
     });
@@ -351,8 +369,6 @@ export default function Top2(){
           -1,
           false
         );
-        // joinRoom()
-        // makeRoom()
         searchCounter()
       return console.log();
     }
