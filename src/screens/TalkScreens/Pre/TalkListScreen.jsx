@@ -89,18 +89,19 @@ export default function TalkList(){
             ref.doc(key)
             .onSnapshot((snapShot)=>{
                 const data = snapShot.data().message;
+                let i = 0;
                 data.forEach((element)=>{
+                    element.read.forEach((member)=>{
+                        if(member.id==currentUser.uid&&!member.read){
+                            i+=1;
+                        }
+                    })
                     room.push({
                         message:element.message,
                         date:element.time.toDate(),
                         key:key,
-                        unReads:0
+                        unReads:i
                     });
-                    element.read.forEach((member)=>{
-                        if(member.id==currentUser.uid&&!member.read){
-                            room[0].unReads+=1;
-                        }
-                    })
                 });
             setMessages(room)
             });

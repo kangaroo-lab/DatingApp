@@ -51,10 +51,10 @@ export default function MessageList({users,messages}){
                         </View>
                         <View style={styles.dateBox}>
                             <Text style={styles.date}>{item.date}</Text>
-                        </View>
-                        <View style={styles.messageCountArea}>
-                            <View style={item.unRead===0?{}:styles.messageCountBox}>
-                                <Text style={styles.messageCount}>{item.unRead===0?'':item.unRead}</Text>
+                            <View style={styles.messageCountArea}>
+                                <View style={item.unRead===0?{}:styles.messageCountBox}>
+                                    <Text style={styles.messageCount}>{item.unRead===0?'':item.unRead}</Text>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -104,11 +104,6 @@ const styles = StyleSheet.create({
         paddingLeft:10,
         flex:1,
     },
-    messageTextBox:{
-    },
-    nameBox:{
-
-    },
     name:{
         fontSize: 18,
     },
@@ -145,6 +140,7 @@ const styles = StyleSheet.create({
     },
     messageCount:{
         fontSize:15,
-        color:'#ffffff'
+        color:'#ffffff',
+        textAlign:'center'
     }
 })

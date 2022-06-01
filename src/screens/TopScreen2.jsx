@@ -19,12 +19,13 @@ import firebase from 'firebase';
 
 export default function Top2(){
 
-  const [key, setKey] = useState('');
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
   const [partners, setPartners] = useState([]);
   const [matched,setMatched] = useState(false)
+  //検索の動作を決めるbool変数
+  const [flag,setFlag]=useState(false);
 
   useEffect(()=>{
     const userInfo = []
@@ -80,34 +81,38 @@ export default function Top2(){
     return unsubscribe
   },[])
 
-  //検索の動作を決めるbool変数
-  let flag=0;
 
   //appmanagerからonline状態の人を数える
   //if(allOnline%2==0)ならserchをtrueにそうじゃないならwaitをtrueにする
   //waitがtrueならserchに引っかかったタイミングでjointheroomをonにする
-  function searchCounter(){
+  async function searchCounter(){
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-    let n = 0
-    ref.onSnapshot((snapShot)=>{
-      snapShot.forEach((doc)=>{
+    ref.onSnapshot(async(snapShot)=>{
+      let n = 0;
+      await Promise.all(snapShot.docs.map(async(doc)=>{
         if(doc.data().search){
+          console.log(doc.data().id)
           n+=1
         };
-      });
-    });
-    setCount(n)
-    whichSorW()
-  };
+        console.log(n)
+        setCount(n);
+      }))
+      .then(()=>{
+        whichSorW()
+      })
+      .catch((err)=>{
+        console.log('SOMETHIN WRONG',err)
+      })
+    })};
 
   function whichSorW(){
     if(count%2==0){
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-      // ref.doc(data.key).update({
-      //     search:true
-      //   })
+      ref.doc(data.key).update({
+          search:true
+        })
       console.log('Searcher',count)
       let value = 0;
       ref.doc(data.key).onSnapshot((snapShot)=>{
@@ -117,10 +122,10 @@ export default function Top2(){
     }else{
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-      // ref.doc(data.key)
-      //   .update({
-      //     wait:true
-      // });
+      ref.doc(data.key)
+        .update({
+          wait:true
+      });
       console.log('Waiter',count)
     }
   }
@@ -351,17 +356,35 @@ export default function Top2(){
       })
     }
     await sleep()
+    await accessDb({
+      gender:data.partner,
+      address:data.address,
+      id:partnerData.keyId
+    });
+    await accessDb({
+      gender:data.gender,
+      address:data.address,
+      id:data.key
+    });
     searching()
     alert(`${partnerData.id}とマッチしました`)
   }
 
-
+  async function accessDb(data){
+    const db = firebase.firestore();
+    const ref = db.collection(`AppManager/${data.gender}/${data.address}`).doc(data.id);
+    ref.update({
+      wait:false,
+      search:false,
+      match:true
+    });
+  }
 
   //検索中の波形アニメーションを実装(アニメーションはViewタッチで発火)
-  function searching(){
+  async function searching(){
     //Searchingアニメーションの開始＋検索のプログラム
-    if(flag==0){
-      flag+=1;
+    if(!flag){
+        console.log('NOW SEARC')
         ring.value=withRepeat(
           withTiming(1, {
             duration: 3000,
@@ -369,14 +392,13 @@ export default function Top2(){
           -1,
           false
         );
-        searchCounter()
-      return console.log();
+        await searchCounter();
+      return setFlag(true);;
     }
     //Searchingアニメーションの終了＋検索のストップ
     else{
-      flag=0;
       ring.value=0;
-      return console.log('out ',ring.value);
+      return setFlag(false);;
     }
     };
 
@@ -412,7 +434,6 @@ export default function Top2(){
           <TouchableOpacity
             style={styles.circleButton}
             onPress={()=>{
-              console.log('push');
               searching();
             }}
           >
