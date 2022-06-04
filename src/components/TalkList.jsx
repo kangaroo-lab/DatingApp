@@ -2,13 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, Image,TouchableOpacity, FlatList } from 'react-native';
 import {useNavigation,useIsFocused} from '@react-navigation/native';
 import { format } from 'date-fns';
+import {BlurView} from 'expo-blur';
 
 export default function MessageList({users,messages}){
 
     function reFixData(){
         const result = []
         users.forEach((item,index)=>{
+            if(messages[index].limit<3){
             result.push({
+                limit:messages[index].limit,
                 name:item.name,
                 message:messages[index].message,
                 img:item.img,
@@ -16,6 +19,7 @@ export default function MessageList({users,messages}){
                 key:messages[index].key,
                 unRead:messages[index].unReads
             })
+            }
         })
         return result
     }
@@ -36,7 +40,8 @@ export default function MessageList({users,messages}){
                             )}
                 >
                     <View style={styles.messageListElement}>
-                        <View>
+                        <View style={[styles.imageBox,item.limit==0?{shadowColor:'palegreen'}:item.limit==1?{shadowColor:'orange'}:{shadowColor:'tomato'}]}>
+                            <BlurView intensity={10} tint="light"style={styles.coverImg}/>
                             <Image source={{uri:item.img}} style={styles.image}/>
                         </View>
                         <View style={styles.messageInner}>
@@ -92,10 +97,35 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         paddingHorizontal: 19,
     },
+    imageBox:{
+        width: 60,
+        height: 62.78,
+        borderRadius: 50,
+        justifyContent:'center',
+        flexDirection:'column',
+        shadowColor: "#1457c2",
+        shadowOffset: {
+            width: 4,
+            height: 3,
+        },
+        shadowOpacity: 0.69,
+        shadowRadius: 12,
+        elevation: 9,
+    },
+    coverImg:{
+        position:'absolute',
+        zIndex:1,
+        width: 57,
+        height: 57.78,
+        alignSelf:'center',
+    },
     image:{
+        zIndex:0,
+        position:'absolute',
         width: 55,
         height: 57.78,
         borderRadius: 50,
+        alignSelf:'center',
     },
     messageInner:{
         flexDirection:'column',

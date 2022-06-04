@@ -10,6 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/blur": "^3.6.0",
     "@react-native-community/datetimepicker": "^4.0.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/push-notification-ios": "^1.10.1",
@@ -53,7 +54,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
-    "react-spring": "^9.4.2"
+    "react-spring": "^9.4.2",
+    "expo-blur": "~11.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

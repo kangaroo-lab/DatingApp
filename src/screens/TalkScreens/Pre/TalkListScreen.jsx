@@ -58,7 +58,6 @@ export default function TalkList(){
             await getAllRoomContents(keys)
         });
     }
-
     //パートナーの情報をゲット(修正版)
     async function getPartnerRefs(ids){
         const db = firebase.firestore();
@@ -88,6 +87,9 @@ export default function TalkList(){
         keys.forEach((key)=>{
             ref.doc(key)
             .onSnapshot((snapShot)=>{
+                const due = snapShot.data().due.toDate()
+                const today = new Date();
+                const limit = today.getDate()-due.getDate();
                 const data = snapShot.data().message;
                 let i = 0;
                 data.forEach((element)=>{
@@ -97,6 +99,7 @@ export default function TalkList(){
                         }
                     })
                     room.push({
+                        limit:limit,
                         message:element.message,
                         date:element.time.toDate(),
                         key:key,

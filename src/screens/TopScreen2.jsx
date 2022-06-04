@@ -89,8 +89,8 @@ export default function Top2(){
   useEffect(()=>{
     let unsubscribe=()=>{
       const today = new Date();
-      const due = new Date(today.getFullYear(),today.getMonth(),today.getDay()+2)
-      setData(due);
+      const due = new Date(today.getFullYear(),today.getMonth(),today.getDate()+3);
+      setDue(due)
     };
     return unsubscribe;
   },[])
@@ -503,6 +503,7 @@ const styles = StyleSheet.create({
       marginVertical:50,
     },
     circleButton:{
+      opacity:0.7,
       borderColor:'#4169E1',
       borderWidth:5,
       width:179,
