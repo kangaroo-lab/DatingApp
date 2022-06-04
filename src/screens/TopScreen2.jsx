@@ -25,7 +25,7 @@ export default function Top2(){
   const [partners, setPartners] = useState([]);
   const [search,setSearch] = useState(false);
   const [matched,setMatched] = useState(false)
-  const [n,setN] = useState(0);
+  const [due,setDue] = useState(new Date())
 
   useEffect(()=>{
     const userInfo = []
@@ -86,14 +86,24 @@ export default function Top2(){
     return unsubscribe
   },[])
 
+  useEffect(()=>{
+    let unsubscribe=()=>{
+      const today = new Date();
+      const due = new Date(today.getFullYear(),today.getMonth(),today.getDay()+2)
+      setData(due);
+    };
+    return unsubscribe;
+  },[])
 
   //appmanagerからonline状態の人を数える
   //if(allOnline%2==0)ならserchをtrueにそうじゃないならwaitをtrueにする
   //waitがtrueならserchに引っかかったタイミングでjointheroomをonにする
   async function searchCounter(){
+    console.log('SEARCH COUNT')
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
     ref.onSnapshot(async(snapShot)=>{
+      console.log("///////////////////////////////////////////")
       let x = 0;
       await Promise.all(snapShot.docs.map(async(doc)=>{
         if(doc.data().search){
@@ -109,15 +119,26 @@ export default function Top2(){
       })
     })};
 
-  function whichSorW(){
+  async function whichSorW(){
     if(count%2==0){
+      console.log('SEARCH')
       setSearch(true);
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-      ref.doc(data.key).get()
+      if(!(await ref.doc(data.key).get()).data().search){
+        ref.doc(data.key)
+        .update({
+          search:true
+        })
+        console.log('JUST UPDATE')
+      }else{
+        console.log('TO SEARCH PARTNER')
+        ref.doc(data.key)
+        .get()
         .then((data)=>{
           serchForMatch(data.data().value);
         })
+      }
     }else{
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
@@ -148,6 +169,7 @@ export default function Top2(){
       const ref = db.collection('talkRooms');
       const {currentUser} = firebase.auth();
       ref.add({
+        due:due,
         member:[{
           id:currentUser.uid,
         },{
