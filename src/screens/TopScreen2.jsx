@@ -23,9 +23,9 @@ export default function Top2(){
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
   const [partners, setPartners] = useState([]);
+  const [search,setSearch] = useState(false);
   const [matched,setMatched] = useState(false)
-  //検索の動作を決めるbool変数
-  const [flag,setFlag]=useState(false);
+  const [n,setN] = useState(0);
 
   useEffect(()=>{
     const userInfo = []
@@ -34,8 +34,8 @@ export default function Top2(){
     const db = firebase.firestore();
     const {currentUser} = firebase.auth();
     const ref = db.collection(`users/${currentUser.uid}/userInfo`);
-    let unsubscribe =  ref.onSnapshot((snapShot)=>{
-      snapShot.forEach((doc)=>{
+    let unsubscribe =  ref.onSnapshot(async(snapShot)=>{
+      snapShot.forEach(async(doc)=>{
         const data = doc.data()
         userInfo.push({
           id: doc.id,
@@ -45,8 +45,13 @@ export default function Top2(){
           address:data.address.value,
           gender:data.gender
         });
+        await accessDb({
+          gender:data.gender,
+          address:data.address.value,
+          id:data.appManagerKey
+        });
       });
-      ref.doc(userInfo[0].id).collection('hobby').onSnapshot((snapShot)=>{
+      await ref.doc(userInfo[0].id).collection('hobby').onSnapshot((snapShot)=>{
         snapShot.forEach((doc)=>{
           const data = doc.data().hobby;
           data.forEach((elem)=>{
@@ -66,7 +71,7 @@ export default function Top2(){
         setHobby(hobbyInfo)
       });
       const refTalkLists = db.collection(`users/${currentUser.uid}/talkLists`);
-      refTalkLists.onSnapshot((snapShot)=>{
+      await refTalkLists.onSnapshot((snapShot)=>{
         if(!snapShot.empty){
           snapShot.forEach((doc)=>{
             partnersInfo.push(
@@ -89,36 +94,30 @@ export default function Top2(){
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
     ref.onSnapshot(async(snapShot)=>{
-      let n = 0;
+      let x = 0;
       await Promise.all(snapShot.docs.map(async(doc)=>{
         if(doc.data().search){
-          console.log(doc.data().id)
-          n+=1
+          x+=1
         };
-        console.log(n)
-        setCount(n);
       }))
       .then(()=>{
-        whichSorW()
+        setCount(x);
+        whichSorW();
       })
       .catch((err)=>{
-        console.log('SOMETHIN WRONG',err)
+        console.log('SOMETHIN WRONG',err);
       })
     })};
 
   function whichSorW(){
     if(count%2==0){
+      setSearch(true);
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
-      ref.doc(data.key).update({
-          search:true
+      ref.doc(data.key).get()
+        .then((data)=>{
+          serchForMatch(data.data().value);
         })
-      console.log('Searcher',count)
-      let value = 0;
-      ref.doc(data.key).onSnapshot((snapShot)=>{
-        value = snapShot.data().value;
-        serchForMatch(value)
-      })
     }else{
       const db = firebase.firestore();
       const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
@@ -237,11 +236,9 @@ export default function Top2(){
         }, 3000)
       })
     }
-    console.log('ON FILTER')
     await sleep()
-    const db = firebase.firestore();
     for(let i=0; i<array.length;i++ ){
-      if(array[i]==0){
+      if(array[i]==0||!array[i]){
         continue
       }
       console.log(array[i].id)
@@ -267,7 +264,6 @@ export default function Top2(){
     }
 
     await sleep()
-    console.log(n)
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.partner}/${data.address}`);
     const equal = [...Array(20)].map(()=>0);
@@ -280,7 +276,6 @@ export default function Top2(){
     ref.orderBy('value','asc').onSnapshot(async(snapShot)=>{
       snapShot.forEach((doc)=>{
         if(doc.data().wait&&!partners.includes(doc.data().id)){
-          console.log(doc.data().id)
           const data = {
             keyId:doc.id,
             id: doc.data().id,
@@ -327,26 +322,40 @@ export default function Top2(){
       // ->趣味が一つでも被っている相手を探索して、マッチのお相手を決定！
       let partnerData = await filter(equal);
       if(partnerData!=null){
+        console.log('VALUE EQUAL START')
         await sleep()
-        console.log('WILL MATCH PARTNER IS',partnerData.keyId);
         //マッチが決定したらroomを制作
-        const roomKey = await makeRoom(partnerData)
+        await makeRoom(partnerData)
         .then(matchedAlert(partnerData))
-        console.log('KEY IS ', roomKey);
       }else{
         partnerData = await filter(about);
         if(partnerData!=null){
+          console.log('VALUE ABOUT START')
           await sleep()
-          console.log('WILL MATCH PARTNER IS IN NEXT ',partnerData.keyId);
-          const roomKey = await makeRoom(partnerData)
+          await makeRoom(partnerData)
           .then(matchedAlert(partnerData))
-          console.log('KEY IS ', roomKey);
-        };
+        }else{
+          console.log('NO MATCH HERE');
+          unMatchedAlert();
+        }
       };
     });
   };
 
+  async function unMatchedAlert(){
+    const sleep = () =>{
+      return new Promise(resolve =>{
+        setTimeout(()=>{
+          resolve(1)
+        },2000)
+      })
+    }
+    await sleep()
+    searching(false)
+    return alert('マッチができませんでした！')
+  }
 
+  //matchのアラートとマッチしたことを確認
   async function matchedAlert(partnerData){
     const sleep = () =>{
       return new Promise(resolve =>{
@@ -356,35 +365,34 @@ export default function Top2(){
       })
     }
     await sleep()
-    await accessDb({
-      gender:data.partner,
-      address:data.address,
-      id:partnerData.keyId
-    });
-    await accessDb({
-      gender:data.gender,
-      address:data.address,
-      id:data.key
-    });
-    searching()
     alert(`${partnerData.id}とマッチしました`)
+    searching(false)
   }
 
+  //データの更新！！
   async function accessDb(data){
     const db = firebase.firestore();
     const ref = db.collection(`AppManager/${data.gender}/${data.address}`).doc(data.id);
     ref.update({
       wait:false,
       search:false,
-      match:true
-    });
+      match:false
+    })
+    .then(()=>{
+
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
 
+  //wait側
+
   //検索中の波形アニメーションを実装(アニメーションはViewタッチで発火)
-  async function searching(){
+  async function searching(flag){
     //Searchingアニメーションの開始＋検索のプログラム
-    if(!flag){
-        console.log('NOW SEARC')
+    if(flag){
+
         ring.value=withRepeat(
           withTiming(1, {
             duration: 3000,
@@ -392,13 +400,20 @@ export default function Top2(){
           -1,
           false
         );
-        await searchCounter();
-      return setFlag(true);;
+        searchCounter()
+        .then(()=>{
+          console.log('THE FUNCTION IS END!')
+        })
+        .catch(()=>{
+          console.log('IN THE FUNCTION,SOMETHING WRONG IS HAPPEN')
+        })
     }
     //Searchingアニメーションの終了＋検索のストップ
-    else{
+    else if(!flag){
+      setSearch(false)
+      setCount(0);
+      setPartners([]);
       ring.value=0;
-      return setFlag(false);;
     }
     };
 
@@ -434,7 +449,7 @@ export default function Top2(){
           <TouchableOpacity
             style={styles.circleButton}
             onPress={()=>{
-              searching();
+                searching(true);
             }}
           >
             <View style={styles.circleButton}>
