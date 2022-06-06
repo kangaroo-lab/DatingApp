@@ -169,6 +169,7 @@ export default function Top2(){
       const ref = db.collection('talkRooms');
       const {currentUser} = firebase.auth();
       ref.add({
+        group:false,
         due:due,
         member:[{
           id:currentUser.uid,
@@ -214,7 +215,9 @@ export default function Top2(){
       ref.add({
         key:key,
         requset:false,
-        partner:partnerData.id
+        partner:partnerData.id,
+        leader:false,
+        group:false
       })
       .then(console.log('GET KEY'))
       .catch((err)=>console.log(err))
@@ -228,7 +231,9 @@ export default function Top2(){
       ref.add({
         key:key,
         requset:false,
-        partner:data.userId
+        partner:data.userId,
+        leader:false,
+        group:false
       })
       .then(console.log('SEND KEY'))
       .catch(console.log('ERROR ON SEND KEY'))

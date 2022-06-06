@@ -224,6 +224,7 @@ export default function OfficialTalkList(){
 
 const styles = StyleSheet.create({
     messageList:{
+        ...StyleSheet.absoluteFillObject,
         marginTop:90
     },
     messageListElement:{

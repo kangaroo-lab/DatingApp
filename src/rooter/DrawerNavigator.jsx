@@ -9,7 +9,7 @@ import firebase from 'firebase';
 import { Alert } from 'react-native';
 
 import TabNavigator from './TabNavigator';
-import Group from '../screens/GroupScreen';
+import Group from '../screens/TalkScreens/Group/GroupSearchScreen';
 import Setting from '../screens/SettingScreen';
 
 const Drawer = createDrawerNavigator();

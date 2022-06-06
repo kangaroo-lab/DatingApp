@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 import StackOfficialNavigator from './StackOfficialTalkNavigator';
+import StackGroupNavigator from './StackGroupTalkNavigator';
+import Group from '../screens/TalkScreens/Group/GroupSearchScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -38,6 +40,13 @@ export default function BottomTabNavigator(){
          options={({route})=>({
             tabBarStyle: getHeaderShown(route),
         })}
+        />
+        <Tab.Screen
+         name='GROUPMATCH'
+         component={StackGroupNavigator}
+         options={({route})=>({
+             tabBarStyle:getHeaderShown(route)
+         })}
         />
     </Tab.Navigator>
     )

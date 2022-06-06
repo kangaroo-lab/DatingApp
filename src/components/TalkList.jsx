@@ -88,6 +88,7 @@ export default function MessageList({users,messages}){
 
 const styles = StyleSheet.create({
     messageList:{
+        ...StyleSheet.absoluteFillObject,
         marginTop:90
     },
     messageListElement:{

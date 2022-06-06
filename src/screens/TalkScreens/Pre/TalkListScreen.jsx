@@ -10,8 +10,6 @@ import {useIsFocused} from '@react-navigation/native';
 import MessageList from '../../../components/TalkList';
 
 export default function TalkList(){
-    const [data, setData] = useState([]);
-    const [partner, setPartner] = useState([]);
     const [partners,setPartners] = useState([]);
     const [messages,setMessages] = useState([])
 
@@ -20,7 +18,9 @@ export default function TalkList(){
         let unsubscribe = getTalkRef()
             .onSnapshot(async(snapShot)=>{
                 snapShot.forEach((doc)=>{
-                    keys.push(doc.data().key)
+                    if(!doc.data().group){
+                        keys.push(doc.data().key)
+                    }
                 });
                 await getRoomRef(keys);
             });
@@ -41,7 +41,7 @@ export default function TalkList(){
         const test = []
         ref.onSnapshot(async(snapShot)=>{
             snapShot.forEach((doc)=>{
-                if(!doc.data().status){
+                if(!doc.data().status&&!doc.data().group){
                     const partnerId = []
                     doc.data().member.forEach(async(elem)=>{
                         if(currentUser.uid!==elem.id&&!test.includes(elem.id)){

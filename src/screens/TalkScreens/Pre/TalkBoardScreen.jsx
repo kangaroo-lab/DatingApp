@@ -81,7 +81,7 @@ export default function TalkBoard(props,{navigation}){
         const ref = db.collection(`users/${currentUser.uid}/talkLists`);
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                if(!doc.data().request){
+                if(!doc.data().request&&doc.data().key==key){
                     Alert.alert(
                         'いいねされました！',
                         '本マッチにいくと上限なく会話していくことができます！',
@@ -91,6 +91,8 @@ export default function TalkBoard(props,{navigation}){
                             {text:'拒否',onPress:()=>{reject()}}
                         ]
                         )
+                }else{
+                    console.log('いいねした')
                 }
             })
         })
