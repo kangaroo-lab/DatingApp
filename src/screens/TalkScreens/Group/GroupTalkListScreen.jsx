@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import { format } from 'date-fns';
+import {useIsFocused,useNavigation} from '@react-navigation/native';
 import { Component } from 'react';
 
 
-export default function(){
-    return <GroupList/>
+export default function(props){
+    const navigation = useNavigation()
+    return <GroupList {...props} navigation={navigation}/>
 }
 class GroupList extends Component{
     constructor(props){
@@ -23,6 +25,13 @@ class GroupList extends Component{
             partners:[]
         }
     }
+
+    async componentDidMount(){
+        await this.getData();
+        console.log(this.state.messages??'Messages null')
+        console.log(this.state.partners??'Partners null')
+    }
+
 
     //グループデータのリスト化
     async getData(){
@@ -56,11 +65,20 @@ class GroupList extends Component{
             const members = [];
             const ref = db.collection('talkRooms').doc(key);
             ref
+            // .onSnapshot((snapShot)=>{
+            //     const message = snapShot.data().message
+            //     console.log(message)
+            //     let i = 0;
+            //     message.forEach((elem)=>{
+            //         console.log(elem??'NULL')
+            //     })
+            // })
             .get()
             .then(async(data)=>{
                 const message = data.data().message
                 let i=0
                 message.forEach((elem)=>{
+                    console.log('発火')
                     elem.read.forEach((e)=>{
                         if(e.id==currentUser.uid&&!e.read){
                             i++
@@ -72,6 +90,7 @@ class GroupList extends Component{
                         key:key,
                         unReads:i
                     })
+                    console.log(room)
                 })
                 data.data().member.forEach((mem)=>{
                     if(mem.id!=currentUser.uid){
@@ -80,6 +99,7 @@ class GroupList extends Component{
                 });
                 arr.push(members)
                 this.setState({messages:room})
+                console.log(room??'Messages null')
                 await this.getPartners(arr)
             })
         })
@@ -104,6 +124,7 @@ class GroupList extends Component{
                     })
                     newArr.push(newArr4T);
                     this.setState({partners:newArr})
+                    console.log(this.state.partners??'Partners null')
                 });
             });
         });
@@ -138,9 +159,16 @@ class GroupList extends Component{
         )
     }
 
+    handlePress=(key)=>{
+        const {navigation} = this.props;
+        navigation.navigate('GroupTalkBoard',{key:key})
+    }
+
     _renderItems = ({item}) =>{
         return(
-            <TouchableOpacity>
+            <TouchableOpacity
+                onPress={()=>this.handlePress(item.key)}
+            >
                 <View style={styles.messageListElement}>
                     <View>
                         <FlatList
@@ -176,8 +204,7 @@ class GroupList extends Component{
 
     render(){
         if(this.state.messages.length==0||this.state.partners.length==0){
-            this.getData()
-            return<View><Text>AAAA</Text></View>
+            return<View><Text>LOADING</Text></View>
         }
         return(
                 <View style={styles.messageList}>

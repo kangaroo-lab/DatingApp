@@ -10,8 +10,6 @@ import {
 import firebase from 'firebase';
 import {useIsFocused,useNavigation} from '@react-navigation/native';
 import { format } from 'date-fns';
-import { concat } from 'react-native-reanimated';
-
 
 export default function OfficialTalkList(){
     const [data, setData] = useState([]);

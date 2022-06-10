@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  Button
+} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import GroupTalkList from '../screens/TalkScreens/Group/GroupTalkListScreen';
@@ -29,7 +32,10 @@ export default function StackOfficialNavigator() {
                headerTitle:' ',
                headerShown:true,
                headerRight:({route})=>(
-                 <TalkBoardHeader route={route}/>
+                 <Button
+                  onPress={()=>console.log('招待する')}
+                  title="invite"
+                 />
               ),
              }}
             />
