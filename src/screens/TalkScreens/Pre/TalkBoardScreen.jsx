@@ -151,7 +151,7 @@ export default function TalkBoard(props,{navigation}){
             console.log('\n\n\n\n\nUpdate!!')
         })
         .catch(()=>{
-            console.error('ERROR:Something wrong is happened!')
+            console.error('\n\n\n\n\nERROR:Something wrong is happened!')
         })
     }
 

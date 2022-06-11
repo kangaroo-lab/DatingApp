@@ -8,6 +8,7 @@ export default function MessageList({users,messages}){
 
     function reFixData(){
         const result = []
+        console.log(messages)
         users.forEach((item,index)=>{
             if(messages[index].limit<3){
             result.push({

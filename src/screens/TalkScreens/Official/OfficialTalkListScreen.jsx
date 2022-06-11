@@ -199,9 +199,7 @@ export default function OfficialTalkList(){
 
     if(!isFocused){
         return(
-            <View>
-                <Text></Text>
-            </View>
+            <View/>
         )
     }else{
         if(data.length==0||partner.length==0){

@@ -39,7 +39,7 @@ class GroupBoard extends Component{
     }
 
     async componentDidUpdate(){
-        this.addTalkData(addData)
+        // this.addTalkData()
     }
 
     async getRef(){
@@ -86,7 +86,6 @@ class GroupBoard extends Component{
             snapShot.forEach((doc)=>{
                 this.setState({name:doc.data().name.value})
             });
-            this.test();
         });
     }
 
@@ -99,7 +98,7 @@ class GroupBoard extends Component{
                 flag=true
             }
             saveDate.push({
-                id:this.state.members.id,
+                id:member.id,
                 read:flag
             });
             flag=false;
@@ -110,29 +109,22 @@ class GroupBoard extends Component{
             user:this.state.name,
             read:saveDate
         }
-        await this.state.data.unshift(newData)
-        const addData = this.state.data;
+        this.state.data.unshift(newData)
+        this.addTalkData();
     }
 
-    addTalkData(data){
+    addTalkData(){
         const db = firebase.firestore();
-        console.log(typeof(data));
         const ref = db.collection(`talkRooms`).doc(this.props.route.params.key);
         ref.update({
-            message:data
+            message:this.state.data
         })
         .then(()=>{
             console.log('\n\n\n\n\nUpdate!!')
         })
         .catch(()=>{
-            console.error('ERROR:Something wrong is happened!')
+            console.error('\n\n\n\n\nERROR:Something wrong is happened!')
         })
-    }
-
-    async test(){
-        console.log(this.state.data??'2');
-        console.log(this.state.members??'1');
-        console.log(this.state.name??'3');
     }
 
     GetTalkElem=({item})=>{

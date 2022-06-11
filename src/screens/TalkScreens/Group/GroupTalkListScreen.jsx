@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    ActivityIndicator,
     Text,
     View,
     FlatList,
@@ -9,7 +10,7 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import { format } from 'date-fns';
-import {useIsFocused,useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import { Component } from 'react';
 
 
@@ -17,6 +18,7 @@ export default function(props){
     const navigation = useNavigation()
     return <GroupList {...props} navigation={navigation}/>
 }
+
 class GroupList extends Component{
     constructor(props){
         super(props);
@@ -27,22 +29,30 @@ class GroupList extends Component{
     }
 
     async componentDidMount(){
-        await this.getData();
-        console.log(this.state.messages??'Messages null')
-        console.log(this.state.partners??'Partners null')
+        try{
+            this.focusListerner = this.props.navigation.addListener("focus", async () => {
+              await this.getData();
+            });
+          } catch (e) {
+            console.error(e);
+          }
     }
 
+    componentWillUnmount() {
+        try{
+          this.focusListerner.remove();
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
     //グループデータのリスト化
     async getData(){
+        const arr = []
         await this.getRef().onSnapshot(async(snapShot)=>{
-            const arr = []
             snapShot.forEach((docs)=>{
                 if(docs.data().group){
-                    console.log('来ましたわ！！',docs.data().partner)
                     arr.push(docs.data().key)
-                }else{
-                    console.log('はいビッチ！！',docs.data().partner)
                 }
             });
             await this.getRooms(arr)
@@ -78,7 +88,6 @@ class GroupList extends Component{
                 const message = data.data().message
                 let i=0
                 message.forEach((elem)=>{
-                    console.log('発火')
                     elem.read.forEach((e)=>{
                         if(e.id==currentUser.uid&&!e.read){
                             i++
@@ -90,7 +99,6 @@ class GroupList extends Component{
                         key:key,
                         unReads:i
                     })
-                    console.log(room)
                 })
                 data.data().member.forEach((mem)=>{
                     if(mem.id!=currentUser.uid){
@@ -99,7 +107,7 @@ class GroupList extends Component{
                 });
                 arr.push(members)
                 this.setState({messages:room})
-                console.log(room??'Messages null')
+                console.log('XXXXXXXXXX')
                 await this.getPartners(arr)
             })
         })
@@ -124,7 +132,6 @@ class GroupList extends Component{
                     })
                     newArr.push(newArr4T);
                     this.setState({partners:newArr})
-                    console.log(this.state.partners??'Partners null')
                 });
             });
         });
@@ -134,14 +141,13 @@ class GroupList extends Component{
         const messages = this.state.messages;
         const partners = this.state.partners;
         const result = []
-        messages.forEach((item,idx)=>{
-            console.log(item.unReads)
+        partners.forEach((item,idx)=>{
             result.push({
-                name:partners[idx],
-                message:item.message,
-                date:format(item.date,'MM/dd'),
-                key:item.key,
-                unReads:item.unReads
+                name:item,
+                message:messages[idx].message,
+                date:format(messages[idx].date,'MM/dd'),
+                key:messages[idx].key,
+                unReads:messages[idx].unReads
             })
         })
         return result
