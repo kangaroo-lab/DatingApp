@@ -109,6 +109,7 @@ class GroupSearch extends Component{
         ref.add({
         group:true,
         due:new Date(),
+        address:this.state.address,
         member:[{
           id:currentUser.uid,
         },{

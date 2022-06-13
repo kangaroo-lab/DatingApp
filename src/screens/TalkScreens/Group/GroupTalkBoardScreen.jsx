@@ -34,6 +34,8 @@ class GroupBoard extends Component{
             text:"",
             name:"",
             inputHeight:0,
+            key:'',
+            address:''
         }
     }
 
@@ -43,8 +45,7 @@ class GroupBoard extends Component{
             headerRight:()=>(
                 <Button
                  onPress={()=>{
-                   console.log('招待する')
-                   this.props.navigation.navigate('Top')
+                   this.props.navigation.navigate('Top',{key:this.state.key,address:this.state.address})
                  }}
                  title="invite"
                 />
@@ -72,9 +73,9 @@ class GroupBoard extends Component{
                     };
                 });
             });
-
+            console.log(data.address)
             members.push(data.member)
-            await this.setState({data:saveData[0],members:members[0]});
+            await this.setState({data:saveData[0],members:members[0],key:data.appManagerKey,address:data.address});
             await this.updateRead();
             this.getUserRef();
         })

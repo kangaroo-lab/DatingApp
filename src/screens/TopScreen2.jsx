@@ -442,7 +442,7 @@ export default function Top2(){
       setPartners([]);
       ring.value=0;
     }
-    };
+  };
 
   //navigation
   const navigation = useNavigation();

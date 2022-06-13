@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import GroupTalkList from '../screens/TalkScreens/Group/GroupTalkListScreen';
 import GroupTalkBoard from '../screens/TalkScreens/Group/GroupTalkBoardScreen';
-import Top from '../screens/TopScreen2'
+import GroupMatchScreen from '../screens/TalkScreens/Group/GroupMatchScreen';
 
 import TalkBoardHeader from'../components/preTalkBoardLeftHeader';
 
@@ -39,7 +39,7 @@ export default function StackOfficialNavigator() {
             />
             <Stack.Screen
               name = 'Top'
-              component = {Top}
+              component = {GroupMatchScreen}
               options = {{
                 headerTitle:"",
                 headerShown:true
