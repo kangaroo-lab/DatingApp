@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    Alert
+    Alert,
+    Text
 } from 'react-native';
 import firebase from 'firebase';
 import {useNavigation} from '@react-navigation/native';
@@ -47,6 +48,7 @@ export default function TalkBoard(props,{navigation}){
             });
         };
     },[data])
+
 
     function joinTheRoom(){
         const db = firebase.firestore();
@@ -225,6 +227,23 @@ export default function TalkBoard(props,{navigation}){
     if(data.length==0){
         return<View></View>
     }
+    const nav = useNavigation();
+    nav.setOptions({
+        headerRight:()=>{
+            return(
+            <TouchableOpacity
+                onPress={()=>
+                    handleGood()
+                }
+            >
+                <View>
+                    <Image source={require('../../../img/ハートのマーク.png')} style={styles.image}/>
+                </View>
+            </TouchableOpacity>
+)
+        }
+    })
+
 
     return(
     <View style={styles.container}>

@@ -8,7 +8,6 @@ export default function MessageList({users,messages}){
 
     function reFixData(){
         const result = []
-        console.log(messages)
         users.forEach((item,index)=>{
             if(messages[index].limit<3){
             result.push({
@@ -19,7 +18,7 @@ export default function MessageList({users,messages}){
                 date:format(messages[index].date,'MM/dd'),
                 key:messages[index].key,
                 unRead:messages[index].unReads
-            })
+            });
             }
         })
         return result

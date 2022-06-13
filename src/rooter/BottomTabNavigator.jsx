@@ -14,7 +14,7 @@ export default function BottomTabNavigator(){
     // TalkBoardでBottomTabBarを隠す
     function getHeaderShown(route){
         const routeName = getFocusedRouteNameFromRoute(route)??'TalkList';
-        if(routeName=='TalkBoard'||routeName=='OfficialTalkBoard'||routeName=='GroupTalkBoard'){
+        if(routeName=='TalkBoard'||routeName=='OfficialTalkBoard'||routeName=='GroupTalkBoard'||routeName=='Top'){
             return {position:'absolute',bottom:-100};
         }else{
             return null;

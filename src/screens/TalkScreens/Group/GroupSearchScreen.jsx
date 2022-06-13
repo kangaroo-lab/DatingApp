@@ -20,19 +20,45 @@ class GroupSearch extends Component{
     constructor(props){
         super(props);
         this.state={
-            uid : "kZ8HRnUWhTQVQKmbbp4Br64twDt1",
+            uid : "9tfvLANHSQQeC76DdGxZmwvNiAm2",
             key:"",
-            name:''
+            name:'',
+            address:'',
+            partnerAMkey:'',
+            partnerGender:'',
+            userAMkey:'',
+            userGender:'',
+            userAddress:'',
+            userValue:'',
+            userName:'',
+            partnerValue:'',
         }
     }
 
     inputAccessoryViewID = 'uniqueID';
 
+    componentDidMount(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`users/${currentUser.uid}/userInfo`);
+        ref.onSnapshot((snapShot)=>{
+            snapShot.forEach((doc)=>{
+                const data = doc.data()
+                this.setState({userName:data.name.value,userAMkey:data.appManagerKey,userGender:data.gender,userAddress:data.address.value});
+                this.getAMRef(data.gender,data.address.value,data.appManagerKey)
+                    .get()
+                    .then((val)=>{
+                        this.setState({userValue:val.data().value})
+                    });
+            });
+        });
+    };
+
     checkBox(){
         const ref =this.getRef();
         ref.onSnapshot((snapShot)=>{
             snapShot.forEach((doc)=>{
-                this.setState({name:doc.data().name.value})
+                this.setState({name:doc.data().name.value,address:doc.data().address.value,partnerAMkey:doc.data().appManagerKey,partnerGender:doc.data().gender})
             })
             if(this.state.name!=''){
                 Alert.alert(
@@ -103,7 +129,8 @@ class GroupSearch extends Component{
         requested:false,
         status:false
         })
-        .then((docRef)=>{
+        .then(async(docRef)=>{
+            await this.addAppManager(docRef.id);
             this.setState({key:docRef.id})
             const myRef = this.getMyRef();
             const frRef = this.getFriRef();
@@ -113,6 +140,59 @@ class GroupSearch extends Component{
         .catch((err)=>{
             console.log(err.message)
         })
+    }
+
+    addAppManager(id){
+        this.getAMRef(this.state.partnerGender,this.state.address,this.state.partnerAMkey)
+            .get()
+            .then((val)=>{
+                this.setState({partnerValue:val.data().value});
+                this.makeAppManager(id)
+            })
+    }
+
+    makeAppManager(id){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`AppManager/Group/${this.state.address}`);
+        ref.add({
+            id:id,
+            value:this.state.partnerValue+this.state.userValue,
+            members:[
+                {
+                    id:this.state.uid,
+                    name:this.state.name,
+                    gender:this.state.partnerGender
+                },
+                {
+                    id:currentUser.uid,
+                    name:this.state.userName,
+                    gender:this.state.userGender
+                }],
+            match:false,
+            now:false,
+            search:false,
+            wait:false
+        })
+        .then((docRef)=>{
+            console.log(docRef.id)
+            this.getRoomRef(docRef.id)
+        })
+        .catch((e)=>console.log(e))
+    }
+
+    getRoomRef(id){
+        const db = firebase.firestore();
+        db.collection('talkRooms').doc(this.state.key).update({
+            appManagerKey:id
+        })
+        .then(()=>console.log('Clear'))
+        .catch((e)=>console.log(e))
+    }
+
+    getAMRef(gender,address,key){
+        const db = firebase.firestore();
+        return db.collection(`AppManager/${gender}/${address}`).doc(key)
     }
 
     render(){

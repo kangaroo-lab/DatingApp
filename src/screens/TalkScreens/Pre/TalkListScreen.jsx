@@ -104,7 +104,6 @@ export default function TalkList(){
                         key:key,
                         unReads:i
                     });
-                    console.log(element.message,'->',i)
                 });
             setMessages(room)
             });

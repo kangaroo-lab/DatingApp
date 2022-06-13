@@ -7,16 +7,19 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    TextInput
+    TextInput,
+    Button
 } from 'react-native';
 import firebase from 'firebase'
 import { Component } from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import SendMessage from '../../../components/sendMessage';
 import CatchMessage from '../../../components/catchMessage';
 
 export default function(props){
-    return <GroupBoard {...props}/>
+    const navigation = useNavigation();
+    return <GroupBoard {...props} navigation={navigation}/>
 }
 
 
@@ -36,6 +39,17 @@ class GroupBoard extends Component{
 
     async componentDidMount(){
         await this.getRef();
+        this.props.navigation.setOptions({
+            headerRight:()=>(
+                <Button
+                 onPress={()=>{
+                   console.log('招待する')
+                   this.props.navigation.navigate('Top')
+                 }}
+                 title="invite"
+                />
+             ),
+        })
     }
 
     async componentDidUpdate(){
