@@ -22,6 +22,8 @@ export default function GroupMatch(props){
     const [type,setType] = useState();
     const [totalSearch,setTotalSearch] = useState(0);
     const [search,setSearch] = useState(false)
+    const [members,setMembers] = useState([]);
+    const [newKey,setNewKey] = useState();
 
     //マッチに必要なデータの下準備
     useEffect(()=>{
@@ -71,7 +73,8 @@ export default function GroupMatch(props){
                         gender.women+=1
                     }
                 })
-                setType(gender)
+                setMembers(data.members);
+                setType(gender);
             })
             .catch((e)=>console.log(e))
     }
@@ -164,9 +167,12 @@ export default function GroupMatch(props){
                 };
                 let partnerData = filter(equal);
                 if(partnerData!=null){
-                    alert('THEREISMATCH!')
+                    members.concat(partnerData);
+                    getNewRoom();
                 }else{
                     alert('NOMATCHHERE')
+                    setCount(0);
+                    searching(false);
                 }
             });
     }
@@ -189,16 +195,92 @@ export default function GroupMatch(props){
         return null
     };
 
-
     //マッチするまでアニメーションを保つ再帰的な関数
     function wait(){
 
     }
 
+    function makeMemberArr(arr){
+        const result = []
+        arr.forEach((elem)=>{
+            result.push({
+                id:elem.id
+            })
+        })
+        return result;
+    };
+
+    function makeReadArr(arr){
+        const result = [];
+        arr.forEach((elem)=>{
+            result.push({
+                id:elem.id,
+                read:false
+            })
+        })
+        return result
+    }
+
+    //マッチフロー完了後、新しいグループトークを作成
+    async function getNewRoom(){
+        const db = firebase.firestore();
+        const {currentUser} = firebase.auth();
+        const ref = db.collection(`talkRooms`);
+        ref.add({
+        group:true,
+        due:new Date(),
+        address:this.state.address,
+        member:makeMemberArr(members),
+        message:[{
+          time:new Date(),
+          message:'メッセージを送ってみましょう！',
+          user:'アプリ公式',
+          read:makeReadArr(members),
+        }],
+        requested:false,
+        status:true
+        })
+        .then(async(docRef)=>{
+            setNewKey(docRef.id);
+            sendNewRoom();
+            alertMatch();
+        })
+        .catch((err)=>{
+            console.log(err.message)
+        })
+    }
+
+    function alertMatch(){
+        alert('マッチ成立です！')
+        setCount(0);
+        searching(false);
+    }
+
+    function sendNewRoom(){
+        const db = firebase.firestore();
+        const arr = getIdArr();
+        arr.forEach((elem)=>{
+            const ref = db.collection(`users/${elem}/talkLists`);
+            ref.add({
+                key:newKey,
+                Request:false,
+                parent:[arr],
+                group:true
+            });
+        });
+    }
+
+    function getIdArr(){
+        const result = [];
+        members.forEach((elem)=>{
+            result.push(elem.id)
+        })
+        return result
+    }
+
     async function searching(flag){
         if(flag){
             setCount(1);
-            await controlMatch()
             ring.value=withRepeat(
                 withTiming(1,{
                     duration: 3000
@@ -206,6 +288,7 @@ export default function GroupMatch(props){
                 -1,
                 false
             );
+            await controlMatch()
         }else{
             ring.value=0
         }
