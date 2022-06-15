@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function(props){
     const navigation = useNavigation();
@@ -87,6 +88,24 @@ class SignIn extends Component{
                             <Text style={styles.footerText}>ログイン</Text>
                         </View>
                     </TouchableOpacity>
+                    <View style={styles.snsButtonArea}>
+                        <TouchableOpacity>
+                            <View style={[styles.snsSignInButton,{backgroundColor:'#fff'}]}>
+                                <AntDesign name="google" size={24} color="black" />
+                                <View style={styles.snsButtonTextArea}>
+                                    <Text style={styles.snsButtonText}>Googleでサインイン</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={[styles.snsSignInButton,{backgroundColor:'#000'}]}>
+                                <AntDesign name="apple1" size={24} color="white" />
+                                <View style={styles.snsButtonTextArea}>
+                                    <Text style={[styles.snsButtonText,{color:'#fff'}]}>Appleでサインイン</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -133,5 +152,23 @@ const styles = StyleSheet.create({
         fontSize:14,
         lineHeight:24,
         color:'#6FCBFF'
+    },
+    snsButtonArea:{
+        marginTop:20,
+    },
+    snsSignInButton:{
+        marginTop:20,
+        height:48,
+        borderRadius:10,
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal:20
+    },
+    snsButtonTextArea:{
+        marginLeft:20
+    },
+    snsButtonText:{
+        textAlign:'left',
+        fontSize:18
     }
 })

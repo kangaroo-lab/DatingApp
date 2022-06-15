@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import First from '../screens/FirstScreen';
 import LogIn from '../screens/LogInScreen';
 import SignIn from '../screens/SignInScreens/SignInScreen';
 import DrawerNavigation from './DrawerNavigator';
@@ -22,9 +23,16 @@ const Stack = createNativeStackNavigator();
 export default function StackFirstNavigator(){
     return(
         <Stack.Navigator
-            initialRouteName='LogIn'
-            id='LogIn'
+            initialRouteName='First'
+            id='First'
         >
+            <Stack.Screen
+                name = 'First'
+                component = {First}
+                options = {{
+                    headerShown:false
+                  }}
+            />
             <Stack.Screen
                 name='LogIn'
                 component={LogIn}

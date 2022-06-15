@@ -10,22 +10,11 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
+import { AntDesign } from '@expo/vector-icons';
+
 
 export default function(props){
     const navigation = useNavigation();
-
-    useEffect(()=>{
-        const unsubscribe = firebase.auth().onAuthStateChanged((user)=>{
-            if(user){
-                navigation.reset({
-                    index:0,
-                    routes: [{name:'Drawer'}]
-                });
-            }
-        });
-        return unsubscribe;
-    },[]);
-
     return <LogIn {...props} navigation={navigation}/>
 }
 
@@ -102,6 +91,24 @@ class LogIn extends Component{
                             <Text style={styles.footerText}>新規登録</Text>
                         </View>
                     </TouchableOpacity>
+                    <View style={styles.snsButtonArea}>
+                        <TouchableOpacity>
+                            <View style={[styles.snsSignInButton,{backgroundColor:'#fff'}]}>
+                                <AntDesign name="google" size={24} color="black" />
+                                <View style={styles.snsButtonTextArea}>
+                                    <Text style={styles.snsButtonText}>Googleでログイン</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={[styles.snsSignInButton,{backgroundColor:'#000'}]}>
+                                <AntDesign name="apple1" size={24} color="white" />
+                                <View style={styles.snsButtonTextArea}>
+                                    <Text style={[styles.snsButtonText,{color:'#fff'}]}>Appleでログイン</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
@@ -148,5 +155,24 @@ const styles = StyleSheet.create({
         fontSize:14,
         lineHeight:24,
         color:'#6FCBFF'
+    },
+    snsButtonArea:{
+        marginTop:20,
+    },
+    snsSignInButton:{
+        marginTop:20,
+        height:48,
+        borderRadius:10,
+        flexDirection:'row',
+        alignItems:'center',
+        paddingHorizontal:20
+    },
+    snsButtonTextArea:{
+        marginLeft:20
+    },
+    snsButtonText:{
+        textAlign:'left',
+        fontSize:18
     }
+
 })
