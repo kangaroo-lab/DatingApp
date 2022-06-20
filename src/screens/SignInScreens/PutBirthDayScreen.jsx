@@ -5,10 +5,11 @@ import {
     View,
     TouchableOpacity,
     Alert,
-    DatePickerIOS
+    DatePickerIOS,
+    Button
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
@@ -23,7 +24,8 @@ class BirthDayScreen extends Component{
         this.state={
             date:new Date(),
             age:0,
-            today:new Date()
+            today:new Date(),
+            flg:false
         }
     }
 
@@ -63,6 +65,7 @@ class BirthDayScreen extends Component{
         })
     }
 
+
     render(){
         return(
             <View style={styles.fill}>
@@ -71,7 +74,7 @@ class BirthDayScreen extends Component{
                         <Text style={styles.title}>生年月日</Text>
                     </View>
                     <View　style={styles.birthDayView}>
-                        <DatePicker
+                        {/* <DatePicker
                             style={{width: 200}}
                             date={this.state.date}
                             mode="date"
@@ -95,6 +98,18 @@ class BirthDayScreen extends Component{
                                 this.setState({date:new Date(date)})
                                 this.getAge(date)
                             }}
+                        /> */}
+                        <Button title='日付選択' onPress={()=>{this.setState({flg:true})}}/>
+                        <DateTimePickerModal
+                            isVisible={this.state.flg}
+                            mode="date"
+                            onConfirm={(date)=>{
+                                console.warn("A date has been picked: ", date);
+                                this.setState({flg:false})
+                            }}
+                            onCancel={()=>{this.setState({flg:false})}}
+                            onChange={(date)=>{this.setState({today:date})}}
+                            display='spinner'
                         />
                     </View>
                     <TouchableOpacity

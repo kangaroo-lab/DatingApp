@@ -19,6 +19,7 @@ import StackNavigator from './src/rooter/StackNavigator'
 import Values from './src/screens/Register/ValueScreen'
 import Drawer from './src/rooter/DrawerNavigator'
 import Tab from './src/rooter/TabNavigator'
+import Birth from './src/screens/SignInScreens/PutBirthDayScreen'
 
 export default function App() {
   return (
