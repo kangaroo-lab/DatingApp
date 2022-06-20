@@ -79,19 +79,10 @@ class HobbyDetailScreen extends Component{
         console.log('addAppManager ON')
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();
+        console.log(data.gender)
         const ref = db.collection(`AppManager/${data.gender}/${data.address}`);
         let size = 0;
         ref.get().then((snap)=>{
-            size = snap.size;
-            if(size%2==0){
-                data.push({
-                    next:'wait'
-                });
-            }else{
-                data.push({
-                    next:'search'
-                });
-            }
             ref.add({
                 id:currentUser.uid,
                 hobby:this.getId(),

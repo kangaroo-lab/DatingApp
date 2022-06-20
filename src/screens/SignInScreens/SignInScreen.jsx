@@ -10,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 import { AntDesign } from '@expo/vector-icons';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 export default function(props){
     const navigation = useNavigation();
@@ -21,9 +22,82 @@ class SignIn extends Component{
         super(props);
         this.state = {
             email:'',
-            password:''
+            password:'',
         }
     }
+    AppleSignInView = () => {
+        const nonceString = this.nonceGen(32);
+        return (
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+            cornerRadius={5}
+            style={styles.snsSignInButton}
+            onPress={() => {
+              try {
+                console.log('ウェーイ！')
+                AppleAuthentication.signInAsync({
+                  requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL
+                  ],
+                  state: nonceString
+                }).then(result => {
+                　console.log('RESULT IS ',result)
+                  let provider = new firebase.auth.OAuthProvider("apple.com");
+                  let credential = provider.credential({
+                    idToken: result.identityToken,
+                    rawNonce: nonceString
+                  });
+                  firebase
+                    .auth()
+                    .signInWithCredential(credential)
+                    .catch(error => {
+                      const errorCode = error.code;
+                      const errorMessage = error.message;
+                      console.log("firebase auth failed with Apple Sign In");
+                      console.log(errorMessage);
+                    });
+                  // setSignInStatus(true);認証が終わったら状態変更する何か
+                  const {navigation} = this.props;
+                  navigation.reset({
+                      index:0,
+                      routes: [{name:'Gender'}]
+                  });
+
+                });
+              } catch (e) {
+                if (e.code === "ERR_CANCELED") {
+                  // handle that the user canceled the sign-in flow
+                  console.log('CANCELED')
+                } else {
+                  // handle other errors
+                  console.log('ERROR')
+                }
+              }
+            }}
+          />
+        );
+      };
+
+      nonceGen(length) {
+        let result = "";
+        let characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+
+    GoogleSignIn =()=> {
+        console.log('Google サインイン')
+    }
+    AppleSignIn = () => {
+        console.log('Apple サインイン')
+    }
+
     toHomeScreen = () =>{
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
         .then(()=>{
@@ -89,7 +163,9 @@ class SignIn extends Component{
                         </View>
                     </TouchableOpacity>
                     <View style={styles.snsButtonArea}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress = {() => this.GoogleSignIn()}
+                        >
                             <View style={[styles.snsSignInButton,{backgroundColor:'#fff'}]}>
                                 <AntDesign name="google" size={24} color="black" />
                                 <View style={styles.snsButtonTextArea}>
@@ -97,14 +173,7 @@ class SignIn extends Component{
                                 </View>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={[styles.snsSignInButton,{backgroundColor:'#000'}]}>
-                                <AntDesign name="apple1" size={24} color="white" />
-                                <View style={styles.snsButtonTextArea}>
-                                    <Text style={[styles.snsButtonText,{color:'#fff'}]}>Appleでサインイン</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        <this.AppleSignInView/>
                     </View>
                 </View>
             </View>

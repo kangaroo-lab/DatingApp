@@ -4,9 +4,11 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Alert
+    Alert,
+    DatePickerIOS
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
 
@@ -76,7 +78,7 @@ class BirthDayScreen extends Component{
                             placeholder="生年月日"
                             format="YYYY-MM-DD"
                             minDate="1950-04-01"
-                            maxDate={this.state.date}
+                            maxDate={new Date()}
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             showIcon={false}
@@ -86,7 +88,7 @@ class BirthDayScreen extends Component{
                                     paddingHorizontal:20,
                                 },
                                 dateText:{
-                                    fontSize:25
+                                    fontSize:25,
                                 }
                             }}
                             onDateChange={(date) => {

@@ -33,6 +33,7 @@ export default function StackFirstNavigator(){
                     headerShown:false
                   }}
             />
+
             <Stack.Screen
                 name='LogIn'
                 component={LogIn}

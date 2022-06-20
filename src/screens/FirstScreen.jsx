@@ -4,8 +4,6 @@ import {
     Text,
     View,
     TouchableOpacity,
-    TextInput,
-    Alert
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
@@ -15,7 +13,7 @@ export default function (props){
 
 
 
-    useEffect(async()=>{
+    useEffect(()=>{
         const sleep = () => {
             return new Promise(resolve => {
               setTimeout(() => {
@@ -23,14 +21,41 @@ export default function (props){
               }, 1000)
             })
           }
-
-        await sleep()
-        const unsubscribe = firebase.auth().onAuthStateChanged((user)=>{
+        const db = firebase.firestore();
+        const unsubscribe = firebase.auth().onAuthStateChanged(async(user)=>{
             if(user){
+                console.log('HERE ',user.uid)
+                const ref = db.collection(`users/${user.uid}/userInfo`);
+                await sleep()
+                ref.onSnapshot(snap => {
+                    if(!snap.empty){
+                        snap.forEach(doc => {
+                            if(doc.data().appManagerKey!==null){
+                                console.log('ON!')
+                                navigation.reset({
+                                    index:0,
+                                    routes: [{name:'Drawer'}]
+                                });
+                            }else{
+                                navigation.reset({
+                                    index:0,
+                                    routes: [{name:'Gender'}]
+                                })
+                            }
+                        })
+                    }else{
+                        navigation.reset({
+                            index:0,
+                            routes: [{name:'SignIn'}]
+                        })
+                    }
+                })
+            }else{
+                await sleep()
                 navigation.reset({
                     index:0,
-                    routes: [{name:'Drawer'}]
-                });
+                    routes: [{name:'SignIn'}]
+                })
             }
         });
         return unsubscribe;
@@ -71,7 +96,7 @@ class FirstScreen extends Component{
                     }}
                 >
                     <View style={styles.button}>
-                        <Text>ログイン</Text>
+                        {/* <Text>ログイン</Text> */}
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -80,7 +105,7 @@ class FirstScreen extends Component{
                     }}
                 >
                     <View style={styles.button}>
-                        <Text>サインイン</Text>
+                        {/* <Text>サインイン</Text> */}
                     </View>
                 </TouchableOpacity>
             </View>
