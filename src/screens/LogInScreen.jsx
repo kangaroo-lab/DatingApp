@@ -1,4 +1,4 @@
-import React,{Component,useEffect} from 'react';
+import React,{Component} from 'react';
 import {
     StyleSheet,
     Text,
@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
-import PropTypes from 'prop-types';
-import { AntDesign } from '@expo/vector-icons';
 
 
 export default function(props){
@@ -91,24 +89,6 @@ class LogIn extends Component{
                             <Text style={styles.footerText}>新規登録</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.snsButtonArea}>
-                        <TouchableOpacity>
-                            <View style={[styles.snsSignInButton,{backgroundColor:'#fff'}]}>
-                                <AntDesign name="google" size={24} color="black" />
-                                <View style={styles.snsButtonTextArea}>
-                                    <Text style={styles.snsButtonText}>Googleでログイン</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <View style={[styles.snsSignInButton,{backgroundColor:'#000'}]}>
-                                <AntDesign name="apple1" size={24} color="white" />
-                                <View style={styles.snsButtonTextArea}>
-                                    <Text style={[styles.snsButtonText,{color:'#fff'}]}>Appleでログイン</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </View>
         );

@@ -29,8 +29,8 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const Profile = User.profile
 
 export default function(props){
-    const navigation = useNavigation();
-    return <ScrollableHeader {...props} navigation={navigation}/>
+    const navigation = useNavigation(); const isFocused = useIsFocused();
+    return <ScrollableHeader {...props} navigation={navigation}isFocused={isFocused}/>
 }
 
 function fixData(data){
@@ -70,6 +70,9 @@ class ScrollableHeader extends Component {
         rerenderCount:0,
         saveCount:0
       };
+    }
+
+    componentDidMount(){
       this.userInfoRef = this.getRef();
       this.getData();
       if(this.state.rerenderCount!==this.state.saveCount){
@@ -78,6 +81,9 @@ class ScrollableHeader extends Component {
       }
     }
 
+    componentDidUpdate(){
+
+    }
 
     getData(){
       this.userInfoRef.onSnapshot((snapShot)=>{
@@ -175,7 +181,7 @@ class ScrollableHeader extends Component {
           });
           if (!result.cancelled) {
             const actions = []
-            actions.push({ resize:{ width:350 } })
+            // actions.push({ resize:{ width:350,height:500 } })
             const manipulatorResult = await ImageManipulator.manipulateAsync(
                 result.uri,
                 actions,
@@ -297,12 +303,6 @@ class ScrollableHeader extends Component {
                   </View>
               </View>
               <View style={styles.introduction}>
-                  <Text style={styles.Title}>価値観</Text>
-                  <View style={styles.Detail}>
-                      <Values values={Profile.values}/>
-                  </View>
-              </View>
-              <View style={styles.introduction}>
                   <Text style={styles.Title}>基本情報</Text>
                   <View style={styles.Detail}>
                       <BasicInfo
@@ -318,6 +318,10 @@ class ScrollableHeader extends Component {
   }
 
   render() {
+    const { isFocused } = this.props;
+    if(!isFocused){
+      return <View/>
+    }
     if(!this.state.flag){
     }
     const headerHeight = this.state.scrollY.interpolate({

@@ -4,14 +4,14 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Vibration
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
+import * as Haptics from 'expo-haptics';
 
 export default function (props){
     const navigation = useNavigation();
-
-
 
     useEffect(()=>{
         const sleep = () => {
@@ -31,6 +31,7 @@ export default function (props){
                     if(!snap.empty){
                         snap.forEach(doc => {
                             if(doc.data().appManagerKey!==null){
+                                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
                                 console.log('ON!')
                                 navigation.reset({
                                     index:0,

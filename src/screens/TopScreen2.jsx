@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {
   View,
   StyleSheet,
+  Vibration,
   TouchableOpacity
 } from 'react-native';
 import
@@ -16,6 +17,7 @@ import
 import {useNavigation} from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
+import * as Haptics from 'expo-haptics';
 
 export default function Top2(){
 
@@ -379,6 +381,7 @@ export default function Top2(){
     }
     await sleep()
     searching(false)
+    Vibration.vibrate()
     return alert('マッチができませんでした！')
   }
 
@@ -392,6 +395,7 @@ export default function Top2(){
       })
     }
     await sleep()
+    Vibration.vibrate()
     alert(`${partnerData.id}とマッチしました`)
     searching(false)
   }
@@ -419,7 +423,7 @@ export default function Top2(){
   async function searching(flag){
     //Searchingアニメーションの開始＋検索のプログラム
     if(flag){
-
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         ring.value=withRepeat(
           withTiming(1, {
             duration: 3000,
@@ -480,7 +484,7 @@ export default function Top2(){
             }}
           >
             <View style={styles.circleButton}>
-              <Animated.View style={[styles.circleButton,style]}/>
+              <Animated.View style={[styles.circleButtonWave,style]}/>
             </View>
           </TouchableOpacity>
         </View>
@@ -508,8 +512,36 @@ const styles = StyleSheet.create({
       marginVertical:50,
     },
     circleButton:{
-      opacity:0.7,
-      borderColor:'#4169E1',
+      backgroundColor:'rgba(255,255,255,0.9)',
+      // borderColor:'#4169E1',
+      borderColor:'rgba(73,255,0,0.73)',
+      // borderColor:'rgba(255,171,0,0.73)',
+      // borderColor:'rgba(255,0,0,0.73)',
+      borderWidth:5,
+      width:179,
+      height:179,
+      borderRadius:500,
+      justifyContent:'center',
+      alignItems:'center',
+      // shadowColor: "#4169E1",
+      shadowColor:'rgba(73,255,0,0.73)',
+      // shadowColor:'rgba(255,171,0,0.73)',
+      // shadowColor:'rgba(255,0,0,0.73)',
+      shadowOffset: {
+        width: 7,
+        height: 5,
+      },
+      shadowRadius: 0,
+      shadowOpacity: 0.70,
+      shadowRadius: 25,
+      elevation: 1,
+
+    },
+    circleButtonWave: {
+      // borderColor:'#4169E1',
+      borderColor:'rgba(73,255,0,0.73)',
+      // borderColor:'rgba(255,171,0,0.73)',
+      // borderColor:'rgba(255,0,0,0.73)',
       borderWidth:5,
       width:179,
       height:179,

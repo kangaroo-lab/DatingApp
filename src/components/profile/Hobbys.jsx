@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,  View, FlatList } from 'react-native';
+import { StyleSheet,  View, FlatList, TouchableOpacity } from 'react-native';
 import { Chip } from 'react-native-paper';
 
 export default function Hobbys(hobbies){
@@ -14,11 +14,13 @@ export default function Hobbys(hobbies){
             )
         }else{
             return(
+                <TouchableOpacity>
                     <Chip
                         style={[styles.hobbyDetailChips,{backgroundColor:'rgba(0,0,0,0.30)'}]}
                     >
                         +
                     </Chip>
+                </TouchableOpacity>
             )
         }
     }

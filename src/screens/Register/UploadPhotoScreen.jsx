@@ -69,7 +69,7 @@ class UploadPhotoScreen extends Component{
                 });
                 if (!result.cancelled) {
                     const actions = []
-                    actions.push({ resize:{ width:350 } })
+                    // actions.push({ resize:{ width:350,height:500 } })
                     const manipulatorResult = await ImageManipulator.manipulateAsync(
                         result.uri,
                         actions,

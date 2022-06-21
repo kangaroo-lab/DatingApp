@@ -23,8 +23,8 @@ const Stack = createNativeStackNavigator();
 export default function StackFirstNavigator(){
     return(
         <Stack.Navigator
-            initialRouteName='BirthDay'
-            // initialRouteName='First'
+            // initialRouteName='BirthDay'
+            initialRouteName='First'
             id='First'
         >
             <Stack.Screen

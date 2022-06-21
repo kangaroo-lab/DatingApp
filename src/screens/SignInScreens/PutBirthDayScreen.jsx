@@ -5,13 +5,13 @@ import {
     View,
     TouchableOpacity,
     Alert,
-    DatePickerIOS,
     Button
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {useNavigation} from '@react-navigation/native';
 import firebase from 'firebase';
+import { format } from 'date-fns';
 
 export default function (props){
     const navigation = useNavigation()
@@ -99,16 +99,25 @@ class BirthDayScreen extends Component{
                                 this.getAge(date)
                             }}
                         /> */}
-                        <Button title='日付選択' onPress={()=>{this.setState({flg:true})}}/>
+                        <TouchableOpacity
+                            onPress={()=>{this.setState({flg:true})}}
+                        >
+                            <View>
+                                <Text style={{fontSize:25,}}>{format(this.state.date,'yyyy/MM/dd')}</Text>
+                            </View>
+                        </TouchableOpacity>
                         <DateTimePickerModal
+                            maximumDate={new Date()}
+                            minimumDate={new Date(1950,0,1)}
                             isVisible={this.state.flg}
                             mode="date"
                             onConfirm={(date)=>{
                                 console.warn("A date has been picked: ", date);
                                 this.setState({flg:false})
+                                this.setState({date:date})
+                                this.getAge(date)
                             }}
                             onCancel={()=>{this.setState({flg:false})}}
-                            onChange={(date)=>{this.setState({today:date})}}
                             display='spinner'
                         />
                     </View>
@@ -123,7 +132,7 @@ class BirthDayScreen extends Component{
                         }
                         disabled={this.state.age!==0?false:true}
                     >
-                        <View style={this.state.age!==0?styles.goNextButton:styles.goNextButtonDisabled}>
+                        <View style={this.state.age>18?styles.goNextButton:styles.goNextButtonDisabled}>
                             <Text style={styles.buttonLabel}>次へ</Text>
                         </View>
                     </TouchableOpacity>
