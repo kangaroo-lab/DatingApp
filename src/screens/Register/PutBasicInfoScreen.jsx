@@ -35,6 +35,11 @@ class PutBasicInfo extends Component{
         }
     }
 
+
+    componentDidMount(){
+        firebase.auth().currentUser.multiFactor.enrolledFactors.push('Basic')
+    }
+
     handleNext=()=>{
         const db = firebase.firestore();
         const {currentUser} = firebase.auth();

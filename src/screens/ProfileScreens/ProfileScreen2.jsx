@@ -380,6 +380,11 @@ class ScrollableHeader extends Component {
       navigation.navigate('NameEdit',{userBrief:Profile.name});
   }
 
+  toAgeVertScreen = () => {
+    const { navigation } = this.props;
+    navigation.navigate('AgeVerti')
+  }
+
   _renderScrollViewContent() {
     if(!this.state.flag){}
     else{
@@ -393,7 +398,9 @@ class ScrollableHeader extends Component {
                   <Text style={styles.name}>{CallData.name.value}</Text>
                   <Text style={styles.age}>({CallData.age.value})</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.toAgeVertScreen}
+                >
                   <View style={styles.checkAge}>
                     <Text style={styles.checkAgeText}>本人認証 未設定</Text>
                   </View>

@@ -28,7 +28,10 @@
     "expo": "~44.0.0",
     "expo-apple-authentication": "~4.1.0",
     "expo-blur": "~11.0.0",
+    "expo-camera": "~12.1.2",
     "expo-dev-client": "~0.8.5",
+    "expo-google-sign-in": "~10.1.0",
+    "expo-haptics": "~11.1.0",
     "expo-image-manipulator": "~10.2.0",
     "expo-image-picker": "~12.0.1",
     "expo-linear-gradient": "^11.0.2",
@@ -44,6 +47,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-gifted-chat": "^0.16.3",
+    "react-native-image-crop-picker": "^0.37.3",
     "react-native-image-picker": "^4.8.1",
     "react-native-mask-input": "^1.2.0",
     "react-native-masked-text": "^1.13.0",
@@ -57,9 +61,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
-    "react-spring": "^9.4.2",
-    "expo-google-sign-in": "~10.1.0",
-    "expo-haptics": "~11.1.0"
+    "react-spring": "^9.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

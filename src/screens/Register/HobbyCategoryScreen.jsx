@@ -40,6 +40,10 @@ class HobbyCategoryScreen extends Component{
         }
     }
 
+    componentDidMount(){
+        firebase.auth().currentUser.multiFactor.enrolledFactors.push('Hobby')
+    }
+
     categoryBox=({item})=>{
         return(
             <TouchableOpacity

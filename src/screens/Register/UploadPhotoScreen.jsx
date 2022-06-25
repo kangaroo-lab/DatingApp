@@ -35,6 +35,11 @@ class UploadPhotoScreen extends Component{
         }
     }
 
+
+    componentDidMount(){
+        firebase.auth().currentUser.multiFactor.enrolledFactors.push('photo')
+    }
+
     async onPressAdd(){
         await this.uploadPostImg();
         const { imgUrl, phrase, postIndex } = await this.state;

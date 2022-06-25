@@ -11,6 +11,7 @@ import firebase from 'firebase';
 
 export default function(props){
     const navigation = useNavigation();
+
     return <GenderScreen {...props} navigation={navigation}/>
 }
 
@@ -20,6 +21,10 @@ class GenderScreen extends Component{
         this.state = {
             gender:''
         }
+    }
+
+    componentDidMount(){
+        firebase.auth().currentUser.multiFactor.enrolledFactors.push('gender')
     }
 
     toPartnerGender = () =>{
