@@ -6,14 +6,13 @@ import Top2 from'../screens/TopScreen2';
 import BottomTabNavigator from '../rooter/BottomTabNavigator';
 import StackProfileNavigator from'./StackProfileNavigator';
 
-
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabNavigator() {
   return (
         <Tab.Navigator
          initialRouteName="Top"
-         screenOptions={({route})=>(
+         screenOptions={()=>(
            {
            tabBarIndicatorStyle:{
              width:0,

@@ -27,30 +27,11 @@ export default function (props){
                 console.log('HERE ',user.uid)
                 const ref = db.collection(`users/${user.uid}/userInfo`);
                 await sleep()
-                ref.onSnapshot(snap => {
-                    if(!snap.empty){
-                        snap.forEach(doc => {
-                            if(doc.data().appManagerKey!==null){
-                                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-                                console.log('ON!')
-                                navigation.reset({
-                                    index:0,
-                                    routes: [{name:'Drawer'}]
-                                });
-                            }else{
-                                navigation.reset({
-                                    index:0,
-                                    routes: [{name:'Gender'}]
-                                })
-                            }
-                        })
-                    }else{
-                        navigation.reset({
-                            index:0,
-                            routes: [{name:'SignIn'}]
-                        })
-                    }
-                })
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+                navigation.reset({
+                    index:0,
+                    routes: [{name:'Drawer'}]
+                });
             }else{
                 await sleep()
                 navigation.reset({

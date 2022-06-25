@@ -79,10 +79,50 @@ class ScrollableHeader extends Component {
         this.updateData();
         this.setState({saveCount:rerenderCount});
       }
+      console.log('NOW FOCUSED ON PROFILE')
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
+      if(prevProps.isFocused&&!this.props.isFocused){
+        console.log('UPDATE')
+        this.updateData();
+      }
+    }
 
+    updateData(){
+      const db = firebase.firestore();
+      const {currentUser} = firebase.auth();
+      const ref = db.collection(`users/${currentUser.uid}/userInfo`).doc(this.state.userKey);
+      const call = this.state.data[0].profileList;
+      ref.update({
+        // name:call[0],
+        age:call["age"],
+        blood:call["blood"],
+        address:call["address"],
+        workPlace:call["workPlace"],
+        birthPlace:call["birthPlace"],
+        family:call["family"],
+        // language:call[7],
+        height:call["height"],
+        bodyShape:call["bodyShape"],
+        schoolHistory:call["schoolHistory"],
+        jobType:call["jobType"],
+        // job:call["job"],
+        income:call["income"],
+        holiday:call["holiday"],
+        smoke:call["smoke"],
+        roomMate:call["roomMate"],
+        marriage:call["marriage"],
+        kids:call["kids"],
+        kidsWant:call["kidsWant"],
+        childCare:call["childCare"],
+        howToMeet:call["howToMeet"],
+        dateMoney:call["dateMoney"],
+        // url:this.state.result,
+        // brief:this.state.data[0].brief,
+      })
+      .then(()=>console.log('Updated!'))
+      .catch((e)=>console.error('Disabled!!',e))
     }
 
     getData(){
@@ -97,9 +137,81 @@ class ScrollableHeader extends Component {
             age:d.age,
             brief:d.brief,
             photo:d.url,
-            profileList:[
-              d.name,d.age,d.blood,d.address,d.workPlace,d.birthPlace,d.family,d.language,d.height,d.bodyShape,d.schoolHistory,d.jobType,d.job,d.income,d.holiday,d.drink,d.smoke,d.roomMate,d.marriage,d.kids,d.kidsWant,d.childCare,d.howToMeet,d.dateMoney
-            ]
+            profileList:{
+              "name":{
+                title:'name',
+                value:d.name.value
+              },"age":{
+                title:'age',
+                value:d.age.value
+              },"blood":{
+                title:'blood',
+                value:d.blood.value
+              },"address":{
+                title:"address",
+                value:d.address.value
+               },"workPlace":{
+                title:"workPlace",
+                value:d.workPlace.value
+               },"birthPlace":{
+                title:"birthPlace",
+                value:d.birthPlace.value
+               },"family":{
+                title:"family",
+                value:d.family.value
+               },"language":{
+                title:"language",
+                value:d.language.value
+               },"height":{
+                title:"height",
+                value:d.height.value
+               },"bodyShape":{
+                title:"bodyShape",
+                value:d.bodyShape.value
+               },"schoolHistory":{
+                title:"schoolHistory",
+                value:d.schoolHistory.value
+               },"jobType":{
+                title:"jobType",
+                value:d.jobType.value
+               },"job":{
+                title:"job",
+                value:d.job.value
+               },"income":{
+                title:"income",
+                value:d.income.value
+               },"holiday":{
+                title:"holiday",
+                value:d.holiday.value
+               },"drink":{
+                title:"drink",
+                value:d.drink.value
+               },"smoke":{
+                title:"smoke",
+                value:d.smoke.value
+               },"roomMate":{
+                title:"roomMate",
+                value:d.roomMate.value
+               },"marriage":{
+                title:"marriage",
+                value:d.marriage.value
+               },"kids":{
+                title:"kids",
+                value:d.kids.value
+               },"kidsWant":{
+                title:"kidsWant",
+                value:d.kidsWant.value
+               },"childCare":{
+                title:"childCare",
+                value:d.childCare.value
+               },"howToMeet":{
+                title:"howToMeet",
+                value:d.howToMeet.value
+               },"dateMoney":{
+                title:"dateMoney",
+                value:d.dateMoney.value
+               },
+              }
           });
         });
         this.setState({data:result,flag:true,image:result[0].photo});
@@ -228,7 +340,7 @@ class ScrollableHeader extends Component {
      .catch((e)=>{
          alert(e)
      })
-}
+  }
 
 
     uploadPostImg = async () => {
@@ -276,13 +388,20 @@ class ScrollableHeader extends Component {
       return (
         <View style={styles.scrollViewContent}>
           <View style={styles.scrollViewContents}>
-              <View style={styles.BasicArea}>
+              <View style={styles.basicInfoColumn}>
+                <View style={styles.BasicArea}>
                   <Text style={styles.name}>{CallData.name.value}</Text>
                   <Text style={styles.age}>({CallData.age.value})</Text>
+                </View>
+                <TouchableOpacity>
+                  <View style={styles.checkAge}>
+                    <Text style={styles.checkAgeText}>本人認証 未設定</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
               <View style={styles.introduction}>
                   <Text style={styles.Title}>プロフィール</Text>
-                  <View style={styles.Detail}>
+                  <View style={[styles.Detail,{paddingBottom:40}]}>
                       <Text style={styles.profileDetail}>
                           {(CallData.brief.value)===''?'未設定':CallData.brief.value}
                       </Text>
@@ -321,8 +440,6 @@ class ScrollableHeader extends Component {
     const { isFocused } = this.props;
     if(!isFocused){
       return <View/>
-    }
-    if(!this.state.flag){
     }
     const headerHeight = this.state.scrollY.interpolate({
       inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -423,6 +540,21 @@ const styles = StyleSheet.create({
       justifyContent:'flex-end',
       height:50,
       marginLeft:'auto',
+      alignContent:'center',
+      alignItems:'center'
+  },
+  basicInfoColumn:{
+    flexDirection:'column',
+    justifyContent:'flex-end'
+
+  },
+  checkAge:{
+    marginRight:0,
+    paddingRight:15,
+    marginTop:10
+  },
+  checkAgeText:{
+    alignSelf:'flex-end'
   },
   name:{
       fontSize:36,
@@ -467,7 +599,7 @@ const styles = StyleSheet.create({
   },
   Detail:{
       paddingHorizontal:3,
-      paddingVertical:10
+      paddingVertical:10,
   },
   animatedHeader:{
       position: 'absolute',

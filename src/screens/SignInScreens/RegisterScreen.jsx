@@ -36,6 +36,7 @@ class GoRegisterScreen extends Component{
         ref.update({
             AgreeToAge:this.state.confirmAge,
             AgereRules:this.state.confirmAll,
+            ageVerification:false,
             level:{
                 title:'level',
                 value:''

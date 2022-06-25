@@ -14,6 +14,7 @@ export default function TalkList(){
 
     useEffect(()=>{
         const keys = []
+        console.log('NOW FOCUSED ON TALK')
         let unsubscribe = getTalkRef()
             .onSnapshot(async(snapShot)=>{
                 snapShot.forEach((doc)=>{

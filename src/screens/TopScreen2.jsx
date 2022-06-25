@@ -14,13 +14,12 @@ import
   withRepeat,
   withTiming
 } from 'react-native-reanimated';
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation,useIsFocused} from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons';
 import firebase from 'firebase';
 import * as Haptics from 'expo-haptics';
 
 export default function Top2(){
-
   const [data, setData] = useState([]);
   const [count, setCount] = useState(0);
   const [hobby, setHobby] = useState([]);
